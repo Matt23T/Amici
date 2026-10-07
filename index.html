@@ -22,8 +22,13 @@ body {
 }
 
 button,
-input {
+input,
+textarea {
     font: inherit;
+}
+
+button {
+    cursor: pointer;
 }
 
 .app {
@@ -33,7 +38,9 @@ input {
     padding-bottom: 30px;
 }
 
-/* HEADER */
+/* ================================
+   HEADER
+================================ */
 
 header {
     padding: 55px 20px 18px;
@@ -53,11 +60,13 @@ header p {
     font-size: 15px;
 }
 
-/* CONTENT */
-
 .content {
     padding: 0 16px;
 }
+
+/* ================================
+   BUTTON
+================================ */
 
 .top-actions {
     margin: 8px 0 18px;
@@ -71,10 +80,20 @@ header p {
     background: #007aff;
     color: white;
     font-weight: 650;
-    cursor: pointer;
 }
 
-/* RANKING */
+.secondary-btn {
+    border: none;
+    border-radius: 14px;
+    padding: 13px 16px;
+    background: white;
+    color: #007aff;
+    font-weight: 650;
+}
+
+/* ================================
+   RANKING
+================================ */
 
 .ranking {
     display: flex;
@@ -85,24 +104,29 @@ header p {
 .friend-card {
     background: white;
     border-radius: 18px;
-    padding: 15px;
+    padding: 12px 14px;
     display: flex;
     align-items: center;
-    gap: 13px;
+    gap: 12px;
     box-shadow: 0 1px 4px rgba(0,0,0,.06);
     cursor: pointer;
 }
 
 .position {
-    width: 28px;
+    width: 34px;
     text-align: center;
-    color: #8e8e93;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.position.medal {
+    font-size: 25px;
 }
 
 .avatar {
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: #e5e5ea;
     display: flex;
@@ -112,6 +136,13 @@ header p {
     font-weight: 700;
     color: #636366;
     flex-shrink: 0;
+    overflow: hidden;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .friend-info {
@@ -135,7 +166,9 @@ header p {
     font-weight: 800;
 }
 
-/* EMPTY */
+/* ================================
+   EMPTY
+================================ */
 
 .empty {
     text-align: center;
@@ -153,7 +186,9 @@ header p {
     margin: 0 0 7px;
 }
 
-/* MODALS */
+/* ================================
+   MODALS
+================================ */
 
 .modal-bg {
     position: fixed;
@@ -219,7 +254,51 @@ header p {
     font-size: 20px;
 }
 
-/* NAME */
+/* ================================
+   PHOTO EDITOR
+================================ */
+
+.photo-editor {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.big-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #e5e5ea;
+    margin: 0 auto 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #636366;
+    font-size: 38px;
+    font-weight: 700;
+}
+
+.big-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-button {
+    border: none;
+    background: transparent;
+    color: #007aff;
+    font-weight: 650;
+    padding: 7px;
+}
+
+.hidden-file {
+    display: none;
+}
+
+/* ================================
+   NAME
+================================ */
 
 .name-input {
     width: 100%;
@@ -232,7 +311,9 @@ header p {
     margin-bottom: 18px;
 }
 
-/* SECTIONS */
+/* ================================
+   SECTIONS
+================================ */
 
 .section-title {
     font-size: 13px;
@@ -243,7 +324,9 @@ header p {
     letter-spacing: .4px;
 }
 
-/* CATEGORY */
+/* ================================
+   CATEGORY
+================================ */
 
 .category {
     background: white;
@@ -271,7 +354,9 @@ header p {
     font-size: 17px;
 }
 
-/* IOS SWITCH */
+/* ================================
+   SWITCH
+================================ */
 
 .switch {
     position: relative;
@@ -288,7 +373,6 @@ header p {
 
 .slider {
     position: absolute;
-    cursor: pointer;
     inset: 0;
     background: #e5e5ea;
     border-radius: 31px;
@@ -316,7 +400,9 @@ header p {
     transform: translateX(20px);
 }
 
-/* RANGE */
+/* ================================
+   RANGE
+================================ */
 
 .range-container {
     margin-top: 12px;
@@ -334,7 +420,30 @@ input[type="range"] {
     font-size: 11px;
 }
 
-/* ADD CUSTOM */
+/* ================================
+   CATEGORY NOTE
+================================ */
+
+.category-note {
+    width: 100%;
+    border: none;
+    background: #f2f2f7;
+    border-radius: 10px;
+    padding: 9px 10px;
+    margin-top: 10px;
+    resize: vertical;
+    min-height: 42px;
+    outline: none;
+    font-size: 13px;
+}
+
+.category-note::placeholder {
+    color: #aeaeb2;
+}
+
+/* ================================
+   CUSTOM CATEGORY
+================================ */
 
 .add-category-btn {
     width: 100%;
@@ -345,10 +454,58 @@ input[type="range"] {
     color: #007aff;
     font-weight: 650;
     margin: 8px 0;
-    cursor: pointer;
 }
 
-/* TOTAL */
+.custom-badge {
+    font-size: 10px;
+    color: #8e8e93;
+    background: #f2f2f7;
+    border-radius: 6px;
+    padding: 3px 6px;
+    margin-left: 6px;
+}
+
+/* ================================
+   FRIEND NOTES
+================================ */
+
+.note-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.friend-note-input {
+    flex: 1;
+    border: none;
+    background: white;
+    border-radius: 12px;
+    padding: 11px;
+    outline: none;
+}
+
+.remove-note {
+    width: 40px;
+    border: none;
+    border-radius: 12px;
+    background: #fff;
+    color: #ff3b30;
+    font-size: 18px;
+}
+
+.add-note-btn {
+    width: 100%;
+    border: none;
+    background: white;
+    color: #007aff;
+    border-radius: 12px;
+    padding: 12px;
+    font-weight: 650;
+}
+
+/* ================================
+   TOTAL
+================================ */
 
 .total-box {
     background: #1c1c1e;
@@ -377,30 +534,44 @@ input[type="range"] {
     font-weight: 850;
 }
 
-/* BUTTONS */
+/* ================================
+   DETAIL PHOTO
+================================ */
 
-.save-btn {
-    width: 100%;
-    border: none;
-    border-radius: 15px;
-    padding: 15px;
-    background: #007aff;
-    color: white;
+.detail-profile {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.detail-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: #e5e5ea;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    font-size: 45px;
     font-weight: 700;
-    font-size: 17px;
-    cursor: pointer;
+    color: #636366;
 }
 
-.delete-btn {
+.detail-avatar img {
     width: 100%;
-    border: none;
-    background: transparent;
-    color: #ff3b30;
-    padding: 16px;
-    font-weight: 600;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* DETAIL */
+.detail-name {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+/* ================================
+   DETAIL SCORE
+================================ */
 
 .detail-score {
     background: white;
@@ -420,11 +591,18 @@ input[type="range"] {
     font-size: 14px;
 }
 
+/* ================================
+   DETAIL CATEGORY
+================================ */
+
 .detail-category {
     background: white;
     border-radius: 14px;
     padding: 12px 14px;
     margin-bottom: 7px;
+}
+
+.detail-category-line {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -438,42 +616,55 @@ input[type="range"] {
     font-weight: 750;
 }
 
-.custom-badge {
-    font-size: 10px;
+.detail-category-note {
+    margin-top: 6px;
     color: #8e8e93;
-    background: #f2f2f7;
-    border-radius: 6px;
-    padding: 3px 6px;
-    margin-left: 6px;
+    font-size: 13px;
+    line-height: 1.35;
 }
 
-/* CUSTOM CATEGORY MODAL */
+/* ================================
+   DETAIL NOTES
+================================ */
 
-.small-modal {
-    padding-bottom: 25px;
-}
-
-.custom-input {
-    width: 100%;
-    border: none;
-    border-radius: 14px;
+.notes-box {
     background: white;
+    border-radius: 16px;
     padding: 15px;
-    outline: none;
-    margin-bottom: 12px;
+    margin-top: 18px;
 }
 
-.custom-add-btn {
+.notes-box h3 {
+    margin: 0 0 10px;
+    font-size: 17px;
+}
+
+.notes-list {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.notes-list li {
+    margin-bottom: 7px;
+    line-height: 1.35;
+}
+
+/* ================================
+   DELETE
+================================ */
+
+.delete-btn {
     width: 100%;
     border: none;
-    border-radius: 14px;
-    background: #007aff;
-    color: white;
-    padding: 14px;
-    font-weight: 700;
+    background: transparent;
+    color: #ff3b30;
+    padding: 16px;
+    font-weight: 600;
 }
 
-/* DESKTOP */
+/* ================================
+   DESKTOP
+================================ */
 
 @media (min-width: 601px) {
 
@@ -485,6 +676,7 @@ input[type="range"] {
         border-radius: 24px;
         max-height: 90vh;
     }
+
 }
 
 </style>
@@ -514,9 +706,9 @@ input[type="range"] {
 </div>
 
 
-<!-- ========================= -->
-<!-- MODALE MODIFICA AMICO -->
-<!-- ========================= -->
+<!-- ==========================================
+     MODIFICA / CREAZIONE AMICO
+========================================== -->
 
 <div id="editorModal" class="modal-bg">
 
@@ -539,6 +731,38 @@ input[type="range"] {
 
     </div>
 
+
+    <!-- FOTO -->
+
+    <div class="photo-editor">
+
+        <div
+            id="editorAvatar"
+            class="big-avatar"
+        >
+            ?
+        </div>
+
+        <label
+            class="photo-button"
+            for="photoInput"
+        >
+            Aggiungi foto
+        </label>
+
+        <input
+            id="photoInput"
+            class="hidden-file"
+            type="file"
+            accept="image/*"
+            onchange="handlePhoto(event)"
+        >
+
+    </div>
+
+
+    <!-- NOME -->
+
     <input
         id="friendName"
         class="name-input"
@@ -547,12 +771,17 @@ input[type="range"] {
         maxlength="40"
     >
 
+
+    <!-- CATEGORIE -->
+
     <div class="section-title">
         Categorie base
     </div>
 
     <div id="baseCategories"></div>
 
+
+    <!-- PERSONALIZZATE -->
 
     <div class="section-title">
         Categorie personali
@@ -567,6 +796,24 @@ input[type="range"] {
         ＋ Aggiungi categoria
     </button>
 
+
+    <!-- NOTE AMICO -->
+
+    <div class="section-title">
+        Note sull'amico
+    </div>
+
+    <div id="friendNotes"></div>
+
+    <button
+        class="add-note-btn"
+        onclick="addFriendNote()"
+    >
+        ＋ Aggiungi nota
+    </button>
+
+
+    <!-- PUNTEGGIO -->
 
     <div class="total-box">
 
@@ -617,9 +864,9 @@ input[type="range"] {
 </div>
 
 
-<!-- ========================= -->
-<!-- MODALE DETTAGLIO -->
-<!-- ========================= -->
+<!-- ==========================================
+     DETTAGLIO AMICO
+========================================== -->
 
 <div id="detailModal" class="modal-bg">
 
@@ -629,9 +876,7 @@ input[type="range"] {
 
     <div class="modal-header">
 
-        <h2 id="detailName">
-            Amico
-        </h2>
+        <div></div>
 
         <button
             class="close"
@@ -642,6 +887,29 @@ input[type="range"] {
 
     </div>
 
+
+    <!-- FOTO GRANDE -->
+
+    <div class="detail-profile">
+
+        <div
+            id="detailAvatar"
+            class="detail-avatar"
+        >
+            ?
+        </div>
+
+        <div
+            id="detailName"
+            class="detail-name"
+        >
+            Amico
+        </div>
+
+    </div>
+
+
+    <!-- PUNTEGGIO -->
 
     <div class="detail-score">
 
@@ -659,13 +927,35 @@ input[type="range"] {
     </div>
 
 
+    <!-- CATEGORIE -->
+
     <div id="detailCategories"></div>
+
+
+    <!-- NOTE -->
+
+    <div
+        id="detailNotesBox"
+        class="notes-box"
+        style="display:none;"
+    >
+
+        <h3>
+            Note
+        </h3>
+
+        <ul
+            id="detailNotes"
+            class="notes-list"
+        ></ul>
+
+    </div>
 
 
     <button
         class="primary-btn"
         onclick="editCurrentFriend()"
-        style="margin-top:12px;"
+        style="margin-top:15px;"
     >
         Modifica
     </button>
@@ -675,13 +965,13 @@ input[type="range"] {
 </div>
 
 
-<!-- ========================= -->
-<!-- MODALE NUOVA CATEGORIA -->
-<!-- ========================= -->
+<!-- ==========================================
+     NUOVA CATEGORIA
+========================================== -->
 
 <div id="customCategoryModal" class="modal-bg">
 
-<div class="modal small-modal">
+<div class="modal">
 
     <div class="modal-handle"></div>
 
@@ -703,7 +993,7 @@ input[type="range"] {
 
     <input
         id="customCategoryName"
-        class="custom-input"
+        class="name-input"
         type="text"
         placeholder="Nome della categoria"
         maxlength="40"
@@ -711,7 +1001,7 @@ input[type="range"] {
 
 
     <button
-        class="custom-add-btn"
+        class="primary-btn"
         onclick="addCustomCategory()"
     >
         Aggiungi
@@ -724,9 +1014,9 @@ input[type="range"] {
 
 <script>
 
-/* ======================================
+/* ==========================================
    CATEGORIE BASE
-====================================== */
+========================================== */
 
 const baseCategories = [
 
@@ -749,82 +1039,122 @@ const baseCategories = [
 ];
 
 
-/* ======================================
+/* ==========================================
    DATI
-====================================== */
+========================================== */
 
 let friends =
     JSON.parse(
-        localStorage.getItem("friendsRankingApp")
-        || "[]"
+        localStorage.getItem(
+            "friendsRankingApp"
+        ) || "[]"
     );
 
 let editingId = null;
 
 let currentFriendId = null;
 
+let currentPhoto = null;
 
-/* ======================================
-   APERTURA NUOVO AMICO
-====================================== */
+
+/* ==========================================
+   NUOVO AMICO
+========================================== */
 
 function openAddFriend() {
 
     editingId = null;
 
-    document.getElementById("editorTitle")
-        .textContent = "Nuovo amico";
+    currentPhoto = null;
 
-    document.getElementById("friendName")
-        .value = "";
+    document.getElementById(
+        "editorTitle"
+    ).textContent = "Nuovo amico";
 
-    document.getElementById("deleteButton")
-        .style.display = "none";
+    document.getElementById(
+        "friendName"
+    ).value = "";
 
+    document.getElementById(
+        "deleteButton"
+    ).style.display = "none";
+
+
+    renderEditorAvatar(
+        null,
+        ""
+    );
 
     renderBaseCategories([]);
 
     renderCustomCategories([]);
 
-    updateTotal();
+    renderFriendNotes([]);
 
+    updateTotal();
 
     openModal("editorModal");
 }
 
 
-/* ======================================
-   APERTURA MODIFICA
-====================================== */
+/* ==========================================
+   MODIFICA
+========================================== */
 
 function openEditFriend(id) {
 
     const friend =
-        friends.find(f => f.id === id);
+        friends.find(
+            f => f.id === id
+        );
 
     if (!friend) return;
 
 
     editingId = id;
 
+    currentPhoto =
+        friend.photo || null;
 
-    document.getElementById("editorTitle")
-        .textContent = "Modifica amico";
 
-    document.getElementById("friendName")
-        .value = friend.name;
+    document.getElementById(
+        "editorTitle"
+    ).textContent =
+        "Modifica amico";
 
-    document.getElementById("deleteButton")
-        .style.display = "block";
+
+    document.getElementById(
+        "friendName"
+    ).value =
+        friend.name;
+
+
+    document.getElementById(
+        "deleteButton"
+    ).style.display =
+        "block";
+
+
+    renderEditorAvatar(
+        friend.photo,
+        friend.name
+    );
 
 
     renderBaseCategories(
         friend.categories || []
     );
 
+
     renderCustomCategories(
         friend.customCategories || []
     );
+
+
+    renderFriendNotes(
+        friend.notes || []
+    );
+
 
     updateTotal();
 
@@ -833,103 +1163,182 @@ function openEditFriend(id) {
 }
 
 
-/* ======================================
-   CATEGORIE BASE
-====================================== */
+/* ==========================================
+   FOTO
+========================================== */
 
-function renderBaseCategories(savedCategories) {
+function handlePhoto(event) {
 
-    const container =
-        document.getElementById("baseCategories");
+    const file =
+        event.target.files[0];
 
-    container.innerHTML = "";
-
-
-    baseCategories.forEach((name, index) => {
-
-        const saved =
-            savedCategories.find(
-                c => c.name === name
-            );
+    if (!file) return;
 
 
-        const score =
-            saved ? saved.score : 5;
-
-        const enabled =
-            saved ? saved.enabled : true;
+    const reader =
+        new FileReader();
 
 
-        const div =
-            document.createElement("div");
+    reader.onload = function(e) {
 
-        div.className = "category";
-
-
-        div.innerHTML = `
-
-            <div class="category-top">
-
-                <div class="category-name">
-                    ${name}
-                </div>
-
-                <div
-                    id="base-score-${index}"
-                    class="category-score"
-                >
-                    ${score}
-                </div>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        ${enabled ? "checked" : ""}
-                        onchange="toggleBaseCategory(${index})"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
+        currentPhoto =
+            e.target.result;
 
 
-            <div class="range-container">
+        renderEditorAvatar(
+            currentPhoto,
+            document.getElementById(
+                "friendName"
+            ).value
+        );
 
-                <input
-                    id="base-range-${index}"
-                    type="range"
-                    min="1"
-                    max="10"
-                    step="1"
-                    value="${score}"
-                    oninput="updateBaseScore(${index}, this.value)"
-                >
-
-                <div class="range-labels">
-
-                    <span>1</span>
-                    <span>10</span>
-
-                </div>
-
-            </div>
-
-        `;
+    };
 
 
-        container.appendChild(div);
+    reader.readAsDataURL(file);
+}
 
-    });
+
+function renderEditorAvatar(photo, name) {
+
+    const avatar =
+        document.getElementById(
+            "editorAvatar"
+        );
+
+
+    if (photo) {
+
+        avatar.innerHTML =
+            `<img src="${photo}">`;
+
+        return;
+
+    }
+
+
+    avatar.innerHTML =
+        getInitials(name) || "?";
 
 }
 
 
-/* ======================================
-   AGGIORNA VOTO BASE
-====================================== */
+/* ==========================================
+   CATEGORIE BASE
+========================================== */
+
+function renderBaseCategories(saved) {
+
+    const container =
+        document.getElementById(
+            "baseCategories"
+        );
+
+    container.innerHTML = "";
+
+
+    baseCategories.forEach(
+        (name, index) => {
+
+            const old =
+                saved.find(
+                    c => c.name === name
+                );
+
+
+            const score =
+                old ? old.score : 5;
+
+            const enabled =
+                old
+                    ? old.enabled
+                    : true;
+
+            const note =
+                old
+                    ? old.note || ""
+                    : "";
+
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "category";
+
+
+            div.innerHTML = `
+
+                <div class="category-top">
+
+                    <div class="category-name">
+                        ${name}
+                    </div>
+
+                    <div
+                        id="base-score-${index}"
+                        class="category-score"
+                    >
+                        ${score}
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            ${enabled ? "checked" : ""}
+                            onchange="updateTotal()"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="range-container">
+
+                    <input
+                        id="base-range-${index}"
+                        type="range"
+                        min="1"
+                        max="10"
+                        value="${score}"
+                        oninput="updateBaseScore(${index}, this.value)"
+                    >
+
+                    <div class="range-labels">
+                        <span>1</span>
+                        <span>10</span>
+                    </div>
+
+                </div>
+
+
+                <textarea
+                    id="base-note-${index}"
+                    class="category-note"
+                    placeholder="Nota su questa categoria..."
+                >${escapeHtml(note)}</textarea>
+
+            `;
+
+
+            container.appendChild(div);
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   VOTO BASE
+========================================== */
 
 function updateBaseScore(index, value) {
 
@@ -941,35 +1350,31 @@ function updateBaseScore(index, value) {
 }
 
 
-/* ======================================
-   ATTIVA/DISATTIVA BASE
-====================================== */
-
-function toggleBaseCategory(index) {
-
-    updateTotal();
-}
-
-
-/* ======================================
+/* ==========================================
    CATEGORIE PERSONALIZZATE
-====================================== */
+========================================== */
 
-function renderCustomCategories(customCategories) {
+function renderCustomCategories(custom) {
 
     const container =
-        document.getElementById("customCategories");
+        document.getElementById(
+            "customCategories"
+        );
 
     container.innerHTML = "";
 
 
-    customCategories.forEach(
+    custom.forEach(
         (category, index) => {
 
             const div =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
-            div.className = "category";
+
+            div.className =
+                "category";
 
 
             div.innerHTML = `
@@ -997,10 +1402,9 @@ function renderCustomCategories(customCategories) {
 
                         <input
                             type="checkbox"
+                            class="custom-enabled"
                             ${category.enabled ? "checked" : ""}
                             onchange="updateTotal()"
-                            data-custom-index="${index}"
-                            class="custom-enabled"
                         >
 
                         <span class="slider"></span>
@@ -1016,21 +1420,23 @@ function renderCustomCategories(customCategories) {
                         type="range"
                         min="1"
                         max="10"
-                        step="1"
                         value="${category.score}"
                         class="custom-range"
-                        data-custom-index="${index}"
                         oninput="updateCustomScore(${index}, this.value)"
                     >
 
                     <div class="range-labels">
-
                         <span>1</span>
                         <span>10</span>
-
                     </div>
 
                 </div>
+
+
+                <textarea
+                    class="category-note custom-note"
+                    placeholder="Nota su questa categoria..."
+                >${escapeHtml(category.note || "")}</textarea>
 
 
                 <button
@@ -1057,28 +1463,87 @@ function renderCustomCategories(customCategories) {
 }
 
 
-/* ======================================
-   AGGIORNA VOTO PERSONALIZZATO
-====================================== */
-
 function updateCustomScore(index, value) {
 
-    const score =
-        document.getElementById(
-            `custom-score-${index}`
-        );
-
-    if (score) {
-        score.textContent = value;
-    }
+    document.getElementById(
+        `custom-score-${index}`
+    ).textContent = value;
 
     updateTotal();
 }
 
 
-/* ======================================
+/* ==========================================
+   LETTURA PERSONALIZZATE
+========================================== */
+
+function readCustomCategories() {
+
+    const cards =
+        document.querySelectorAll(
+            "#customCategories .category"
+        );
+
+
+    const result = [];
+
+
+    cards.forEach(
+        card => {
+
+            const name =
+                card.querySelector(
+                    ".category-name"
+                )
+                .childNodes[0]
+                .textContent
+                .trim();
+
+
+            const range =
+                card.querySelector(
+                    ".custom-range"
+                );
+
+
+            const enabled =
+                card.querySelector(
+                    ".custom-enabled"
+                );
+
+
+            const note =
+                card.querySelector(
+                    ".custom-note"
+                );
+
+
+            result.push({
+
+                name: name,
+
+                score:
+                    Number(range.value),
+
+                enabled:
+                    enabled.checked,
+
+                note:
+                    note.value.trim()
+
+            });
+
+        }
+    );
+
+
+    return result;
+}
+
+
+/* ==========================================
    NUOVA CATEGORIA
-====================================== */
+========================================== */
 
 function openCustomCategoryModal() {
 
@@ -1086,7 +1551,9 @@ function openCustomCategoryModal() {
         "customCategoryName"
     ).value = "";
 
-    openModal("customCategoryModal");
+    openModal(
+        "customCategoryModal"
+    );
 
 }
 
@@ -1098,6 +1565,7 @@ function addCustomCategory() {
             "customCategoryName"
         );
 
+
     const name =
         input.value.trim();
 
@@ -1106,35 +1574,6 @@ function addCustomCategory() {
 
         alert(
             "Inserisci il nome della categoria."
-        );
-
-        return;
-    }
-
-
-    const container =
-        document.getElementById(
-            "customCategories"
-        );
-
-
-    const existing =
-        [...container.querySelectorAll(
-            ".category-name"
-        )]
-        .some(
-            el =>
-                el.textContent
-                    .trim()
-                    .toLowerCase()
-                    .includes(name.toLowerCase())
-        );
-
-
-    if (existing) {
-
-        alert(
-            "Esiste già una categoria con questo nome."
         );
 
         return;
@@ -1151,22 +1590,26 @@ function addCustomCategory() {
 
         score: 5,
 
-        enabled: true
+        enabled: true,
+
+        note: ""
 
     });
 
 
-    renderCustomCategories(current);
+    renderCustomCategories(
+        current
+    );
 
-    closeModal("customCategoryModal");
+
+    closeModal(
+        "customCategoryModal"
+    );
+
 
     updateTotal();
 }
 
-
-/* ======================================
-   RIMOZIONE CATEGORIA PERSONALIZZATA
-====================================== */
 
 function removeCustomCategory(index) {
 
@@ -1174,72 +1617,125 @@ function removeCustomCategory(index) {
         readCustomCategories();
 
 
-    current.splice(index, 1);
+    current.splice(
+        index,
+        1
+    );
 
 
-    renderCustomCategories(current);
+    renderCustomCategories(
+        current
+    );
+
 
     updateTotal();
 }
 
 
-/* ======================================
-   LETTURA CATEGORIE PERSONALIZZATE
-====================================== */
+/* ==========================================
+   NOTE AMICO
+========================================== */
 
-function readCustomCategories() {
+function renderFriendNotes(notes) {
 
-    const ranges =
-        document.querySelectorAll(
-            ".custom-range"
-        );
-
-    const switches =
-        document.querySelectorAll(
-            ".custom-enabled"
+    const container =
+        document.getElementById(
+            "friendNotes"
         );
 
 
-    const result = [];
+    container.innerHTML = "";
 
 
-    ranges.forEach(
-        (range, index) => {
+    notes.forEach(
+        note => {
 
-            const name =
-                range.closest(".category")
-                .querySelector(".category-name")
-                .childNodes[0]
-                .textContent
-                .trim();
-
-
-            result.push({
-
-                name: name,
-
-                score: Number(range.value),
-
-                enabled:
-                    switches[index]
-                        ? switches[index].checked
-                        : true
-
-            });
+            createNoteElement(
+                note
+            );
 
         }
     );
 
-
-    return result;
 }
 
 
-/* ======================================
-   CALCOLO PUNTEGGIO
-====================================== */
+function createNoteElement(value = "") {
 
-function getCurrentScoreData() {
+    const container =
+        document.getElementById(
+            "friendNotes"
+        );
+
+
+    const row =
+        document.createElement(
+            "div"
+        );
+
+
+    row.className =
+        "note-row";
+
+
+    row.innerHTML = `
+
+        <input
+            class="friend-note-input"
+            type="text"
+            placeholder="Scrivi una nota..."
+            value="${escapeAttribute(value)}"
+        >
+
+        <button
+            class="remove-note"
+            onclick="this.parentElement.remove()"
+        >
+            ×
+        </button>
+
+    `;
+
+
+    container.appendChild(row);
+
+}
+
+
+function addFriendNote() {
+
+    createNoteElement("");
+
+}
+
+
+/* ==========================================
+   LETTURA NOTE
+========================================== */
+
+function readFriendNotes() {
+
+    return [
+        ...document.querySelectorAll(
+            ".friend-note-input"
+        )
+    ]
+    .map(
+        input =>
+            input.value.trim()
+    )
+    .filter(
+        value => value !== ""
+    );
+
+}
+
+
+/* ==========================================
+   CALCOLO
+========================================== */
+
+function getScoreData() {
 
     let total = 0;
 
@@ -1251,24 +1747,35 @@ function getCurrentScoreData() {
     baseCategories.forEach(
         (name, index) => {
 
-            const slider =
-                document.getElementById(
-                    `base-range-${index}`
+            const card =
+                document
+                .getElementById(
+                    "baseCategories"
+                )
+                .children[index];
+
+
+            if (!card) return;
+
+
+            const range =
+                card.querySelector(
+                    'input[type="range"]'
                 );
 
+
             const checkbox =
-                document.querySelector(
-                    `#baseCategories .category:nth-child(${index + 1}) input[type="checkbox"]`
+                card.querySelector(
+                    'input[type="checkbox"]'
                 );
 
 
             if (
-                slider &&
-                checkbox &&
                 checkbox.checked
             ) {
 
-                total += Number(slider.value);
+                total +=
+                    Number(range.value);
 
                 maximum += 10;
 
@@ -1284,28 +1791,26 @@ function getCurrentScoreData() {
         readCustomCategories();
 
 
-    custom.forEach(category => {
+    custom.forEach(
+        category => {
 
-        if (category.enabled) {
+            if (category.enabled) {
 
-            total += category.score;
+                total +=
+                    category.score;
 
-            maximum += 10;
+                maximum += 10;
+
+            }
 
         }
-
-    });
-
-
-    let percentage = 0;
+    );
 
 
-    if (maximum > 0) {
-
-        percentage =
-            (total / maximum) * 100;
-
-    }
+    const percentage =
+        maximum > 0
+            ? (total / maximum) * 100
+            : 0;
 
 
     return {
@@ -1321,20 +1826,18 @@ function getCurrentScoreData() {
 }
 
 
-/* ======================================
-   AGGIORNA VISUALIZZAZIONE
-====================================== */
-
 function updateTotal() {
 
     const data =
-        getCurrentScoreData();
+        getScoreData();
 
 
     document.getElementById(
         "totalScore"
     ).textContent =
-        Math.round(data.percentage) + "%";
+        Math.round(
+            data.percentage
+        ) + "%";
 
 
     document.getElementById(
@@ -1345,9 +1848,9 @@ function updateTotal() {
 }
 
 
-/* ======================================
-   SALVATAGGIO
-====================================== */
+/* ==========================================
+   SALVA AMICO
+========================================== */
 
 function saveFriend() {
 
@@ -1366,6 +1869,7 @@ function saveFriend() {
         );
 
         return;
+
     }
 
 
@@ -1375,26 +1879,45 @@ function saveFriend() {
     baseCategories.forEach(
         (categoryName, index) => {
 
+            const card =
+                document
+                .getElementById(
+                    "baseCategories"
+                )
+                .children[index];
+
+
             const range =
-                document.getElementById(
-                    `base-range-${index}`
+                card.querySelector(
+                    'input[type="range"]'
                 );
 
+
             const checkbox =
-                document.querySelector(
-                    `#baseCategories .category:nth-child(${index + 1}) input[type="checkbox"]`
+                card.querySelector(
+                    'input[type="checkbox"]'
+                );
+
+
+            const note =
+                card.querySelector(
+                    ".category-note"
                 );
 
 
             categories.push({
 
-                name: categoryName,
+                name:
+                    categoryName,
 
                 score:
                     Number(range.value),
 
                 enabled:
-                    checkbox.checked
+                    checkbox.checked,
+
+                note:
+                    note.value.trim()
 
             });
 
@@ -1406,27 +1929,39 @@ function saveFriend() {
         readCustomCategories();
 
 
+    const notes =
+        readFriendNotes();
+
+
     const scoreData =
-        getCurrentScoreData();
+        getScoreData();
 
 
     if (editingId) {
 
         const friend =
             friends.find(
-                f => f.id === editingId
+                f =>
+                    f.id === editingId
             );
 
 
         if (friend) {
 
-            friend.name = name;
+            friend.name =
+                name;
+
+            friend.photo =
+                currentPhoto;
 
             friend.categories =
                 categories;
 
             friend.customCategories =
                 customCategories;
+
+            friend.notes =
+                notes;
 
             friend.total =
                 scoreData.total;
@@ -1443,14 +1978,23 @@ function saveFriend() {
 
         friends.push({
 
-            id: Date.now(),
+            id:
+                Date.now(),
 
-            name: name,
+            name:
+                name,
 
-            categories: categories,
+            photo:
+                currentPhoto,
+
+            categories:
+                categories,
 
             customCategories:
                 customCategories,
+
+            notes:
+                notes,
 
             total:
                 scoreData.total,
@@ -1468,58 +2012,18 @@ function saveFriend() {
 
     saveData();
 
-    closeModal("editorModal");
+    closeModal(
+        "editorModal"
+    );
 
     renderRanking();
 
 }
 
 
-/* ======================================
-   ELIMINA AMICO
-====================================== */
-
-function deleteFriend() {
-
-    if (!editingId) return;
-
-
-    const friend =
-        friends.find(
-            f => f.id === editingId
-        );
-
-
-    if (!friend) return;
-
-
-    if (
-        !confirm(
-            `Vuoi davvero eliminare ${friend.name}?`
-        )
-    ) {
-        return;
-    }
-
-
-    friends =
-        friends.filter(
-            f => f.id !== editingId
-        );
-
-
-    saveData();
-
-    closeModal("editorModal");
-
-    renderRanking();
-
-}
-
-
-/* ======================================
+/* ==========================================
    CLASSIFICA
-====================================== */
+========================================== */
 
 function renderRanking() {
 
@@ -1556,12 +2060,13 @@ function renderRanking() {
         `;
 
         return;
+
     }
 
 
     const sorted =
         [...friends].sort(
-            (a, b) =>
+            (a,b) =>
                 b.percentage -
                 a.percentage
         );
@@ -1582,18 +2087,48 @@ function renderRanking() {
 
             card.onclick =
                 () =>
-                    openDetail(friend.id);
+                    openDetail(
+                        friend.id
+                    );
+
+
+            let positionText =
+                index + 1;
+
+
+            if (index === 0)
+                positionText = "🥇";
+
+            if (index === 1)
+                positionText = "🥈";
+
+            if (index === 2)
+                positionText = "🥉";
 
 
             card.innerHTML = `
 
-                <div class="position">
-                    ${index + 1}
+                <div
+                    class="position ${
+                        index < 3
+                            ? "medal"
+                            : ""
+                    }"
+                >
+                    ${positionText}
                 </div>
 
+
                 <div class="avatar">
-                    ${getInitials(friend.name)}
+
+                    ${
+                        friend.photo
+                            ? `<img src="${friend.photo}">`
+                            : getInitials(friend.name)
+                    }
+
                 </div>
+
 
                 <div class="friend-info">
 
@@ -1607,6 +2142,7 @@ function renderRanking() {
 
                 </div>
 
+
                 <div class="score">
                     ${Math.round(friend.percentage)}%
                 </div>
@@ -1614,7 +2150,9 @@ function renderRanking() {
             `;
 
 
-            container.appendChild(card);
+            container.appendChild(
+                card
+            );
 
         }
     );
@@ -1622,92 +2160,81 @@ function renderRanking() {
 }
 
 
-/* ======================================
-   DETTAGLIO
-====================================== */
+/* ==========================================
+   DETTAGLIO AMICO
+========================================== */
 
 function openDetail(id) {
 
     const friend =
         friends.find(
-            f => f.id === id
+            f =>
+                f.id === id
         );
 
 
     if (!friend) return;
 
 
-    currentFriendId = id;
+    currentFriendId =
+        id;
 
 
     document.getElementById(
         "detailName"
-    )
-    .textContent =
+    ).textContent =
         friend.name;
 
 
     document.getElementById(
         "detailScore"
-    )
-    .textContent =
-        Math.round(friend.percentage)
-        + "%";
+    ).textContent =
+        Math.round(
+            friend.percentage
+        ) + "%";
 
 
-    const container =
+    const avatar =
+        document.getElementById(
+            "detailAvatar"
+        );
+
+
+    if (friend.photo) {
+
+        avatar.innerHTML =
+            `<img src="${friend.photo}">`;
+
+    } else {
+
+        avatar.innerHTML =
+            getInitials(
+                friend.name
+            ) || "?";
+
+    }
+
+
+    /* CATEGORIE */
+
+    const categories =
         document.getElementById(
             "detailCategories"
         );
 
 
-    container.innerHTML = "";
+    categories.innerHTML = "";
 
 
-    /* BASE */
-
-    friend.categories.forEach(
-        category => {
-
-            if (!category.enabled) return;
-
-
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "detail-category";
-
-
-            div.innerHTML = `
-
-                <span class="detail-category-name">
-                    ${escapeHtml(category.name)}
-                </span>
-
-                <span class="detail-category-score">
-                    ${category.score}/10
-                </span>
-
-            `;
-
-
-            container.appendChild(div);
-
-        }
-    );
-
-
-    /* PERSONALIZZATE */
-
-    (friend.customCategories || [])
+    [
+        ...(friend.categories || []),
+        ...(friend.customCategories || [])
+    ]
     .forEach(
         category => {
 
-            if (!category.enabled) return;
+            if (!category.enabled)
+                return;
 
 
             const div =
@@ -1722,41 +2249,139 @@ function openDetail(id) {
 
             div.innerHTML = `
 
-                <span class="detail-category-name">
+                <div
+                    class="detail-category-line"
+                >
 
-                    ${escapeHtml(category.name)}
+                    <div
+                        class="detail-category-name"
+                    >
 
-                    <span class="custom-badge">
-                        personale
-                    </span>
+                        ${escapeHtml(
+                            category.name
+                        )}
 
-                </span>
+                        ${
+                            (
+                                friend.customCategories ||
+                                []
+                            ).includes(
+                                category
+                            )
+                            ? `
+                                <span class="custom-badge">
+                                    personale
+                                </span>
+                              `
+                            : ""
+                        }
 
-                <span class="detail-category-score">
-                    ${category.score}/10
-                </span>
+                    </div>
+
+
+                    <div
+                        class="detail-category-score"
+                    >
+                        ${category.score}/10
+                    </div>
+
+                </div>
+
+
+                ${
+                    category.note
+                        ? `
+                            <div
+                                class="detail-category-note"
+                            >
+                                ${escapeHtml(
+                                    category.note
+                                )}
+                            </div>
+                          `
+                        : ""
+                }
 
             `;
 
 
-            container.appendChild(div);
+            categories.appendChild(
+                div
+            );
 
         }
     );
 
 
-    openModal("detailModal");
+    /* NOTE AMICO */
+
+    const notesBox =
+        document.getElementById(
+            "detailNotesBox"
+        );
+
+
+    const notesList =
+        document.getElementById(
+            "detailNotes"
+        );
+
+
+    notesList.innerHTML = "";
+
+
+    const notes =
+        friend.notes || [];
+
+
+    if (notes.length) {
+
+        notesBox.style.display =
+            "block";
+
+
+        notes.forEach(
+            note => {
+
+                const li =
+                    document.createElement(
+                        "li"
+                    );
+
+                li.textContent =
+                    note;
+
+                notesList.appendChild(
+                    li
+                );
+
+            }
+        );
+
+    } else {
+
+        notesBox.style.display =
+            "none";
+
+    }
+
+
+    openModal(
+        "detailModal"
+    );
 
 }
 
 
-/* ======================================
+/* ==========================================
    MODIFICA DAL DETTAGLIO
-====================================== */
+========================================== */
 
 function editCurrentFriend() {
 
-    closeModal("detailModal");
+    closeModal(
+        "detailModal"
+    );
 
 
     setTimeout(
@@ -1773,16 +2398,66 @@ function editCurrentFriend() {
 }
 
 
-/* ======================================
+/* ==========================================
+   ELIMINA
+========================================== */
+
+function deleteFriend() {
+
+    if (!editingId)
+        return;
+
+
+    const friend =
+        friends.find(
+            f =>
+                f.id === editingId
+        );
+
+
+    if (!friend)
+        return;
+
+
+    if (
+        !confirm(
+            `Vuoi davvero eliminare ${friend.name}?`
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    friends =
+        friends.filter(
+            f =>
+                f.id !== editingId
+        );
+
+
+    saveData();
+
+    closeModal(
+        "editorModal"
+    );
+
+    renderRanking();
+
+}
+
+
+/* ==========================================
    UTILITY
-====================================== */
+========================================== */
 
 function getInitials(name) {
 
     return name
         .split(" ")
         .filter(Boolean)
-        .slice(0, 2)
+        .slice(0,2)
         .map(
             word =>
                 word[0].toUpperCase()
@@ -1795,11 +2470,25 @@ function getInitials(name) {
 function escapeHtml(text) {
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    div.textContent = text;
+    div.textContent =
+        text;
 
     return div.innerHTML;
+
+}
+
+
+function escapeAttribute(text) {
+
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
 
 }
 
@@ -1808,7 +2497,9 @@ function saveData() {
 
     localStorage.setItem(
         "friendsRankingApp",
-        JSON.stringify(friends)
+        JSON.stringify(
+            friends
+        )
     );
 
 }
@@ -1842,9 +2533,9 @@ function closeModal(id) {
 }
 
 
-/* ======================================
-   CHIUSURA CLICCANDO FUORI
-====================================== */
+/* ==========================================
+   CHIUSURA MODALE FUORI
+========================================== */
 
 document
 .querySelectorAll(".modal-bg")
@@ -1862,11 +2553,14 @@ document
 
                     background
                         .classList
-                        .remove("active");
+                        .remove(
+                            "active"
+                        );
 
                     document.body
                         .style
-                        .overflow = "";
+                        .overflow =
+                        "";
 
                 }
 
@@ -1877,9 +2571,9 @@ document
 );
 
 
-/* ======================================
+/* ==========================================
    AVVIO
-====================================== */
+========================================== */
 
 renderRanking();
 
