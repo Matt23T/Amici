@@ -82,8 +82,6 @@ header p {
     font-weight: 650;
 }
 
-/* TASTO SALVA - RIPRISTINATO GRANDE E BLU */
-
 .save-btn {
     width: 100%;
     border: none;
@@ -338,14 +336,57 @@ header p {
 }
 
 /* ================================
-   CATEGORY
+   CATEGORY SWIPE
 ================================ */
 
+.category-swipe {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 16px;
+    margin-bottom: 8px;
+    background: #ff3b30;
+    touch-action: pan-y;
+}
+
+.category-delete-bg {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 22px;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    background: #ff3b30;
+    pointer-events: none;
+}
+
+.category-delete-bg span {
+    opacity: 0;
+    transition: opacity .1s;
+}
+
+.category-delete-bg.visible span {
+    opacity: 1;
+}
+
 .category {
+    position: relative;
+    z-index: 2;
     background: white;
     border-radius: 16px;
     padding: 14px;
-    margin-bottom: 8px;
+    margin: 0;
+    width: 100%;
+    transform: translateX(0);
+    transition: transform .2s ease;
+    will-change: transform;
+}
+
+.category.swiping {
+    transition: none;
 }
 
 .category-top {
@@ -365,23 +406,6 @@ header p {
     font-weight: 800;
     color: #007aff;
     font-size: 17px;
-}
-
-/* NUOVO TASTO ELIMINA CATEGORIA */
-
-.category-delete {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-    border: none;
-    border-radius: 9px;
-    background: #fff0ef;
-    color: #ff3b30;
-    font-size: 17px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 /* ================================
@@ -680,7 +704,7 @@ input[type="range"] {
 }
 
 /* ================================
-   DELETE
+   DELETE FRIEND
 ================================ */
 
 .delete-btn {
@@ -1086,7 +1110,6 @@ let currentFriendId = null;
 
 let currentPhoto = null;
 
-/* Categorie base eliminate durante la modifica */
 let deletedBaseCategories = [];
 
 
@@ -1307,86 +1330,17 @@ function renderBaseCategories(saved) {
                     : "";
 
 
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "category";
-
-            div.dataset.categoryName =
-                name;
-
-
-            div.innerHTML = `
-
-                <div class="category-top">
-
-                    <div class="category-name">
-                        ${escapeHtml(name)}
-                    </div>
-
-                    <div
-                        id="base-score-${index}"
-                        class="category-score"
-                    >
-                        ${score}
-                    </div>
-
-                    <label class="switch">
-
-                        <input
-                            type="checkbox"
-                            ${enabled ? "checked" : ""}
-                            onchange="updateTotal()"
-                        >
-
-                        <span class="slider"></span>
-
-                    </label>
-
-                    <button
-                        class="category-delete"
-                        onclick="deleteBaseCategory('${escapeAttribute(name)}')"
-                        title="Elimina categoria"
-                    >
-                        🗑
-                    </button>
-
-                </div>
-
-
-                <div class="range-container">
-
-                    <input
-                        id="base-range-${index}"
-                        type="range"
-                        min="1"
-                        max="10"
-                        value="${score}"
-                        oninput="updateBaseScore(${index}, this.value)"
-                    >
-
-                    <div class="range-labels">
-                        <span>1</span>
-                        <span>10</span>
-                    </div>
-
-                </div>
-
-
-                <textarea
-                    id="base-note-${index}"
-                    class="category-note"
-                    placeholder="Nota su questa categoria..."
-                >${escapeHtml(note)}</textarea>
-
-            `;
-
-
-            container.appendChild(div);
+            createSwipeCategory(
+                container,
+                {
+                    type: "base",
+                    name: name,
+                    index: index,
+                    score: score,
+                    enabled: enabled,
+                    note: note
+                }
+            );
 
         }
     );
@@ -1395,40 +1349,534 @@ function renderBaseCategories(saved) {
 
 
 /* ==========================================
-   ELIMINA CATEGORIA BASE
+   CREAZIONE CATEGORIA SWIPE
 ========================================== */
 
-function deleteBaseCategory(name) {
+function createSwipeCategory(container, data) {
 
-    if (
-        !confirm(
-            `Vuoi davvero eliminare la categoria "${name}"?`
-        )
-    ) {
-        return;
-    }
+    const wrapper =
+        document.createElement(
+            "div"
+        );
+
+    wrapper.className =
+        "category-swipe";
 
 
-    if (
-        !deletedBaseCategories.includes(
-            name
-        )
-    ) {
+    const deleteBackground =
+        document.createElement(
+            "div"
+        );
 
-        deletedBaseCategories.push(
-            name
+    deleteBackground.className =
+        "category-delete-bg";
+
+
+    deleteBackground.innerHTML =
+        "<span>Elimina</span>";
+
+
+    const category =
+        document.createElement(
+            "div"
+        );
+
+    category.className =
+        "category";
+
+
+    category.dataset.categoryName =
+        data.name;
+
+
+    category.innerHTML = `
+
+        <div class="category-top">
+
+            <div class="category-name">
+                ${escapeHtml(data.name)}
+
+                ${
+                    data.type === "custom"
+                    ? `
+                        <span class="custom-badge">
+                            personale
+                        </span>
+                      `
+                    : ""
+                }
+
+            </div>
+
+            <div
+                id="${
+                    data.type === "base"
+                    ? `base-score-${data.index}`
+                    : `custom-score-${data.index}`
+                }"
+                class="category-score"
+            >
+                ${data.score}
+            </div>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    ${
+                        data.type === "custom"
+                        ? "class=\"custom-enabled\""
+                        : ""
+                    }
+                    ${data.enabled ? "checked" : ""}
+                    onchange="updateTotal()"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <div class="range-container">
+
+            <input
+                ${
+                    data.type === "base"
+                    ? `id="base-range-${data.index}"`
+                    : ""
+                }
+                type="range"
+                min="1"
+                max="10"
+                value="${data.score}"
+                ${
+                    data.type === "custom"
+                    ? "class=\"custom-range\""
+                    : ""
+                }
+                oninput="${
+                    data.type === "base"
+                    ? `updateBaseScore(${data.index}, this.value)`
+                    : `updateCustomScore(${data.index}, this.value)`
+                }"
+            >
+
+            <div class="range-labels">
+                <span>1</span>
+                <span>10</span>
+            </div>
+
+        </div>
+
+
+        <textarea
+            ${
+                data.type === "base"
+                ? `id="base-note-${data.index}"`
+                : ""
+            }
+            class="category-note ${
+                data.type === "custom"
+                ? "custom-note"
+                : ""
+            }"
+            placeholder="Nota su questa categoria..."
+        >${escapeHtml(data.note || "")}</textarea>
+
+    `;
+
+
+    wrapper.appendChild(
+        deleteBackground
+    );
+
+    wrapper.appendChild(
+        category
+    );
+
+    container.appendChild(
+        wrapper
+    );
+
+
+    setupSwipeToDelete(
+        wrapper,
+        category,
+        deleteBackground,
+        data
+    );
+}
+
+
+/* ==========================================
+   SWIPE TO DELETE
+========================================== */
+
+function setupSwipeToDelete(
+    wrapper,
+    category,
+    deleteBackground,
+    data
+) {
+
+    let startX = 0;
+
+    let startY = 0;
+
+    let currentX = 0;
+
+    let dragging = false;
+
+    let horizontalSwipe = false;
+
+    const threshold = 120;
+
+
+    function start(clientX, clientY) {
+
+        startX = clientX;
+
+        startY = clientY;
+
+        currentX = 0;
+
+        dragging = true;
+
+        horizontalSwipe = false;
+
+        category.classList.add(
+            "swiping"
         );
 
     }
 
 
-    const saved =
-        readBaseCategories();
+    function move(clientX, clientY) {
+
+        if (!dragging)
+            return;
 
 
-    renderBaseCategories(
-        saved
+        const dx =
+            clientX - startX;
+
+        const dy =
+            clientY - startY;
+
+
+        if (
+            !horizontalSwipe &&
+            Math.abs(dy) > Math.abs(dx) &&
+            Math.abs(dy) > 8
+        ) {
+
+            dragging = false;
+
+            category.classList.remove(
+                "swiping"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            Math.abs(dx) > 8 &&
+            Math.abs(dx) > Math.abs(dy)
+        ) {
+
+            horizontalSwipe = true;
+
+        }
+
+
+        if (!horizontalSwipe)
+            return;
+
+
+        /*
+           SOLO VERSO DESTRA
+        */
+
+        currentX =
+            Math.max(
+                0,
+                Math.min(
+                    dx,
+                    190
+                )
+            );
+
+
+        category.style.transform =
+            `translateX(${currentX}px)`;
+
+
+        if (
+            currentX >= threshold
+        ) {
+
+            deleteBackground.classList.add(
+                "visible"
+            );
+
+        } else {
+
+            deleteBackground.classList.remove(
+                "visible"
+            );
+
+        }
+
+    }
+
+
+    function end() {
+
+        if (!dragging)
+            return;
+
+
+        dragging = false;
+
+        category.classList.remove(
+            "swiping"
+        );
+
+
+        const shouldDelete =
+            currentX >= threshold;
+
+
+        if (shouldDelete) {
+
+            category.style.transform =
+                `translateX(100%)`;
+
+
+            setTimeout(
+                () => {
+
+                    category.style.transform =
+                        "translateX(0)";
+
+                    category.style.transition =
+                        "none";
+
+                    requestAnimationFrame(
+                        () => {
+
+                            category.style.transition =
+                                "";
+
+                            confirmCategoryDeletion(
+                                data
+                            );
+
+                        }
+                    );
+
+                },
+                180
+            );
+
+        } else {
+
+            category.style.transform =
+                "translateX(0)";
+
+            deleteBackground.classList.remove(
+                "visible"
+            );
+
+        }
+
+
+        currentX = 0;
+
+    }
+
+
+    category.addEventListener(
+        "touchstart",
+        event => {
+
+            const touch =
+                event.touches[0];
+
+            start(
+                touch.clientX,
+                touch.clientY
+            );
+
+        },
+        {
+            passive: true
+        }
     );
+
+
+    category.addEventListener(
+        "touchmove",
+        event => {
+
+            const touch =
+                event.touches[0];
+
+            move(
+                touch.clientX,
+                touch.clientY
+            );
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    category.addEventListener(
+        "touchend",
+        end,
+        {
+            passive: true
+        }
+    );
+
+
+    category.addEventListener(
+        "touchcancel",
+        end,
+        {
+            passive: true
+        }
+    );
+
+
+    /*
+       Supporto mouse per PC
+    */
+
+    category.addEventListener(
+        "mousedown",
+        event => {
+
+            start(
+                event.clientX,
+                event.clientY
+            );
+
+            const mouseMove =
+                moveEvent => {
+
+                    move(
+                        moveEvent.clientX,
+                        moveEvent.clientY
+                    );
+
+                };
+
+
+            const mouseUp =
+                () => {
+
+                    end();
+
+                    document.removeEventListener(
+                        "mousemove",
+                        mouseMove
+                    );
+
+                    document.removeEventListener(
+                        "mouseup",
+                        mouseUp
+                    );
+
+                };
+
+
+            document.addEventListener(
+                "mousemove",
+                mouseMove
+            );
+
+            document.addEventListener(
+                "mouseup",
+                mouseUp
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   CONFERMA ELIMINAZIONE CATEGORIA
+========================================== */
+
+function confirmCategoryDeletion(data) {
+
+    const confirmed =
+        confirm(
+            `Vuoi davvero eliminare la categoria "${data.name}"?`
+        );
+
+
+    if (!confirmed) {
+
+        /*
+           Se annulla, non eliminiamo nulla.
+        */
+
+        return;
+
+    }
+
+
+    if (data.type === "base") {
+
+        if (
+            !deletedBaseCategories.includes(
+                data.name
+            )
+        ) {
+
+            deletedBaseCategories.push(
+                data.name
+            );
+
+        }
+
+
+        const current =
+            readBaseCategories();
+
+
+        renderBaseCategories(
+            current
+        );
+
+    } else {
+
+        const current =
+            readCustomCategories();
+
+
+        current.splice(
+            data.index,
+            1
+        );
+
+
+        renderCustomCategories(
+            current
+        );
+
+    }
 
 
     updateTotal();
@@ -1539,89 +1987,17 @@ function renderCustomCategories(custom) {
     custom.forEach(
         (category, index) => {
 
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "category";
-
-
-            div.innerHTML = `
-
-                <div class="category-top">
-
-                    <div class="category-name">
-
-                        ${escapeHtml(category.name)}
-
-                        <span class="custom-badge">
-                            personale
-                        </span>
-
-                    </div>
-
-                    <div
-                        id="custom-score-${index}"
-                        class="category-score"
-                    >
-                        ${category.score}
-                    </div>
-
-                    <label class="switch">
-
-                        <input
-                            type="checkbox"
-                            class="custom-enabled"
-                            ${category.enabled ? "checked" : ""}
-                            onchange="updateTotal()"
-                        >
-
-                        <span class="slider"></span>
-
-                    </label>
-
-                    <button
-                        class="category-delete"
-                        onclick="removeCustomCategory(${index})"
-                        title="Elimina categoria"
-                    >
-                        🗑
-                    </button>
-
-                </div>
-
-
-                <div class="range-container">
-
-                    <input
-                        type="range"
-                        min="1"
-                        max="10"
-                        value="${category.score}"
-                        class="custom-range"
-                        oninput="updateCustomScore(${index}, this.value)"
-                    >
-
-                    <div class="range-labels">
-                        <span>1</span>
-                        <span>10</span>
-                    </div>
-
-                </div>
-
-
-                <textarea
-                    class="category-note custom-note"
-                    placeholder="Nota su questa categoria..."
-                >${escapeHtml(category.note || "")}</textarea>
-
-            `;
-
-
-            container.appendChild(div);
+            createSwipeCategory(
+                container,
+                {
+                    type: "custom",
+                    name: category.name,
+                    index: index,
+                    score: category.score,
+                    enabled: category.enabled,
+                    note: category.note || ""
+                }
+            );
 
         }
     );
@@ -1631,9 +2007,19 @@ function renderCustomCategories(custom) {
 
 function updateCustomScore(index, value) {
 
-    document.getElementById(
-        `custom-score-${index}`
-    ).textContent = value;
+    const element =
+        document.getElementById(
+            `custom-score-${index}`
+        );
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+
 
     updateTotal();
 }
@@ -1658,12 +2044,7 @@ function readCustomCategories() {
         card => {
 
             const name =
-                card.querySelector(
-                    ".category-name"
-                )
-                .childNodes[0]
-                .textContent
-                .trim();
+                card.dataset.categoryName;
 
 
             const range =
@@ -1770,44 +2151,6 @@ function addCustomCategory() {
 
     closeModal(
         "customCategoryModal"
-    );
-
-
-    updateTotal();
-}
-
-
-function removeCustomCategory(index) {
-
-    const current =
-        readCustomCategories();
-
-
-    const category =
-        current[index];
-
-
-    if (!category)
-        return;
-
-
-    if (
-        !confirm(
-            `Vuoi davvero eliminare la categoria "${category.name}"?`
-        )
-    ) {
-        return;
-    }
-
-
-    current.splice(
-        index,
-        1
-    );
-
-
-    renderCustomCategories(
-        current
     );
 
 
