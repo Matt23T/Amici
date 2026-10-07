@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>Classifica Amici</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                 "SF Pro Text", Arial, sans-serif;
+    background: #f2f2f7;
+    color: #1c1c1e;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+.app {
+    max-width: 600px;
+    margin: auto;
+    min-height: 100vh;
+    padding-bottom: 30px;
+}
+
+/* HEADER */
+
+header {
+    padding: 55px 20px 18px;
+    background: #f2f2f7;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 750;
+    letter-spacing: -1px;
+}
+
+header p {
+    margin: 5px 0 0;
+    color: #8e8e93;
+    font-size: 15px;
+}
+
+/* CONTENT */
+
+.content {
+    padding: 0 16px;
+}
+
+.top-actions {
+    margin: 8px 0 18px;
+}
+
+.primary-btn {
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+    padding: 14px;
+    background: #007aff;
+    color: white;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+/* RANKING */
+
+.ranking {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.friend-card {
+    background: white;
+    border-radius: 18px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    cursor: pointer;
+}
+
+.position {
+    width: 28px;
+    text-align: center;
+    color: #8e8e93;
+    font-weight: 700;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #e5e5ea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    font-weight: 700;
+    color: #636366;
+    flex-shrink: 0;
+}
+
+.friend-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.friend-name {
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 4px;
+}
+
+.friend-sub {
+    color: #8e8e93;
+    font-size: 13px;
+}
+
+.score {
+    font-size: 22px;
+    font-weight: 800;
+}
+
+/* EMPTY */
+
+.empty {
+    text-align: center;
+    padding: 70px 25px;
+    color: #8e8e93;
+}
+
+.empty-icon {
+    font-size: 50px;
+    margin-bottom: 12px;
+}
+
+.empty h2 {
+    color: #1c1c1e;
+    margin: 0 0 7px;
+}
+
+/* MODALS */
+
+.modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal-bg.active {
+    display: flex;
+}
+
+.modal {
+    width: 100%;
+    max-width: 600px;
+    max-height: 94vh;
+    overflow-y: auto;
+    background: #f2f2f7;
+    border-radius: 24px 24px 0 0;
+    padding: 18px 16px 35px;
+    animation: slideUp .25s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.modal-handle {
+    width: 38px;
+    height: 5px;
+    border-radius: 5px;
+    background: #c7c7cc;
+    margin: 0 auto 18px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 25px;
+}
+
+.close {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: #e5e5ea;
+    font-size: 20px;
+}
+
+/* NAME */
+
+.name-input {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    background: white;
+    padding: 15px;
+    font-size: 17px;
+    outline: none;
+    margin-bottom: 18px;
+}
+
+/* SECTIONS */
+
+.section-title {
+    font-size: 13px;
+    color: #8e8e93;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 20px 5px 8px;
+    letter-spacing: .4px;
+}
+
+/* CATEGORY */
+
+.category {
+    background: white;
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 8px;
+}
+
+.category-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.category-name {
+    font-weight: 650;
+    font-size: 16px;
+    flex: 1;
+}
+
+.category-score {
+    font-weight: 800;
+    color: #007aff;
+    font-size: 17px;
+}
+
+/* IOS SWITCH */
+
+.switch {
+    position: relative;
+    width: 51px;
+    height: 31px;
+    flex-shrink: 0;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #e5e5ea;
+    border-radius: 31px;
+    transition: .2s;
+}
+
+.slider:before {
+    content: "";
+    position: absolute;
+    width: 27px;
+    height: 27px;
+    left: 2px;
+    top: 2px;
+    background: white;
+    border-radius: 50%;
+    transition: .2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+
+.switch input:checked + .slider {
+    background: #34c759;
+}
+
+.switch input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+/* RANGE */
+
+.range-container {
+    margin-top: 12px;
+}
+
+input[type="range"] {
+    width: 100%;
+    accent-color: #007aff;
+}
+
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    color: #8e8e93;
+    font-size: 11px;
+}
+
+/* ADD CUSTOM */
+
+.add-category-btn {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    background: white;
+    padding: 14px;
+    color: #007aff;
+    font-weight: 650;
+    margin: 8px 0;
+    cursor: pointer;
+}
+
+/* TOTAL */
+
+.total-box {
+    background: #1c1c1e;
+    color: white;
+    border-radius: 18px;
+    padding: 17px;
+    margin: 20px 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-label {
+    font-size: 14px;
+    opacity: .7;
+}
+
+.total-detail {
+    font-size: 12px;
+    opacity: .5;
+    margin-top: 3px;
+}
+
+.total-score {
+    font-size: 32px;
+    font-weight: 850;
+}
+
+/* BUTTONS */
+
+.save-btn {
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+    padding: 15px;
+    background: #007aff;
+    color: white;
+    font-weight: 700;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #ff3b30;
+    padding: 16px;
+    font-weight: 600;
+}
+
+/* DETAIL */
+
+.detail-score {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.detail-score-number {
+    font-size: 52px;
+    font-weight: 850;
+}
+
+.detail-score-label {
+    color: #8e8e93;
+    font-size: 14px;
+}
+
+.detail-category {
+    background: white;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detail-category-name {
+    flex: 1;
+}
+
+.detail-category-score {
+    font-weight: 750;
+}
+
+.custom-badge {
+    font-size: 10px;
+    color: #8e8e93;
+    background: #f2f2f7;
+    border-radius: 6px;
+    padding: 3px 6px;
+    margin-left: 6px;
+}
+
+/* CUSTOM CATEGORY MODAL */
+
+.small-modal {
+    padding-bottom: 25px;
+}
+
+.custom-input {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    background: white;
+    padding: 15px;
+    outline: none;
+    margin-bottom: 12px;
+}
+
+.custom-add-btn {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    background: #007aff;
+    color: white;
+    padding: 14px;
+    font-weight: 700;
+}
+
+/* DESKTOP */
+
+@media (min-width: 601px) {
+
+    .modal-bg {
+        align-items: center;
+    }
+
+    .modal {
+        border-radius: 24px;
+        max-height: 90vh;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+    <h1>Amici</h1>
+    <p>La tua classifica personale</p>
+</header>
+
+<div class="content">
+
+    <div class="top-actions">
+        <button class="primary-btn" onclick="openAddFriend()">
+            + Nuovo amico
+        </button>
+    </div>
+
+    <div id="ranking" class="ranking"></div>
+
+</div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- MODALE MODIFICA AMICO -->
+<!-- ========================= -->
+
+<div id="editorModal" class="modal-bg">
+
+<div class="modal">
+
+    <div class="modal-handle"></div>
+
+    <div class="modal-header">
+
+        <h2 id="editorTitle">
+            Nuovo amico
+        </h2>
+
+        <button
+            class="close"
+            onclick="closeModal('editorModal')"
+        >
+            ×
+        </button>
+
+    </div>
+
+    <input
+        id="friendName"
+        class="name-input"
+        type="text"
+        placeholder="Nome dell'amico"
+        maxlength="40"
+    >
+
+    <div class="section-title">
+        Categorie base
+    </div>
+
+    <div id="baseCategories"></div>
+
+
+    <div class="section-title">
+        Categorie personali
+    </div>
+
+    <div id="customCategories"></div>
+
+    <button
+        class="add-category-btn"
+        onclick="openCustomCategoryModal()"
+    >
+        ＋ Aggiungi categoria
+    </button>
+
+
+    <div class="total-box">
+
+        <div>
+
+            <div class="total-label">
+                Punteggio
+            </div>
+
+            <div
+                id="totalDetail"
+                class="total-detail"
+            >
+                0 / 0
+            </div>
+
+        </div>
+
+        <div
+            id="totalScore"
+            class="total-score"
+        >
+            0%
+        </div>
+
+    </div>
+
+
+    <button
+        class="save-btn"
+        onclick="saveFriend()"
+    >
+        Salva
+    </button>
+
+
+    <button
+        id="deleteButton"
+        class="delete-btn"
+        onclick="deleteFriend()"
+        style="display:none;"
+    >
+        Elimina amico
+    </button>
+
+</div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- MODALE DETTAGLIO -->
+<!-- ========================= -->
+
+<div id="detailModal" class="modal-bg">
+
+<div class="modal">
+
+    <div class="modal-handle"></div>
+
+    <div class="modal-header">
+
+        <h2 id="detailName">
+            Amico
+        </h2>
+
+        <button
+            class="close"
+            onclick="closeModal('detailModal')"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="detail-score">
+
+        <div
+            id="detailScore"
+            class="detail-score-number"
+        >
+            0%
+        </div>
+
+        <div class="detail-score-label">
+            punteggio complessivo
+        </div>
+
+    </div>
+
+
+    <div id="detailCategories"></div>
+
+
+    <button
+        class="primary-btn"
+        onclick="editCurrentFriend()"
+        style="margin-top:12px;"
+    >
+        Modifica
+    </button>
+
+</div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- MODALE NUOVA CATEGORIA -->
+<!-- ========================= -->
+
+<div id="customCategoryModal" class="modal-bg">
+
+<div class="modal small-modal">
+
+    <div class="modal-handle"></div>
+
+    <div class="modal-header">
+
+        <h2>
+            Nuova categoria
+        </h2>
+
+        <button
+            class="close"
+            onclick="closeModal('customCategoryModal')"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <input
+        id="customCategoryName"
+        class="custom-input"
+        type="text"
+        placeholder="Nome della categoria"
+        maxlength="40"
+    >
+
+
+    <button
+        class="custom-add-btn"
+        onclick="addCustomCategory()"
+    >
+        Aggiungi
+    </button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ======================================
+   CATEGORIE BASE
+====================================== */
+
+const baseCategories = [
+
+    "Fiducia",
+    "Lealtà",
+    "Presenza",
+    "Reciprocità",
+    "Affidabilità",
+    "Confidenza",
+    "Intesa",
+    "Divertimento",
+    "Affetto",
+    "Supporto",
+    "Sincerità",
+    "Rispetto",
+    "Stimolo",
+    "Altruismo",
+    "Positività"
+
+];
+
+
+/* ======================================
+   DATI
+====================================== */
+
+let friends =
+    JSON.parse(
+        localStorage.getItem("friendsRankingApp")
+        || "[]"
+    );
+
+let editingId = null;
+
+let currentFriendId = null;
+
+
+/* ======================================
+   APERTURA NUOVO AMICO
+====================================== */
+
+function openAddFriend() {
+
+    editingId = null;
+
+    document.getElementById("editorTitle")
+        .textContent = "Nuovo amico";
+
+    document.getElementById("friendName")
+        .value = "";
+
+    document.getElementById("deleteButton")
+        .style.display = "none";
+
+
+    renderBaseCategories([]);
+
+    renderCustomCategories([]);
+
+    updateTotal();
+
+
+    openModal("editorModal");
+}
+
+
+/* ======================================
+   APERTURA MODIFICA
+====================================== */
+
+function openEditFriend(id) {
+
+    const friend =
+        friends.find(f => f.id === id);
+
+    if (!friend) return;
+
+
+    editingId = id;
+
+
+    document.getElementById("editorTitle")
+        .textContent = "Modifica amico";
+
+    document.getElementById("friendName")
+        .value = friend.name;
+
+    document.getElementById("deleteButton")
+        .style.display = "block";
+
+
+    renderBaseCategories(
+        friend.categories || []
+    );
+
+    renderCustomCategories(
+        friend.customCategories || []
+    );
+
+    updateTotal();
+
+
+    openModal("editorModal");
+}
+
+
+/* ======================================
+   CATEGORIE BASE
+====================================== */
+
+function renderBaseCategories(savedCategories) {
+
+    const container =
+        document.getElementById("baseCategories");
+
+    container.innerHTML = "";
+
+
+    baseCategories.forEach((name, index) => {
+
+        const saved =
+            savedCategories.find(
+                c => c.name === name
+            );
+
+
+        const score =
+            saved ? saved.score : 5;
+
+        const enabled =
+            saved ? saved.enabled : true;
+
+
+        const div =
+            document.createElement("div");
+
+        div.className = "category";
+
+
+        div.innerHTML = `
+
+            <div class="category-top">
+
+                <div class="category-name">
+                    ${name}
+                </div>
+
+                <div
+                    id="base-score-${index}"
+                    class="category-score"
+                >
+                    ${score}
+                </div>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        ${enabled ? "checked" : ""}
+                        onchange="toggleBaseCategory(${index})"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="range-container">
+
+                <input
+                    id="base-range-${index}"
+                    type="range"
+                    min="1"
+                    max="10"
+                    step="1"
+                    value="${score}"
+                    oninput="updateBaseScore(${index}, this.value)"
+                >
+
+                <div class="range-labels">
+
+                    <span>1</span>
+                    <span>10</span>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* ======================================
+   AGGIORNA VOTO BASE
+====================================== */
+
+function updateBaseScore(index, value) {
+
+    document.getElementById(
+        `base-score-${index}`
+    ).textContent = value;
+
+    updateTotal();
+}
+
+
+/* ======================================
+   ATTIVA/DISATTIVA BASE
+====================================== */
+
+function toggleBaseCategory(index) {
+
+    updateTotal();
+}
+
+
+/* ======================================
+   CATEGORIE PERSONALIZZATE
+====================================== */
+
+function renderCustomCategories(customCategories) {
+
+    const container =
+        document.getElementById("customCategories");
+
+    container.innerHTML = "";
+
+
+    customCategories.forEach(
+        (category, index) => {
+
+            const div =
+                document.createElement("div");
+
+            div.className = "category";
+
+
+            div.innerHTML = `
+
+                <div class="category-top">
+
+                    <div class="category-name">
+
+                        ${escapeHtml(category.name)}
+
+                        <span class="custom-badge">
+                            personale
+                        </span>
+
+                    </div>
+
+                    <div
+                        id="custom-score-${index}"
+                        class="category-score"
+                    >
+                        ${category.score}
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            ${category.enabled ? "checked" : ""}
+                            onchange="updateTotal()"
+                            data-custom-index="${index}"
+                            class="custom-enabled"
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="range-container">
+
+                    <input
+                        type="range"
+                        min="1"
+                        max="10"
+                        step="1"
+                        value="${category.score}"
+                        class="custom-range"
+                        data-custom-index="${index}"
+                        oninput="updateCustomScore(${index}, this.value)"
+                    >
+
+                    <div class="range-labels">
+
+                        <span>1</span>
+                        <span>10</span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    onclick="removeCustomCategory(${index})"
+                    style="
+                        border:none;
+                        background:none;
+                        color:#ff3b30;
+                        font-size:13px;
+                        padding:8px 0 0;
+                    "
+                >
+                    Rimuovi categoria
+                </button>
+
+            `;
+
+
+            container.appendChild(div);
+
+        }
+    );
+
+}
+
+
+/* ======================================
+   AGGIORNA VOTO PERSONALIZZATO
+====================================== */
+
+function updateCustomScore(index, value) {
+
+    const score =
+        document.getElementById(
+            `custom-score-${index}`
+        );
+
+    if (score) {
+        score.textContent = value;
+    }
+
+    updateTotal();
+}
+
+
+/* ======================================
+   NUOVA CATEGORIA
+====================================== */
+
+function openCustomCategoryModal() {
+
+    document.getElementById(
+        "customCategoryName"
+    ).value = "";
+
+    openModal("customCategoryModal");
+
+}
+
+
+function addCustomCategory() {
+
+    const input =
+        document.getElementById(
+            "customCategoryName"
+        );
+
+    const name =
+        input.value.trim();
+
+
+    if (!name) {
+
+        alert(
+            "Inserisci il nome della categoria."
+        );
+
+        return;
+    }
+
+
+    const container =
+        document.getElementById(
+            "customCategories"
+        );
+
+
+    const existing =
+        [...container.querySelectorAll(
+            ".category-name"
+        )]
+        .some(
+            el =>
+                el.textContent
+                    .trim()
+                    .toLowerCase()
+                    .includes(name.toLowerCase())
+        );
+
+
+    if (existing) {
+
+        alert(
+            "Esiste già una categoria con questo nome."
+        );
+
+        return;
+    }
+
+
+    const current =
+        readCustomCategories();
+
+
+    current.push({
+
+        name: name,
+
+        score: 5,
+
+        enabled: true
+
+    });
+
+
+    renderCustomCategories(current);
+
+    closeModal("customCategoryModal");
+
+    updateTotal();
+}
+
+
+/* ======================================
+   RIMOZIONE CATEGORIA PERSONALIZZATA
+====================================== */
+
+function removeCustomCategory(index) {
+
+    const current =
+        readCustomCategories();
+
+
+    current.splice(index, 1);
+
+
+    renderCustomCategories(current);
+
+    updateTotal();
+}
+
+
+/* ======================================
+   LETTURA CATEGORIE PERSONALIZZATE
+====================================== */
+
+function readCustomCategories() {
+
+    const ranges =
+        document.querySelectorAll(
+            ".custom-range"
+        );
+
+    const switches =
+        document.querySelectorAll(
+            ".custom-enabled"
+        );
+
+
+    const result = [];
+
+
+    ranges.forEach(
+        (range, index) => {
+
+            const name =
+                range.closest(".category")
+                .querySelector(".category-name")
+                .childNodes[0]
+                .textContent
+                .trim();
+
+
+            result.push({
+
+                name: name,
+
+                score: Number(range.value),
+
+                enabled:
+                    switches[index]
+                        ? switches[index].checked
+                        : true
+
+            });
+
+        }
+    );
+
+
+    return result;
+}
+
+
+/* ======================================
+   CALCOLO PUNTEGGIO
+====================================== */
+
+function getCurrentScoreData() {
+
+    let total = 0;
+
+    let maximum = 0;
+
+
+    /* BASE */
+
+    baseCategories.forEach(
+        (name, index) => {
+
+            const slider =
+                document.getElementById(
+                    `base-range-${index}`
+                );
+
+            const checkbox =
+                document.querySelector(
+                    `#baseCategories .category:nth-child(${index + 1}) input[type="checkbox"]`
+                );
+
+
+            if (
+                slider &&
+                checkbox &&
+                checkbox.checked
+            ) {
+
+                total += Number(slider.value);
+
+                maximum += 10;
+
+            }
+
+        }
+    );
+
+
+    /* PERSONALIZZATE */
+
+    const custom =
+        readCustomCategories();
+
+
+    custom.forEach(category => {
+
+        if (category.enabled) {
+
+            total += category.score;
+
+            maximum += 10;
+
+        }
+
+    });
+
+
+    let percentage = 0;
+
+
+    if (maximum > 0) {
+
+        percentage =
+            (total / maximum) * 100;
+
+    }
+
+
+    return {
+
+        total: total,
+
+        maximum: maximum,
+
+        percentage: percentage
+
+    };
+
+}
+
+
+/* ======================================
+   AGGIORNA VISUALIZZAZIONE
+====================================== */
+
+function updateTotal() {
+
+    const data =
+        getCurrentScoreData();
+
+
+    document.getElementById(
+        "totalScore"
+    ).textContent =
+        Math.round(data.percentage) + "%";
+
+
+    document.getElementById(
+        "totalDetail"
+    ).textContent =
+        `${data.total} / ${data.maximum}`;
+
+}
+
+
+/* ======================================
+   SALVATAGGIO
+====================================== */
+
+function saveFriend() {
+
+    const name =
+        document.getElementById(
+            "friendName"
+        )
+        .value
+        .trim();
+
+
+    if (!name) {
+
+        alert(
+            "Inserisci il nome dell'amico."
+        );
+
+        return;
+    }
+
+
+    const categories = [];
+
+
+    baseCategories.forEach(
+        (categoryName, index) => {
+
+            const range =
+                document.getElementById(
+                    `base-range-${index}`
+                );
+
+            const checkbox =
+                document.querySelector(
+                    `#baseCategories .category:nth-child(${index + 1}) input[type="checkbox"]`
+                );
+
+
+            categories.push({
+
+                name: categoryName,
+
+                score:
+                    Number(range.value),
+
+                enabled:
+                    checkbox.checked
+
+            });
+
+        }
+    );
+
+
+    const customCategories =
+        readCustomCategories();
+
+
+    const scoreData =
+        getCurrentScoreData();
+
+
+    if (editingId) {
+
+        const friend =
+            friends.find(
+                f => f.id === editingId
+            );
+
+
+        if (friend) {
+
+            friend.name = name;
+
+            friend.categories =
+                categories;
+
+            friend.customCategories =
+                customCategories;
+
+            friend.total =
+                scoreData.total;
+
+            friend.maximum =
+                scoreData.maximum;
+
+            friend.percentage =
+                scoreData.percentage;
+
+        }
+
+    } else {
+
+        friends.push({
+
+            id: Date.now(),
+
+            name: name,
+
+            categories: categories,
+
+            customCategories:
+                customCategories,
+
+            total:
+                scoreData.total,
+
+            maximum:
+                scoreData.maximum,
+
+            percentage:
+                scoreData.percentage
+
+        });
+
+    }
+
+
+    saveData();
+
+    closeModal("editorModal");
+
+    renderRanking();
+
+}
+
+
+/* ======================================
+   ELIMINA AMICO
+====================================== */
+
+function deleteFriend() {
+
+    if (!editingId) return;
+
+
+    const friend =
+        friends.find(
+            f => f.id === editingId
+        );
+
+
+    if (!friend) return;
+
+
+    if (
+        !confirm(
+            `Vuoi davvero eliminare ${friend.name}?`
+        )
+    ) {
+        return;
+    }
+
+
+    friends =
+        friends.filter(
+            f => f.id !== editingId
+        );
+
+
+    saveData();
+
+    closeModal("editorModal");
+
+    renderRanking();
+
+}
+
+
+/* ======================================
+   CLASSIFICA
+====================================== */
+
+function renderRanking() {
+
+    const container =
+        document.getElementById(
+            "ranking"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (!friends.length) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    👥
+                </div>
+
+                <h2>
+                    Nessun amico
+                </h2>
+
+                <div>
+                    Aggiungi il primo amico
+                    per creare la classifica.
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    const sorted =
+        [...friends].sort(
+            (a, b) =>
+                b.percentage -
+                a.percentage
+        );
+
+
+    sorted.forEach(
+        (friend, index) => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "friend-card";
+
+
+            card.onclick =
+                () =>
+                    openDetail(friend.id);
+
+
+            card.innerHTML = `
+
+                <div class="position">
+                    ${index + 1}
+                </div>
+
+                <div class="avatar">
+                    ${getInitials(friend.name)}
+                </div>
+
+                <div class="friend-info">
+
+                    <div class="friend-name">
+                        ${escapeHtml(friend.name)}
+                    </div>
+
+                    <div class="friend-sub">
+                        ${friend.total}/${friend.maximum}
+                    </div>
+
+                </div>
+
+                <div class="score">
+                    ${Math.round(friend.percentage)}%
+                </div>
+
+            `;
+
+
+            container.appendChild(card);
+
+        }
+    );
+
+}
+
+
+/* ======================================
+   DETTAGLIO
+====================================== */
+
+function openDetail(id) {
+
+    const friend =
+        friends.find(
+            f => f.id === id
+        );
+
+
+    if (!friend) return;
+
+
+    currentFriendId = id;
+
+
+    document.getElementById(
+        "detailName"
+    )
+    .textContent =
+        friend.name;
+
+
+    document.getElementById(
+        "detailScore"
+    )
+    .textContent =
+        Math.round(friend.percentage)
+        + "%";
+
+
+    const container =
+        document.getElementById(
+            "detailCategories"
+        );
+
+
+    container.innerHTML = "";
+
+
+    /* BASE */
+
+    friend.categories.forEach(
+        category => {
+
+            if (!category.enabled) return;
+
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "detail-category";
+
+
+            div.innerHTML = `
+
+                <span class="detail-category-name">
+                    ${escapeHtml(category.name)}
+                </span>
+
+                <span class="detail-category-score">
+                    ${category.score}/10
+                </span>
+
+            `;
+
+
+            container.appendChild(div);
+
+        }
+    );
+
+
+    /* PERSONALIZZATE */
+
+    (friend.customCategories || [])
+    .forEach(
+        category => {
+
+            if (!category.enabled) return;
+
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "detail-category";
+
+
+            div.innerHTML = `
+
+                <span class="detail-category-name">
+
+                    ${escapeHtml(category.name)}
+
+                    <span class="custom-badge">
+                        personale
+                    </span>
+
+                </span>
+
+                <span class="detail-category-score">
+                    ${category.score}/10
+                </span>
+
+            `;
+
+
+            container.appendChild(div);
+
+        }
+    );
+
+
+    openModal("detailModal");
+
+}
+
+
+/* ======================================
+   MODIFICA DAL DETTAGLIO
+====================================== */
+
+function editCurrentFriend() {
+
+    closeModal("detailModal");
+
+
+    setTimeout(
+        () => {
+
+            openEditFriend(
+                currentFriendId
+            );
+
+        },
+        100
+    );
+
+}
+
+
+/* ======================================
+   UTILITY
+====================================== */
+
+function getInitials(name) {
+
+    return name
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(
+            word =>
+                word[0].toUpperCase()
+        )
+        .join("");
+
+}
+
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+function saveData() {
+
+    localStorage.setItem(
+        "friendsRankingApp",
+        JSON.stringify(friends)
+    );
+
+}
+
+
+function openModal(id) {
+
+    document
+        .getElementById(id)
+        .classList
+        .add("active");
+
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+function closeModal(id) {
+
+    document
+        .getElementById(id)
+        .classList
+        .remove("active");
+
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+/* ======================================
+   CHIUSURA CLICCANDO FUORI
+====================================== */
+
+document
+.querySelectorAll(".modal-bg")
+.forEach(
+    background => {
+
+        background.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target ===
+                    background
+                ) {
+
+                    background
+                        .classList
+                        .remove("active");
+
+                    document.body
+                        .style
+                        .overflow = "";
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+/* ======================================
+   AVVIO
+====================================== */
+
+renderRanking();
+
+</script>
+
+</body>
+</html>
