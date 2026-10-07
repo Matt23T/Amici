@@ -82,6 +82,19 @@ header p {
     font-weight: 650;
 }
 
+/* TASTO SALVA - RIPRISTINATO GRANDE E BLU */
+
+.save-btn {
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+    padding: 14px;
+    background: #007aff;
+    color: white;
+    font-weight: 650;
+    font-size: 16px;
+}
+
 .secondary-btn {
     border: none;
     border-radius: 14px;
@@ -352,6 +365,23 @@ header p {
     font-weight: 800;
     color: #007aff;
     font-size: 17px;
+}
+
+/* NUOVO TASTO ELIMINA CATEGORIA */
+
+.category-delete {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 9px;
+    background: #fff0ef;
+    color: #ff3b30;
+    font-size: 17px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* ================================
@@ -1056,6 +1086,9 @@ let currentFriendId = null;
 
 let currentPhoto = null;
 
+/* Categorie base eliminate durante la modifica */
+let deletedBaseCategories = [];
+
 
 /* ==========================================
    NUOVO AMICO
@@ -1066,6 +1099,8 @@ function openAddFriend() {
     editingId = null;
 
     currentPhoto = null;
+
+    deletedBaseCategories = [];
 
     document.getElementById(
         "editorTitle"
@@ -1115,6 +1150,9 @@ function openEditFriend(id) {
 
     currentPhoto =
         friend.photo || null;
+
+    deletedBaseCategories =
+        friend.deletedBaseCategories || [];
 
 
     document.getElementById(
@@ -1240,6 +1278,15 @@ function renderBaseCategories(saved) {
     baseCategories.forEach(
         (name, index) => {
 
+            if (
+                deletedBaseCategories.includes(
+                    name
+                )
+            ) {
+                return;
+            }
+
+
             const old =
                 saved.find(
                     c => c.name === name
@@ -1269,13 +1316,16 @@ function renderBaseCategories(saved) {
             div.className =
                 "category";
 
+            div.dataset.categoryName =
+                name;
+
 
             div.innerHTML = `
 
                 <div class="category-top">
 
                     <div class="category-name">
-                        ${name}
+                        ${escapeHtml(name)}
                     </div>
 
                     <div
@@ -1296,6 +1346,14 @@ function renderBaseCategories(saved) {
                         <span class="slider"></span>
 
                     </label>
+
+                    <button
+                        class="category-delete"
+                        onclick="deleteBaseCategory('${escapeAttribute(name)}')"
+                        title="Elimina categoria"
+                    >
+                        🗑
+                    </button>
 
                 </div>
 
@@ -1337,14 +1395,128 @@ function renderBaseCategories(saved) {
 
 
 /* ==========================================
+   ELIMINA CATEGORIA BASE
+========================================== */
+
+function deleteBaseCategory(name) {
+
+    if (
+        !confirm(
+            `Vuoi davvero eliminare la categoria "${name}"?`
+        )
+    ) {
+        return;
+    }
+
+
+    if (
+        !deletedBaseCategories.includes(
+            name
+        )
+    ) {
+
+        deletedBaseCategories.push(
+            name
+        );
+
+    }
+
+
+    const saved =
+        readBaseCategories();
+
+
+    renderBaseCategories(
+        saved
+    );
+
+
+    updateTotal();
+}
+
+
+/* ==========================================
+   LETTURA CATEGORIE BASE
+========================================== */
+
+function readBaseCategories() {
+
+    const cards =
+        document.querySelectorAll(
+            "#baseCategories .category"
+        );
+
+
+    const result = [];
+
+
+    cards.forEach(
+        card => {
+
+            const name =
+                card.dataset.categoryName;
+
+
+            const range =
+                card.querySelector(
+                    'input[type="range"]'
+                );
+
+
+            const checkbox =
+                card.querySelector(
+                    'input[type="checkbox"]'
+                );
+
+
+            const note =
+                card.querySelector(
+                    ".category-note"
+                );
+
+
+            result.push({
+
+                name: name,
+
+                score:
+                    Number(range.value),
+
+                enabled:
+                    checkbox.checked,
+
+                note:
+                    note.value.trim()
+
+            });
+
+        }
+    );
+
+
+    return result;
+}
+
+
+/* ==========================================
    VOTO BASE
 ========================================== */
 
 function updateBaseScore(index, value) {
 
-    document.getElementById(
-        `base-score-${index}`
-    ).textContent = value;
+    const element =
+        document.getElementById(
+            `base-score-${index}`
+        );
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+
 
     updateTotal();
 }
@@ -1411,6 +1583,14 @@ function renderCustomCategories(custom) {
 
                     </label>
 
+                    <button
+                        class="category-delete"
+                        onclick="removeCustomCategory(${index})"
+                        title="Elimina categoria"
+                    >
+                        🗑
+                    </button>
+
                 </div>
 
 
@@ -1437,20 +1617,6 @@ function renderCustomCategories(custom) {
                     class="category-note custom-note"
                     placeholder="Nota su questa categoria..."
                 >${escapeHtml(category.note || "")}</textarea>
-
-
-                <button
-                    onclick="removeCustomCategory(${index})"
-                    style="
-                        border:none;
-                        background:none;
-                        color:#ff3b30;
-                        font-size:13px;
-                        padding:8px 0 0;
-                    "
-                >
-                    Rimuovi categoria
-                </button>
 
             `;
 
@@ -1617,6 +1783,23 @@ function removeCustomCategory(index) {
         readCustomCategories();
 
 
+    const category =
+        current[index];
+
+
+    if (!category)
+        return;
+
+
+    if (
+        !confirm(
+            `Vuoi davvero eliminare la categoria "${category.name}"?`
+        )
+    ) {
+        return;
+    }
+
+
     current.splice(
         index,
         1
@@ -1744,19 +1927,14 @@ function getScoreData() {
 
     /* BASE */
 
-    baseCategories.forEach(
-        (name, index) => {
-
-            const card =
-                document
-                .getElementById(
-                    "baseCategories"
-                )
-                .children[index];
+    const baseCards =
+        document.querySelectorAll(
+            "#baseCategories .category"
+        );
 
 
-            if (!card) return;
-
+    baseCards.forEach(
+        card => {
 
             const range =
                 card.querySelector(
@@ -1771,6 +1949,7 @@ function getScoreData() {
 
 
             if (
+                checkbox &&
                 checkbox.checked
             ) {
 
@@ -1873,56 +2052,8 @@ function saveFriend() {
     }
 
 
-    const categories = [];
-
-
-    baseCategories.forEach(
-        (categoryName, index) => {
-
-            const card =
-                document
-                .getElementById(
-                    "baseCategories"
-                )
-                .children[index];
-
-
-            const range =
-                card.querySelector(
-                    'input[type="range"]'
-                );
-
-
-            const checkbox =
-                card.querySelector(
-                    'input[type="checkbox"]'
-                );
-
-
-            const note =
-                card.querySelector(
-                    ".category-note"
-                );
-
-
-            categories.push({
-
-                name:
-                    categoryName,
-
-                score:
-                    Number(range.value),
-
-                enabled:
-                    checkbox.checked,
-
-                note:
-                    note.value.trim()
-
-            });
-
-        }
-    );
+    const categories =
+        readBaseCategories();
 
 
     const customCategories =
@@ -1972,6 +2103,9 @@ function saveFriend() {
             friend.percentage =
                 scoreData.percentage;
 
+            friend.deletedBaseCategories =
+                deletedBaseCategories;
+
         }
 
     } else {
@@ -2003,7 +2137,10 @@ function saveFriend() {
                 scoreData.maximum,
 
             percentage:
-                scoreData.percentage
+                scoreData.percentage,
+
+            deletedBaseCategories:
+                deletedBaseCategories
 
         });
 
@@ -2399,7 +2536,7 @@ function editCurrentFriend() {
 
 
 /* ==========================================
-   ELIMINA
+   ELIMINA AMICO
 ========================================== */
 
 function deleteFriend() {
