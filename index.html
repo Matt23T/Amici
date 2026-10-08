@@ -2,7 +2,11 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no"
+>
 
 <title>Classifica Amici</title>
 
@@ -13,12 +17,21 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+html,
 body {
     margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    overscroll-behavior-x: none;
+}
+
+body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
                  "SF Pro Text", Arial, sans-serif;
     background: #f2f2f7;
     color: #1c1c1e;
+    touch-action: pan-y;
 }
 
 button,
@@ -30,6 +43,10 @@ textarea {
 button {
     cursor: pointer;
 }
+
+/* ================================
+   APP
+================================ */
 
 .app {
     max-width: 600px;
@@ -45,6 +62,18 @@ button {
 header {
     padding: 55px 20px 18px;
     background: #f2f2f7;
+    position: relative;
+}
+
+.header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.header-title {
+    flex: 1;
 }
 
 header h1 {
@@ -58,6 +87,20 @@ header p {
     margin: 5px 0 0;
     color: #8e8e93;
     font-size: 15px;
+}
+
+.settings-btn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: white;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    flex-shrink: 0;
 }
 
 .content {
@@ -81,8 +124,6 @@ header p {
     color: white;
     font-weight: 650;
 }
-
-/* TASTO SALVA - RIPRISTINATO GRANDE E BLU */
 
 .save-btn {
     width: 100%;
@@ -171,12 +212,21 @@ header p {
 
 .friend-sub {
     color: #8e8e93;
-    font-size: 13px;
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+.friend-contact-times {
+    color: #8e8e93;
+    font-size: 11px;
+    line-height: 1.4;
+    margin-top: 3px;
 }
 
 .score {
     font-size: 22px;
     font-weight: 800;
+    flex-shrink: 0;
 }
 
 /* ================================
@@ -226,6 +276,7 @@ header p {
     border-radius: 24px 24px 0 0;
     padding: 18px 16px 35px;
     animation: slideUp .25s ease;
+    -webkit-overflow-scrolling: touch;
 }
 
 @keyframes slideUp {
@@ -338,14 +389,57 @@ header p {
 }
 
 /* ================================
-   CATEGORY
+   CATEGORY SWIPE
 ================================ */
 
+.category-swipe {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 16px;
+    margin-bottom: 8px;
+    background: #ff3b30;
+    touch-action: pan-y;
+}
+
+.category-delete-bg {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 22px;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    background: #ff3b30;
+    pointer-events: none;
+}
+
+.category-delete-bg span {
+    opacity: 0;
+    transition: opacity .1s;
+}
+
+.category-delete-bg.visible span {
+    opacity: 1;
+}
+
 .category {
+    position: relative;
+    z-index: 2;
     background: white;
     border-radius: 16px;
     padding: 14px;
-    margin-bottom: 8px;
+    margin: 0;
+    width: 100%;
+    transform: translateX(0);
+    transition: transform .2s ease;
+    will-change: transform;
+}
+
+.category.swiping {
+    transition: none;
 }
 
 .category-top {
@@ -365,23 +459,6 @@ header p {
     font-weight: 800;
     color: #007aff;
     font-size: 17px;
-}
-
-/* NUOVO TASTO ELIMINA CATEGORIA */
-
-.category-delete {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-    border: none;
-    border-radius: 9px;
-    background: #fff0ef;
-    color: #ff3b30;
-    font-size: 17px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 /* ================================
@@ -534,6 +611,65 @@ input[type="range"] {
 }
 
 /* ================================
+   CONTACT DATES
+================================ */
+
+.contact-box {
+    background: white;
+    border-radius: 16px;
+    padding: 15px;
+    margin-top: 18px;
+}
+
+.contact-box h3 {
+    margin: 0 0 12px;
+    font-size: 17px;
+}
+
+.contact-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+}
+
+.contact-row + .contact-row {
+    border-top: 1px solid #e5e5ea;
+}
+
+.contact-icon {
+    width: 32px;
+    font-size: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.contact-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.contact-label {
+    font-size: 13px;
+    color: #8e8e93;
+    margin-bottom: 3px;
+}
+
+.contact-elapsed {
+    font-size: 15px;
+    font-weight: 650;
+}
+
+.contact-date-input {
+    border: none;
+    background: #f2f2f7;
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 13px;
+    max-width: 165px;
+}
+
+/* ================================
    TOTAL
 ================================ */
 
@@ -680,7 +816,66 @@ input[type="range"] {
 }
 
 /* ================================
-   DELETE
+   SETTINGS
+================================ */
+
+.settings-category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.settings-category {
+    background: white;
+    border-radius: 14px;
+    padding: 13px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.settings-category-name {
+    flex: 1;
+    font-weight: 600;
+}
+
+.settings-category-delete {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 10px;
+    background: #f2f2f7;
+    color: #ff3b30;
+    font-size: 18px;
+}
+
+.settings-add-row {
+    display: flex;
+    gap: 8px;
+}
+
+.settings-add-input {
+    flex: 1;
+    border: none;
+    background: white;
+    border-radius: 13px;
+    padding: 13px;
+    outline: none;
+    min-width: 0;
+}
+
+.settings-add-button {
+    border: none;
+    border-radius: 13px;
+    padding: 0 17px;
+    background: #007aff;
+    color: white;
+    font-weight: 650;
+}
+
+/* ================================
+   DELETE FRIEND
 ================================ */
 
 .delete-btn {
@@ -717,19 +912,48 @@ input[type="range"] {
 <div class="app">
 
 <header>
-    <h1>Amici</h1>
-    <p>La tua classifica personale</p>
+
+    <div class="header-top">
+
+        <div class="header-title">
+
+            <h1>Amici</h1>
+
+            <p>
+                La tua classifica personale
+            </p>
+
+        </div>
+
+        <button
+            class="settings-btn"
+            onclick="openSettings()"
+            aria-label="Impostazioni"
+        >
+            ⚙️
+        </button>
+
+    </div>
+
 </header>
 
 <div class="content">
 
     <div class="top-actions">
-        <button class="primary-btn" onclick="openAddFriend()">
+
+        <button
+            class="primary-btn"
+            onclick="openAddFriend()"
+        >
             + Nuovo amico
         </button>
+
     </div>
 
-    <div id="ranking" class="ranking"></div>
+    <div
+        id="ranking"
+        class="ranking"
+    ></div>
 
 </div>
 
@@ -740,7 +964,10 @@ input[type="range"] {
      MODIFICA / CREAZIONE AMICO
 ========================================== -->
 
-<div id="editorModal" class="modal-bg">
+<div
+    id="editorModal"
+    class="modal-bg"
+>
 
 <div class="modal">
 
@@ -898,7 +1125,10 @@ input[type="range"] {
      DETTAGLIO AMICO
 ========================================== -->
 
-<div id="detailModal" class="modal-bg">
+<div
+    id="detailModal"
+    class="modal-bg"
+>
 
 <div class="modal">
 
@@ -957,9 +1187,84 @@ input[type="range"] {
     </div>
 
 
+    <!-- ULTIMI CONTATTI -->
+
+    <div class="contact-box">
+
+        <h3>
+            Ultimi contatti
+        </h3>
+
+        <div class="contact-row">
+
+            <div class="contact-icon">
+                👁️
+            </div>
+
+            <div class="contact-info">
+
+                <div class="contact-label">
+                    Ultima volta visto
+                </div>
+
+                <div
+                    id="detailSeenElapsed"
+                    class="contact-elapsed"
+                >
+                    Mai
+                </div>
+
+            </div>
+
+            <input
+                id="detailSeenInput"
+                class="contact-date-input"
+                type="datetime-local"
+                onchange="saveContactDate('seen', this.value)"
+            >
+
+        </div>
+
+
+        <div class="contact-row">
+
+            <div class="contact-icon">
+                📞
+            </div>
+
+            <div class="contact-info">
+
+                <div class="contact-label">
+                    Ultima volta sentito
+                </div>
+
+                <div
+                    id="detailHeardElapsed"
+                    class="contact-elapsed"
+                >
+                    Mai
+                </div>
+
+            </div>
+
+            <input
+                id="detailHeardInput"
+                class="contact-date-input"
+                type="datetime-local"
+                onchange="saveContactDate('heard', this.value)"
+            >
+
+        </div>
+
+    </div>
+
+
     <!-- CATEGORIE -->
 
-    <div id="detailCategories"></div>
+    <div
+        id="detailCategories"
+        style="margin-top:18px;"
+    ></div>
 
 
     <!-- NOTE -->
@@ -996,10 +1301,76 @@ input[type="range"] {
 
 
 <!-- ==========================================
-     NUOVA CATEGORIA
+     IMPOSTAZIONI
 ========================================== -->
 
-<div id="customCategoryModal" class="modal-bg">
+<div
+    id="settingsModal"
+    class="modal-bg"
+>
+
+<div class="modal">
+
+    <div class="modal-handle"></div>
+
+    <div class="modal-header">
+
+        <h2>
+            Impostazioni
+        </h2>
+
+        <button
+            class="close"
+            onclick="closeModal('settingsModal')"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="section-title">
+        Categorie predefinite
+    </div>
+
+    <div
+        id="settingsCategories"
+        class="settings-category-list"
+    ></div>
+
+
+    <div class="settings-add-row">
+
+        <input
+            id="settingsCategoryInput"
+            class="settings-add-input"
+            type="text"
+            placeholder="Nuova categoria"
+            maxlength="40"
+        >
+
+        <button
+            class="settings-add-button"
+            onclick="addGlobalCategory()"
+        >
+            Aggiungi
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- ==========================================
+     NUOVA CATEGORIA PERSONALE
+========================================== -->
+
+<div
+    id="customCategoryModal"
+    class="modal-bg"
+>
 
 <div class="modal">
 
@@ -1045,10 +1416,10 @@ input[type="range"] {
 <script>
 
 /* ==========================================
-   CATEGORIE BASE
+   CATEGORIE PREDEFINITE
 ========================================== */
 
-const baseCategories = [
+const defaultBaseCategories = [
 
     "Fiducia",
     "Lealtà",
@@ -1069,6 +1440,37 @@ const baseCategories = [
 ];
 
 
+/*
+   Le categorie globali vengono salvate separatamente.
+   Se non esistono ancora, vengono utilizzate
+   quelle predefinite originali.
+*/
+
+let baseCategories =
+    JSON.parse(
+        localStorage.getItem(
+            "friendsRankingBaseCategories"
+        ) || "null"
+    );
+
+
+if (
+    !Array.isArray(baseCategories)
+) {
+
+    baseCategories =
+        [...defaultBaseCategories];
+
+    localStorage.setItem(
+        "friendsRankingBaseCategories",
+        JSON.stringify(
+            baseCategories
+        )
+    );
+
+}
+
+
 /* ==========================================
    DATI
 ========================================== */
@@ -1086,8 +1488,74 @@ let currentFriendId = null;
 
 let currentPhoto = null;
 
-/* Categorie base eliminate durante la modifica */
 let deletedBaseCategories = [];
+
+
+/* ==========================================
+   BLOCCO ZOOM
+========================================== */
+
+document.addEventListener(
+    "gesturestart",
+    function(event) {
+
+        event.preventDefault();
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+document.addEventListener(
+    "gesturechange",
+    function(event) {
+
+        event.preventDefault();
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+document.addEventListener(
+    "gestureend",
+    function(event) {
+
+        event.preventDefault();
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+/*
+   Blocca il pinch zoom a due dita.
+   Mantiene invece lo scroll normale.
+*/
+
+document.addEventListener(
+    "touchmove",
+    function(event) {
+
+        if (
+            event.touches.length > 1
+        ) {
+
+            event.preventDefault();
+
+        }
+
+    },
+    {
+        passive: false
+    }
+);
 
 
 /* ==========================================
@@ -1104,7 +1572,8 @@ function openAddFriend() {
 
     document.getElementById(
         "editorTitle"
-    ).textContent = "Nuovo amico";
+    ).textContent =
+        "Nuovo amico";
 
     document.getElementById(
         "friendName"
@@ -1112,7 +1581,8 @@ function openAddFriend() {
 
     document.getElementById(
         "deleteButton"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     renderEditorAvatar(
@@ -1128,7 +1598,10 @@ function openAddFriend() {
 
     updateTotal();
 
-    openModal("editorModal");
+    openModal(
+        "editorModal"
+    );
+
 }
 
 
@@ -1140,10 +1613,12 @@ function openEditFriend(id) {
 
     const friend =
         friends.find(
-            f => f.id === id
+            f =>
+                f.id === id
         );
 
-    if (!friend) return;
+    if (!friend)
+        return;
 
 
     editingId = id;
@@ -1197,7 +1672,10 @@ function openEditFriend(id) {
     updateTotal();
 
 
-    openModal("editorModal");
+    openModal(
+        "editorModal"
+    );
+
 }
 
 
@@ -1210,34 +1688,40 @@ function handlePhoto(event) {
     const file =
         event.target.files[0];
 
-    if (!file) return;
+    if (!file)
+        return;
 
 
     const reader =
         new FileReader();
 
 
-    reader.onload = function(e) {
+    reader.onload =
+        function(e) {
 
-        currentPhoto =
-            e.target.result;
+            currentPhoto =
+                e.target.result;
 
 
-        renderEditorAvatar(
-            currentPhoto,
-            document.getElementById(
-                "friendName"
-            ).value
-        );
+            renderEditorAvatar(
+                currentPhoto,
+                document.getElementById(
+                    "friendName"
+                ).value
+            );
 
-    };
+        };
 
 
     reader.readAsDataURL(file);
+
 }
 
 
-function renderEditorAvatar(photo, name) {
+function renderEditorAvatar(
+    photo,
+    name
+) {
 
     const avatar =
         document.getElementById(
@@ -1283,18 +1767,23 @@ function renderBaseCategories(saved) {
                     name
                 )
             ) {
+
                 return;
+
             }
 
 
             const old =
                 saved.find(
-                    c => c.name === name
+                    c =>
+                        c.name === name
                 );
 
 
             const score =
-                old ? old.score : 5;
+                old
+                    ? old.score
+                    : 5;
 
             const enabled =
                 old
@@ -1307,86 +1796,17 @@ function renderBaseCategories(saved) {
                     : "";
 
 
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "category";
-
-            div.dataset.categoryName =
-                name;
-
-
-            div.innerHTML = `
-
-                <div class="category-top">
-
-                    <div class="category-name">
-                        ${escapeHtml(name)}
-                    </div>
-
-                    <div
-                        id="base-score-${index}"
-                        class="category-score"
-                    >
-                        ${score}
-                    </div>
-
-                    <label class="switch">
-
-                        <input
-                            type="checkbox"
-                            ${enabled ? "checked" : ""}
-                            onchange="updateTotal()"
-                        >
-
-                        <span class="slider"></span>
-
-                    </label>
-
-                    <button
-                        class="category-delete"
-                        onclick="deleteBaseCategory('${escapeAttribute(name)}')"
-                        title="Elimina categoria"
-                    >
-                        🗑
-                    </button>
-
-                </div>
-
-
-                <div class="range-container">
-
-                    <input
-                        id="base-range-${index}"
-                        type="range"
-                        min="1"
-                        max="10"
-                        value="${score}"
-                        oninput="updateBaseScore(${index}, this.value)"
-                    >
-
-                    <div class="range-labels">
-                        <span>1</span>
-                        <span>10</span>
-                    </div>
-
-                </div>
-
-
-                <textarea
-                    id="base-note-${index}"
-                    class="category-note"
-                    placeholder="Nota su questa categoria..."
-                >${escapeHtml(note)}</textarea>
-
-            `;
-
-
-            container.appendChild(div);
+            createSwipeCategory(
+                container,
+                {
+                    type: "base",
+                    name: name,
+                    index: index,
+                    score: score,
+                    enabled: enabled,
+                    note: note
+                }
+            );
 
         }
     );
@@ -1395,43 +1815,561 @@ function renderBaseCategories(saved) {
 
 
 /* ==========================================
-   ELIMINA CATEGORIA BASE
+   CREAZIONE CATEGORIA SWIPE
 ========================================== */
 
-function deleteBaseCategory(name) {
+function createSwipeCategory(
+    container,
+    data
+) {
 
-    if (
-        !confirm(
-            `Vuoi davvero eliminare la categoria "${name}"?`
-        )
+    const wrapper =
+        document.createElement(
+            "div"
+        );
+
+    wrapper.className =
+        "category-swipe";
+
+
+    const deleteBackground =
+        document.createElement(
+            "div"
+        );
+
+    deleteBackground.className =
+        "category-delete-bg";
+
+
+    deleteBackground.innerHTML =
+        "<span>Elimina</span>";
+
+
+    const category =
+        document.createElement(
+            "div"
+        );
+
+    category.className =
+        "category";
+
+
+    category.dataset.categoryName =
+        data.name;
+
+
+    category.innerHTML = `
+
+        <div class="category-top">
+
+            <div class="category-name">
+
+                ${escapeHtml(data.name)}
+
+                ${
+                    data.type === "custom"
+                    ? `
+                        <span class="custom-badge">
+                            personale
+                        </span>
+                      `
+                    : ""
+                }
+
+            </div>
+
+            <div
+                id="${
+                    data.type === "base"
+                    ? `base-score-${data.index}`
+                    : `custom-score-${data.index}`
+                }"
+                class="category-score"
+            >
+                ${data.score}
+            </div>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    ${
+                        data.type === "custom"
+                        ? "class=\"custom-enabled\""
+                        : ""
+                    }
+                    ${data.enabled ? "checked" : ""}
+                    onchange="updateTotal()"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <div class="range-container">
+
+            <input
+                ${
+                    data.type === "base"
+                    ? `id="base-range-${data.index}"`
+                    : ""
+                }
+                type="range"
+                min="1"
+                max="10"
+                value="${data.score}"
+                ${
+                    data.type === "custom"
+                    ? "class=\"custom-range\""
+                    : ""
+                }
+                oninput="${
+                    data.type === "base"
+                    ? `updateBaseScore(${data.index}, this.value)`
+                    : `updateCustomScore(${data.index}, this.value)`
+                }"
+            >
+
+            <div class="range-labels">
+                <span>1</span>
+                <span>10</span>
+            </div>
+
+        </div>
+
+
+        <textarea
+            ${
+                data.type === "base"
+                ? `id="base-note-${data.index}"`
+                : ""
+            }
+            class="category-note ${
+                data.type === "custom"
+                ? "custom-note"
+                : ""
+            }"
+            placeholder="Nota su questa categoria..."
+        >${escapeHtml(data.note || "")}</textarea>
+
+    `;
+
+
+    wrapper.appendChild(
+        deleteBackground
+    );
+
+    wrapper.appendChild(
+        category
+    );
+
+    container.appendChild(
+        wrapper
+    );
+
+
+    setupSwipeToDelete(
+        wrapper,
+        category,
+        deleteBackground,
+        data
+    );
+
+}
+
+
+/* ==========================================
+   SWIPE TO DELETE
+========================================== */
+
+function setupSwipeToDelete(
+    wrapper,
+    category,
+    deleteBackground,
+    data
+) {
+
+    let startX = 0;
+
+    let startY = 0;
+
+    let currentX = 0;
+
+    let dragging = false;
+
+    let horizontalSwipe = false;
+
+    const threshold = 120;
+
+
+    function start(
+        clientX,
+        clientY
     ) {
-        return;
-    }
 
+        startX =
+            clientX;
 
-    if (
-        !deletedBaseCategories.includes(
-            name
-        )
-    ) {
+        startY =
+            clientY;
 
-        deletedBaseCategories.push(
-            name
+        currentX =
+            0;
+
+        dragging =
+            true;
+
+        horizontalSwipe =
+            false;
+
+        category.classList.add(
+            "swiping"
         );
 
     }
 
 
-    const saved =
-        readBaseCategories();
+    function move(
+        clientX,
+        clientY
+    ) {
+
+        if (!dragging)
+            return;
 
 
-    renderBaseCategories(
-        saved
+        const dx =
+            clientX - startX;
+
+        const dy =
+            clientY - startY;
+
+
+        if (
+            !horizontalSwipe &&
+            Math.abs(dy) >
+            Math.abs(dx) &&
+            Math.abs(dy) > 8
+        ) {
+
+            dragging = false;
+
+            category.classList.remove(
+                "swiping"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            Math.abs(dx) > 8 &&
+            Math.abs(dx) >
+            Math.abs(dy)
+        ) {
+
+            horizontalSwipe =
+                true;
+
+        }
+
+
+        if (!horizontalSwipe)
+            return;
+
+
+        currentX =
+            Math.max(
+                0,
+                Math.min(
+                    dx,
+                    190
+                )
+            );
+
+
+        category.style.transform =
+            `translateX(${currentX}px)`;
+
+
+        if (
+            currentX >= threshold
+        ) {
+
+            deleteBackground.classList.add(
+                "visible"
+            );
+
+        } else {
+
+            deleteBackground.classList.remove(
+                "visible"
+            );
+
+        }
+
+    }
+
+
+    function end() {
+
+        if (!dragging)
+            return;
+
+
+        dragging = false;
+
+        category.classList.remove(
+            "swiping"
+        );
+
+
+        const shouldDelete =
+            currentX >= threshold;
+
+
+        if (shouldDelete) {
+
+            category.style.transform =
+                "translateX(100%)";
+
+
+            setTimeout(
+                () => {
+
+                    category.style.transform =
+                        "translateX(0)";
+
+                    category.style.transition =
+                        "none";
+
+
+                    requestAnimationFrame(
+                        () => {
+
+                            category.style.transition =
+                                "";
+
+                            confirmCategoryDeletion(
+                                data
+                            );
+
+                        }
+                    );
+
+                },
+                180
+            );
+
+        } else {
+
+            category.style.transform =
+                "translateX(0)";
+
+            deleteBackground.classList.remove(
+                "visible"
+            );
+
+        }
+
+
+        currentX =
+            0;
+
+    }
+
+
+    category.addEventListener(
+        "touchstart",
+        event => {
+
+            const touch =
+                event.touches[0];
+
+
+            start(
+                touch.clientX,
+                touch.clientY
+            );
+
+        },
+        {
+            passive: true
+        }
     );
 
 
+    category.addEventListener(
+        "touchmove",
+        event => {
+
+            const touch =
+                event.touches[0];
+
+
+            move(
+                touch.clientX,
+                touch.clientY
+            );
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    category.addEventListener(
+        "touchend",
+        end,
+        {
+            passive: true
+        }
+    );
+
+
+    category.addEventListener(
+        "touchcancel",
+        end,
+        {
+            passive: true
+        }
+    );
+
+
+    /*
+       Supporto mouse per PC
+    */
+
+    category.addEventListener(
+        "mousedown",
+        event => {
+
+            start(
+                event.clientX,
+                event.clientY
+            );
+
+
+            const mouseMove =
+                moveEvent => {
+
+                    move(
+                        moveEvent.clientX,
+                        moveEvent.clientY
+                    );
+
+                };
+
+
+            const mouseUp =
+                () => {
+
+                    end();
+
+
+                    document.removeEventListener(
+                        "mousemove",
+                        mouseMove
+                    );
+
+
+                    document.removeEventListener(
+                        "mouseup",
+                        mouseUp
+                    );
+
+                };
+
+
+            document.addEventListener(
+                "mousemove",
+                mouseMove
+            );
+
+
+            document.addEventListener(
+                "mouseup",
+                mouseUp
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   CONFERMA ELIMINAZIONE CATEGORIA
+========================================== */
+
+function confirmCategoryDeletion(
+    data
+) {
+
+    const confirmed =
+        confirm(
+            `Vuoi davvero eliminare la categoria "${data.name}"?`
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    if (
+        data.type === "base"
+    ) {
+
+        if (
+            !deletedBaseCategories.includes(
+                data.name
+            )
+        ) {
+
+            deletedBaseCategories.push(
+                data.name
+            );
+
+        }
+
+
+        const current =
+            readBaseCategories();
+
+
+        renderBaseCategories(
+            current
+        );
+
+    } else {
+
+        const current =
+            readCustomCategories();
+
+
+        current.splice(
+            data.index,
+            1
+        );
+
+
+        renderCustomCategories(
+            current
+        );
+
+    }
+
+
     updateTotal();
+
 }
 
 
@@ -1477,10 +2415,13 @@ function readBaseCategories() {
 
             result.push({
 
-                name: name,
+                name:
+                    name,
 
                 score:
-                    Number(range.value),
+                    Number(
+                        range.value
+                    ),
 
                 enabled:
                     checkbox.checked,
@@ -1495,6 +2436,7 @@ function readBaseCategories() {
 
 
     return result;
+
 }
 
 
@@ -1502,7 +2444,10 @@ function readBaseCategories() {
    VOTO BASE
 ========================================== */
 
-function updateBaseScore(index, value) {
+function updateBaseScore(
+    index,
+    value
+) {
 
     const element =
         document.getElementById(
@@ -1519,6 +2464,7 @@ function updateBaseScore(index, value) {
 
 
     updateTotal();
+
 }
 
 
@@ -1526,102 +2472,34 @@ function updateBaseScore(index, value) {
    CATEGORIE PERSONALIZZATE
 ========================================== */
 
-function renderCustomCategories(custom) {
+function renderCustomCategories(
+    custom
+) {
 
     const container =
         document.getElementById(
             "customCategories"
         );
 
-    container.innerHTML = "";
+
+    container.innerHTML =
+        "";
 
 
     custom.forEach(
         (category, index) => {
 
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "category";
-
-
-            div.innerHTML = `
-
-                <div class="category-top">
-
-                    <div class="category-name">
-
-                        ${escapeHtml(category.name)}
-
-                        <span class="custom-badge">
-                            personale
-                        </span>
-
-                    </div>
-
-                    <div
-                        id="custom-score-${index}"
-                        class="category-score"
-                    >
-                        ${category.score}
-                    </div>
-
-                    <label class="switch">
-
-                        <input
-                            type="checkbox"
-                            class="custom-enabled"
-                            ${category.enabled ? "checked" : ""}
-                            onchange="updateTotal()"
-                        >
-
-                        <span class="slider"></span>
-
-                    </label>
-
-                    <button
-                        class="category-delete"
-                        onclick="removeCustomCategory(${index})"
-                        title="Elimina categoria"
-                    >
-                        🗑
-                    </button>
-
-                </div>
-
-
-                <div class="range-container">
-
-                    <input
-                        type="range"
-                        min="1"
-                        max="10"
-                        value="${category.score}"
-                        class="custom-range"
-                        oninput="updateCustomScore(${index}, this.value)"
-                    >
-
-                    <div class="range-labels">
-                        <span>1</span>
-                        <span>10</span>
-                    </div>
-
-                </div>
-
-
-                <textarea
-                    class="category-note custom-note"
-                    placeholder="Nota su questa categoria..."
-                >${escapeHtml(category.note || "")}</textarea>
-
-            `;
-
-
-            container.appendChild(div);
+            createSwipeCategory(
+                container,
+                {
+                    type: "custom",
+                    name: category.name,
+                    index: index,
+                    score: category.score,
+                    enabled: category.enabled,
+                    note: category.note || ""
+                }
+            );
 
         }
     );
@@ -1629,13 +2507,27 @@ function renderCustomCategories(custom) {
 }
 
 
-function updateCustomScore(index, value) {
+function updateCustomScore(
+    index,
+    value
+) {
 
-    document.getElementById(
-        `custom-score-${index}`
-    ).textContent = value;
+    const element =
+        document.getElementById(
+            `custom-score-${index}`
+        );
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+
 
     updateTotal();
+
 }
 
 
@@ -1658,12 +2550,7 @@ function readCustomCategories() {
         card => {
 
             const name =
-                card.querySelector(
-                    ".category-name"
-                )
-                .childNodes[0]
-                .textContent
-                .trim();
+                card.dataset.categoryName;
 
 
             const range =
@@ -1686,10 +2573,13 @@ function readCustomCategories() {
 
             result.push({
 
-                name: name,
+                name:
+                    name,
 
                 score:
-                    Number(range.value),
+                    Number(
+                        range.value
+                    ),
 
                 enabled:
                     enabled.checked,
@@ -1704,18 +2594,21 @@ function readCustomCategories() {
 
 
     return result;
+
 }
 
 
 /* ==========================================
-   NUOVA CATEGORIA
+   NUOVA CATEGORIA PERSONALE
 ========================================== */
 
 function openCustomCategoryModal() {
 
     document.getElementById(
         "customCategoryName"
-    ).value = "";
+    ).value =
+        "";
+
 
     openModal(
         "customCategoryModal"
@@ -1743,6 +2636,7 @@ function addCustomCategory() {
         );
 
         return;
+
     }
 
 
@@ -1750,15 +2644,36 @@ function addCustomCategory() {
         readCustomCategories();
 
 
+    if (
+        current.some(
+            category =>
+                category.name.toLowerCase() ===
+                name.toLowerCase()
+        )
+    ) {
+
+        alert(
+            "Questa categoria esiste già per questo amico."
+        );
+
+        return;
+
+    }
+
+
     current.push({
 
-        name: name,
+        name:
+            name,
 
-        score: 5,
+        score:
+            5,
 
-        enabled: true,
+        enabled:
+            true,
 
-        note: ""
+        note:
+            ""
 
     });
 
@@ -1774,44 +2689,269 @@ function addCustomCategory() {
 
 
     updateTotal();
+
 }
 
 
-function removeCustomCategory(index) {
+/* ==========================================
+   IMPOSTAZIONI CATEGORIE GLOBALI
+========================================== */
 
-    const current =
-        readCustomCategories();
+function openSettings() {
+
+    renderSettingsCategories();
+
+    document.getElementById(
+        "settingsCategoryInput"
+    ).value =
+        "";
+
+    openModal(
+        "settingsModal"
+    );
+
+}
 
 
-    const category =
-        current[index];
+function renderSettingsCategories() {
+
+    const container =
+        document.getElementById(
+            "settingsCategories"
+        );
 
 
-    if (!category)
+    container.innerHTML =
+        "";
+
+
+    if (!baseCategories.length) {
+
+        container.innerHTML = `
+
+            <div
+                style="
+                    background:white;
+                    border-radius:14px;
+                    padding:15px;
+                    color:#8e8e93;
+                    text-align:center;
+                "
+            >
+                Nessuna categoria predefinita.
+            </div>
+
+        `;
+
         return;
 
-
-    if (
-        !confirm(
-            `Vuoi davvero eliminare la categoria "${category.name}"?`
-        )
-    ) {
-        return;
     }
 
 
-    current.splice(
+    baseCategories.forEach(
+        (name, index) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "settings-category";
+
+
+            row.innerHTML = `
+
+                <div class="settings-category-name">
+                    ${escapeHtml(name)}
+                </div>
+
+                <button
+                    class="settings-category-delete"
+                    onclick="removeGlobalCategory(${index})"
+                    aria-label="Elimina categoria"
+                >
+                    ×
+                </button>
+
+            `;
+
+
+            container.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+function addGlobalCategory() {
+
+    const input =
+        document.getElementById(
+            "settingsCategoryInput"
+        );
+
+
+    const name =
+        input.value.trim();
+
+
+    if (!name) {
+
+        alert(
+            "Inserisci il nome della categoria."
+        );
+
+        return;
+
+    }
+
+
+    const exists =
+        baseCategories.some(
+            category =>
+                category.toLowerCase() ===
+                name.toLowerCase()
+        );
+
+
+    if (exists) {
+
+        alert(
+            "Questa categoria esiste già."
+        );
+
+        return;
+
+    }
+
+
+    baseCategories.push(
+        name
+    );
+
+
+    localStorage.setItem(
+        "friendsRankingBaseCategories",
+        JSON.stringify(
+            baseCategories
+        )
+    );
+
+
+    /*
+       La nuova categoria viene resa disponibile
+       per tutti gli amici.
+    */
+
+    friends.forEach(
+        friend => {
+
+            if (
+                !friend.deletedBaseCategories
+            ) {
+
+                friend.deletedBaseCategories =
+                    [];
+
+            }
+
+            friend.deletedBaseCategories =
+                friend.deletedBaseCategories.filter(
+                    category =>
+                        category !== name
+                );
+
+        }
+    );
+
+
+    saveData();
+
+    input.value =
+        "";
+
+
+    renderSettingsCategories();
+
+    renderRanking();
+
+}
+
+
+function removeGlobalCategory(
+    index
+) {
+
+    const name =
+        baseCategories[index];
+
+
+    if (!name)
+        return;
+
+
+    const confirmed =
+        confirm(
+            `Vuoi eliminare "${name}" dalle categorie predefinite per tutti gli amici?`
+        );
+
+
+    if (!confirmed)
+        return;
+
+
+    /*
+       La categoria viene eliminata
+       definitivamente per tutti.
+    */
+
+    baseCategories.splice(
         index,
         1
     );
 
 
-    renderCustomCategories(
-        current
+    friends.forEach(
+        friend => {
+
+            friend.categories =
+                (friend.categories || [])
+                .filter(
+                    category =>
+                        category.name !== name
+                );
+
+
+            friend.deletedBaseCategories =
+                (friend.deletedBaseCategories || [])
+                .filter(
+                    category =>
+                        category !== name
+                );
+
+        }
     );
 
 
-    updateTotal();
+    localStorage.setItem(
+        "friendsRankingBaseCategories",
+        JSON.stringify(
+            baseCategories
+        )
+    );
+
+
+    saveData();
+
+    renderSettingsCategories();
+
+    renderRanking();
+
 }
 
 
@@ -1819,7 +2959,9 @@ function removeCustomCategory(index) {
    NOTE AMICO
 ========================================== */
 
-function renderFriendNotes(notes) {
+function renderFriendNotes(
+    notes
+) {
 
     const container =
         document.getElementById(
@@ -1827,7 +2969,8 @@ function renderFriendNotes(notes) {
         );
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
     notes.forEach(
@@ -1843,7 +2986,9 @@ function renderFriendNotes(notes) {
 }
 
 
-function createNoteElement(value = "") {
+function createNoteElement(
+    value = ""
+) {
 
     const container =
         document.getElementById(
@@ -1880,7 +3025,9 @@ function createNoteElement(value = "") {
     `;
 
 
-    container.appendChild(row);
+    container.appendChild(
+        row
+    );
 
 }
 
@@ -1908,7 +3055,8 @@ function readFriendNotes() {
             input.value.trim()
     )
     .filter(
-        value => value !== ""
+        value =>
+            value !== ""
     );
 
 }
@@ -1920,9 +3068,11 @@ function readFriendNotes() {
 
 function getScoreData() {
 
-    let total = 0;
+    let total =
+        0;
 
-    let maximum = 0;
+    let maximum =
+        0;
 
 
     /* BASE */
@@ -1954,9 +3104,12 @@ function getScoreData() {
             ) {
 
                 total +=
-                    Number(range.value);
+                    Number(
+                        range.value
+                    );
 
-                maximum += 10;
+                maximum +=
+                    10;
 
             }
 
@@ -1973,12 +3126,15 @@ function getScoreData() {
     custom.forEach(
         category => {
 
-            if (category.enabled) {
+            if (
+                category.enabled
+            ) {
 
                 total +=
                     category.score;
 
-                maximum += 10;
+                maximum +=
+                    10;
 
             }
 
@@ -1988,17 +3144,23 @@ function getScoreData() {
 
     const percentage =
         maximum > 0
-            ? (total / maximum) * 100
+            ? (
+                total /
+                maximum
+              ) * 100
             : 0;
 
 
     return {
 
-        total: total,
+        total:
+            total,
 
-        maximum: maximum,
+        maximum:
+            maximum,
 
-        percentage: percentage
+        percentage:
+            percentage
 
     };
 
@@ -2073,7 +3235,8 @@ function saveFriend() {
         const friend =
             friends.find(
                 f =>
-                    f.id === editingId
+                    f.id ===
+                    editingId
             );
 
 
@@ -2140,7 +3303,13 @@ function saveFriend() {
                 scoreData.percentage,
 
             deletedBaseCategories:
-                deletedBaseCategories
+                deletedBaseCategories,
+
+            lastSeen:
+                null,
+
+            lastHeard:
+                null
 
         });
 
@@ -2170,7 +3339,8 @@ function renderRanking() {
         );
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
     if (!friends.length) {
@@ -2234,13 +3404,18 @@ function renderRanking() {
 
 
             if (index === 0)
-                positionText = "🥇";
+                positionText =
+                    "🥇";
+
 
             if (index === 1)
-                positionText = "🥈";
+                positionText =
+                    "🥈";
+
 
             if (index === 2)
-                positionText = "🥉";
+                positionText =
+                    "🥉";
 
 
             card.innerHTML = `
@@ -2277,6 +3452,13 @@ function renderRanking() {
                         ${friend.total}/${friend.maximum}
                     </div>
 
+                    <div
+                        class="friend-contact-times"
+                        data-contact-friend="${friend.id}"
+                    >
+                        ${buildContactSummary(friend)}
+                    </div>
+
                 </div>
 
 
@@ -2310,7 +3492,8 @@ function openDetail(id) {
         );
 
 
-    if (!friend) return;
+    if (!friend)
+        return;
 
 
     currentFriendId =
@@ -2352,6 +3535,31 @@ function openDetail(id) {
     }
 
 
+    /*
+       ULTIMI CONTATTI
+    */
+
+    document.getElementById(
+        "detailSeenInput"
+    ).value =
+        toDateTimeLocal(
+            friend.lastSeen
+        );
+
+
+    document.getElementById(
+        "detailHeardInput"
+    ).value =
+        toDateTimeLocal(
+            friend.lastHeard
+        );
+
+
+    updateDetailContactCounters(
+        friend
+    );
+
+
     /* CATEGORIE */
 
     const categories =
@@ -2360,7 +3568,8 @@ function openDetail(id) {
         );
 
 
-    categories.innerHTML = "";
+    categories.innerHTML =
+        "";
 
 
     [
@@ -2370,7 +3579,9 @@ function openDetail(id) {
     .forEach(
         category => {
 
-            if (!category.enabled)
+            if (
+                !category.enabled
+            )
                 return;
 
 
@@ -2464,7 +3675,8 @@ function openDetail(id) {
         );
 
 
-    notesList.innerHTML = "";
+    notesList.innerHTML =
+        "";
 
 
     const notes =
@@ -2485,8 +3697,10 @@ function openDetail(id) {
                         "li"
                     );
 
+
                 li.textContent =
                     note;
+
 
                 notesList.appendChild(
                     li
@@ -2505,6 +3719,355 @@ function openDetail(id) {
 
     openModal(
         "detailModal"
+    );
+
+}
+
+
+/* ==========================================
+   SALVATAGGIO ULTIMO CONTATTO
+========================================== */
+
+function saveContactDate(
+    type,
+    value
+) {
+
+    if (!currentFriendId)
+        return;
+
+
+    const friend =
+        friends.find(
+            f =>
+                f.id ===
+                currentFriendId
+        );
+
+
+    if (!friend)
+        return;
+
+
+    const timestamp =
+        value
+            ? new Date(value).getTime()
+            : null;
+
+
+    if (
+        timestamp &&
+        timestamp > Date.now()
+    ) {
+
+        alert(
+            "La data non può essere nel futuro."
+        );
+
+
+        const input =
+            document.getElementById(
+                type === "seen"
+                    ? "detailSeenInput"
+                    : "detailHeardInput"
+            );
+
+
+        input.value =
+            toDateTimeLocal(
+                friend[
+                    type === "seen"
+                        ? "lastSeen"
+                        : "lastHeard"
+                ]
+            );
+
+
+        return;
+
+    }
+
+
+    if (
+        type === "seen"
+    ) {
+
+        friend.lastSeen =
+            timestamp;
+
+    } else {
+
+        friend.lastHeard =
+            timestamp;
+
+    }
+
+
+    saveData();
+
+    updateDetailContactCounters(
+        friend
+    );
+
+    updateRankingContactCounter(
+        friend
+    );
+
+}
+
+
+/* ==========================================
+   CONTATORI CONTATTO
+========================================== */
+
+function buildContactSummary(
+    friend
+) {
+
+    const seen =
+        formatElapsed(
+            friend.lastSeen
+        );
+
+
+    const heard =
+        formatElapsed(
+            friend.lastHeard
+        );
+
+
+    return `
+        👁 ${seen}
+        &nbsp;·&nbsp;
+        📞 ${heard}
+    `;
+
+}
+
+
+function formatElapsed(
+    timestamp
+) {
+
+    if (
+        !timestamp
+    ) {
+
+        return "Mai";
+
+    }
+
+
+    let difference =
+        Date.now() -
+        Number(timestamp);
+
+
+    if (
+        difference < 0
+    ) {
+
+        difference =
+            0;
+
+    }
+
+
+    const totalHours =
+        Math.floor(
+            difference /
+            (1000 * 60 * 60)
+        );
+
+
+    const days =
+        Math.floor(
+            totalHours /
+            24
+        );
+
+
+    const hours =
+        totalHours %
+        24;
+
+
+    if (
+        days === 0 &&
+        hours === 0
+    ) {
+
+        return "meno di 1 ora";
+
+    }
+
+
+    if (
+        days === 0
+    ) {
+
+        return `${hours} ${hours === 1 ? "ora" : "ore"}`;
+
+    }
+
+
+    if (
+        hours === 0
+    ) {
+
+        return `${days} ${days === 1 ? "giorno" : "giorni"}`;
+
+    }
+
+
+    return `${days} ${days === 1 ? "giorno" : "giorni"} ${hours} ${hours === 1 ? "ora" : "ore"}`;
+
+}
+
+
+function updateDetailContactCounters(
+    friend
+) {
+
+    const seen =
+        document.getElementById(
+            "detailSeenElapsed"
+        );
+
+
+    const heard =
+        document.getElementById(
+            "detailHeardElapsed"
+        );
+
+
+    if (seen) {
+
+        seen.textContent =
+            formatElapsed(
+                friend.lastSeen
+            );
+
+    }
+
+
+    if (heard) {
+
+        heard.textContent =
+            formatElapsed(
+                friend.lastHeard
+            );
+
+    }
+
+}
+
+
+function updateRankingContactCounter(
+    friend
+) {
+
+    const element =
+        document.querySelector(
+            `[data-contact-friend="${friend.id}"]`
+        );
+
+
+    if (!element)
+        return;
+
+
+    element.innerHTML =
+        buildContactSummary(
+            friend
+        );
+
+}
+
+
+function updateAllContactCounters() {
+
+    friends.forEach(
+        friend => {
+
+            updateRankingContactCounter(
+                friend
+            );
+
+        }
+    );
+
+
+    if (
+        currentFriendId
+    ) {
+
+        const friend =
+            friends.find(
+                f =>
+                    f.id ===
+                    currentFriendId
+            );
+
+
+        if (friend) {
+
+            updateDetailContactCounters(
+                friend
+            );
+
+        }
+
+    }
+
+}
+
+
+/* ==========================================
+   DATE INPUT
+========================================== */
+
+function toDateTimeLocal(
+    timestamp
+) {
+
+    if (!timestamp)
+        return "";
+
+
+    const date =
+        new Date(
+            Number(timestamp)
+        );
+
+
+    const pad =
+        value =>
+            String(value)
+            .padStart(
+                2,
+                "0"
+            );
+
+
+    return (
+        date.getFullYear() +
+        "-" +
+        pad(
+            date.getMonth() + 1
+        ) +
+        "-" +
+        pad(
+            date.getDate()
+        ) +
+        "T" +
+        pad(
+            date.getHours()
+        ) +
+        ":" +
+        pad(
+            date.getMinutes()
+        )
     );
 
 }
@@ -2589,7 +4152,9 @@ function deleteFriend() {
    UTILITY
 ========================================== */
 
-function getInitials(name) {
+function getInitials(
+    name
+) {
 
     return name
         .split(" ")
@@ -2604,28 +4169,46 @@ function getInitials(name) {
 }
 
 
-function escapeHtml(text) {
+function escapeHtml(
+    text
+) {
 
     const div =
         document.createElement(
             "div"
         );
 
+
     div.textContent =
         text;
+
 
     return div.innerHTML;
 
 }
 
 
-function escapeAttribute(text) {
+function escapeAttribute(
+    text
+) {
 
     return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/"/g, "&quot;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        );
 
 }
 
@@ -2642,7 +4225,9 @@ function saveData() {
 }
 
 
-function openModal(id) {
+function openModal(
+    id
+) {
 
     document
         .getElementById(id)
@@ -2656,7 +4241,9 @@ function openModal(id) {
 }
 
 
-function closeModal(id) {
+function closeModal(
+    id
+) {
 
     document
         .getElementById(id)
@@ -2713,6 +4300,19 @@ document
 ========================================== */
 
 renderRanking();
+
+
+/*
+   Aggiorna i contatori ogni minuto.
+   Anche se mostriamo solo giorni e ore,
+   questo permette al valore di cambiare
+   senza dover chiudere e riaprire l'app.
+*/
+
+setInterval(
+    updateAllContactCounters,
+    60000
+);
 
 </script>
 
