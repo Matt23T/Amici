@@ -13,6 +13,14 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+}
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
@@ -32,10 +40,12 @@ button {
 }
 
 .app {
+    width: 100%;
     max-width: 600px;
     margin: auto;
     min-height: 100vh;
     padding-bottom: 30px;
+    overflow-x: hidden;
 }
 
 /* ================================
@@ -45,14 +55,12 @@ button {
 header {
     padding: 55px 20px 18px;
     background: #f2f2f7;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 15px;
 }
 
-.header-text {
-    flex: 1;
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 header h1 {
@@ -75,11 +83,6 @@ header p {
     border-radius: 50%;
     background: white;
     font-size: 21px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 1px 4px rgba(0,0,0,.06);
 }
 
 .content {
@@ -192,13 +195,7 @@ header p {
 .friend-sub {
     color: #8e8e93;
     font-size: 13px;
-}
-
-.friend-contact-time {
-    color: #8e8e93;
-    font-size: 11px;
-    line-height: 1.4;
-    margin-top: 3px;
+    line-height: 1.45;
 }
 
 .score {
@@ -238,6 +235,7 @@ header p {
     align-items: flex-end;
     justify-content: center;
     z-index: 100;
+    overflow: hidden;
 }
 
 .modal-bg.active {
@@ -249,6 +247,7 @@ header p {
     max-width: 600px;
     max-height: 94vh;
     overflow-y: auto;
+    overflow-x: hidden;
     background: #f2f2f7;
     border-radius: 24px 24px 0 0;
     padding: 18px 16px 35px;
@@ -365,16 +364,71 @@ header p {
 }
 
 /* ================================
-   CATEGORIA
+   CONTATTI
 ================================ */
+
+.contact-input {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    background: white;
+    padding: 14px;
+    outline: none;
+    margin-bottom: 8px;
+}
+
+/* ================================
+   CATEGORY SWIPE
+================================ */
+
+.category-swipe {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 16px;
+    margin-bottom: 8px;
+    background: #ff3b30;
+    touch-action: pan-y;
+}
+
+.category-delete-bg {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 22px;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    background: #ff3b30;
+    pointer-events: none;
+}
+
+.category-delete-bg span {
+    opacity: 0;
+    transition: opacity .1s;
+}
+
+.category-delete-bg.visible span {
+    opacity: 1;
+}
 
 .category {
     position: relative;
+    z-index: 2;
     background: white;
     border-radius: 16px;
     padding: 14px;
-    margin-bottom: 8px;
+    margin: 0;
     width: 100%;
+    transform: translateX(0);
+    transition: transform .2s ease;
+    will-change: transform;
+}
+
+.category.swiping {
+    transition: none;
 }
 
 .category-top {
@@ -394,27 +448,6 @@ header p {
     font-weight: 800;
     color: #007aff;
     font-size: 17px;
-}
-
-/* ================================
-   DELETE CATEGORY
-================================ */
-
-.category-delete {
-    position: absolute;
-    top: 9px;
-    right: 9px;
-    width: 31px;
-    height: 31px;
-    border: none;
-    border-radius: 9px;
-    background: #ff3b30;
-    color: white;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 5;
 }
 
 /* ================================
@@ -529,35 +562,33 @@ input[type="range"] {
 }
 
 /* ================================
-   CONTATTI
+   GLOBAL CATEGORY SETTINGS
 ================================ */
 
-.contact-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
-}
-
-.contact-field {
-    flex: 1;
-    min-width: 0;
-}
-
-.contact-label {
-    display: block;
-    color: #8e8e93;
-    font-size: 12px;
-    margin: 0 5px 6px;
-}
-
-.contact-input {
-    width: 100%;
-    border: none;
-    border-radius: 14px;
+.global-category {
     background: white;
-    padding: 13px 10px;
-    outline: none;
-    font-size: 14px;
+    border-radius: 14px;
+    padding: 13px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.global-category-name {
+    flex: 1;
+    font-weight: 650;
+}
+
+.global-delete {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 10px;
+    background: #ff3b30;
+    color: white;
+    font-size: 19px;
 }
 
 /* ================================
@@ -627,69 +658,6 @@ input[type="range"] {
 .total-score {
     font-size: 32px;
     font-weight: 850;
-}
-
-/* ================================
-   SETTINGS
-================================ */
-
-.settings-description {
-    color: #8e8e93;
-    font-size: 14px;
-    line-height: 1.4;
-    margin: -5px 5px 15px;
-}
-
-.global-category-row {
-    background: white;
-    border-radius: 14px;
-    padding: 12px 12px 12px 15px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.global-category-name {
-    flex: 1;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.global-category-delete {
-    width: 34px;
-    height: 34px;
-    border: none;
-    border-radius: 9px;
-    background: #ff3b30;
-    color: white;
-    font-size: 17px;
-}
-
-.settings-add {
-    display: flex;
-    gap: 8px;
-    margin-top: 14px;
-}
-
-.settings-add input {
-    flex: 1;
-    min-width: 0;
-    border: none;
-    border-radius: 14px;
-    background: white;
-    padding: 13px;
-    outline: none;
-}
-
-.settings-add button {
-    border: none;
-    border-radius: 14px;
-    background: #007aff;
-    color: white;
-    padding: 0 17px;
-    font-weight: 650;
 }
 
 /* ================================
@@ -846,18 +814,20 @@ input[type="range"] {
 
 <header>
 
-    <div class="header-text">
+    <div class="header-row">
+
         <h1>Amici</h1>
-        <p>La tua classifica personale</p>
+
+        <button
+            class="settings-btn"
+            onclick="openGlobalCategorySettings()"
+        >
+            ⚙️
+        </button>
+
     </div>
 
-    <button
-        class="settings-btn"
-        onclick="openSettingsModal()"
-        aria-label="Impostazioni"
-    >
-        ⚙️
-    </button>
+    <p>La tua classifica personale</p>
 
 </header>
 
@@ -874,7 +844,6 @@ input[type="range"] {
 </div>
 
 </div>
-
 
 <!-- ==========================================
      MODIFICA / CREAZIONE AMICO
@@ -900,7 +869,6 @@ input[type="range"] {
         </button>
 
     </div>
-
 
     <!-- FOTO -->
 
@@ -930,7 +898,6 @@ input[type="range"] {
 
     </div>
 
-
     <!-- NOME -->
 
     <input
@@ -941,51 +908,23 @@ input[type="range"] {
         maxlength="40"
     >
 
-
-    <!-- CONTATTI -->
+    <!-- ULTIMI CONTATTI -->
 
     <div class="section-title">
         Ultimi contatti
     </div>
 
-    <div class="contact-row">
+    <input
+        id="lastHeard"
+        class="contact-input"
+        type="datetime-local"
+    >
 
-        <div class="contact-field">
-
-            <label
-                class="contact-label"
-                for="lastHeard"
-            >
-                Ultima volta sentito
-            </label>
-
-            <input
-                id="lastHeard"
-                class="contact-input"
-                type="datetime-local"
-            >
-
-        </div>
-
-        <div class="contact-field">
-
-            <label
-                class="contact-label"
-                for="lastSeen"
-            >
-                Ultima volta visto
-            </label>
-
-            <input
-                id="lastSeen"
-                class="contact-input"
-                type="datetime-local"
-            >
-
-        </div>
-
-    </div>
-
+    <input
+        id="lastSeen"
+        class="contact-input"
+        type="datetime-local"
+    >
 
     <!-- CATEGORIE -->
 
@@ -994,7 +933,6 @@ input[type="range"] {
     </div>
 
     <div id="baseCategories"></div>
-
 
     <!-- PERSONALIZZATE -->
 
@@ -1011,7 +949,6 @@ input[type="range"] {
         ＋ Aggiungi categoria
     </button>
 
-
     <!-- NOTE AMICO -->
 
     <div class="section-title">
@@ -1026,7 +963,6 @@ input[type="range"] {
     >
         ＋ Aggiungi nota
     </button>
-
 
     <!-- PUNTEGGIO -->
 
@@ -1056,14 +992,12 @@ input[type="range"] {
 
     </div>
 
-
     <button
         class="save-btn"
         onclick="saveFriend()"
     >
         Salva
     </button>
-
 
     <button
         id="deleteButton"
@@ -1077,7 +1011,6 @@ input[type="range"] {
 </div>
 
 </div>
-
 
 <!-- ==========================================
      DETTAGLIO AMICO
@@ -1102,7 +1035,6 @@ input[type="range"] {
 
     </div>
 
-
     <!-- FOTO GRANDE -->
 
     <div class="detail-profile">
@@ -1123,7 +1055,6 @@ input[type="range"] {
 
     </div>
 
-
     <!-- PUNTEGGIO -->
 
     <div class="detail-score">
@@ -1141,11 +1072,9 @@ input[type="range"] {
 
     </div>
 
-
     <!-- CATEGORIE -->
 
     <div id="detailCategories"></div>
-
 
     <!-- NOTE -->
 
@@ -1166,7 +1095,6 @@ input[type="range"] {
 
     </div>
 
-
     <button
         class="primary-btn"
         onclick="editCurrentFriend()"
@@ -1179,6 +1107,55 @@ input[type="range"] {
 
 </div>
 
+<!-- ==========================================
+     IMPOSTAZIONI CATEGORIE GLOBALI
+========================================== -->
+
+<div id="globalCategoryModal" class="modal-bg">
+
+<div class="modal">
+
+    <div class="modal-handle"></div>
+
+    <div class="modal-header">
+
+        <h2>
+            Categorie
+        </h2>
+
+        <button
+            class="close"
+            onclick="closeModal('globalCategoryModal')"
+        >
+            ×
+        </button>
+
+    </div>
+
+    <div class="section-title">
+        Categorie globali
+    </div>
+
+    <div id="globalCategoryList"></div>
+
+    <input
+        id="globalCategoryName"
+        class="name-input"
+        type="text"
+        placeholder="Nome della categoria"
+        maxlength="40"
+    >
+
+    <button
+        class="primary-btn"
+        onclick="addGlobalCategory()"
+    >
+        ＋ Aggiungi categoria
+    </button>
+
+</div>
+
+</div>
 
 <!-- ==========================================
      NUOVA CATEGORIA PERSONALE
@@ -1205,7 +1182,6 @@ input[type="range"] {
 
     </div>
 
-
     <input
         id="customCategoryName"
         class="name-input"
@@ -1213,7 +1189,6 @@ input[type="range"] {
         placeholder="Nome della categoria"
         maxlength="40"
     >
-
 
     <button
         class="primary-btn"
@@ -1226,114 +1201,36 @@ input[type="range"] {
 
 </div>
 
-
-<!-- ==========================================
-     IMPOSTAZIONI CATEGORIE GLOBALI
-========================================== -->
-
-<div id="settingsModal" class="modal-bg">
-
-<div class="modal">
-
-    <div class="modal-handle"></div>
-
-    <div class="modal-header">
-
-        <h2>
-            Impostazioni
-        </h2>
-
-        <button
-            class="close"
-            onclick="closeModal('settingsModal')"
-        >
-            ×
-        </button>
-
-    </div>
-
-
-    <div class="section-title">
-        Categorie predefinite
-    </div>
-
-    <div class="settings-description">
-        Queste categorie vengono utilizzate per tutti gli amici.
-        Puoi aggiungerle o eliminarle quando vuoi.
-    </div>
-
-
-    <div id="globalCategories"></div>
-
-
-    <div class="settings-add">
-
-        <input
-            id="globalCategoryName"
-            type="text"
-            placeholder="Nuova categoria"
-            maxlength="40"
-        >
-
-        <button
-            onclick="addGlobalCategory()"
-        >
-            Aggiungi
-        </button>
-
-    </div>
-
-</div>
-
-</div>
-
-
 <script>
 
 /* ==========================================
-   CATEGORIE BASE PREDEFINITE
-========================================== */
-
-const defaultBaseCategories = [
-
-    "Fiducia",
-    "Lealtà",
-    "Presenza",
-    "Reciprocità",
-    "Affidabilità",
-    "Confidenza",
-    "Intesa",
-    "Divertimento",
-    "Affetto",
-    "Supporto",
-    "Sincerità",
-    "Rispetto",
-    "Stimolo",
-    "Altruismo",
-    "Positività"
-
-];
-
-
-/* ==========================================
-   CATEGORIE GLOBALI
+   CATEGORIE BASE
 ========================================== */
 
 let baseCategories =
     JSON.parse(
         localStorage.getItem(
-            "friendsRankingBaseCategories"
+            "globalFriendCategories"
         ) || "null"
-    );
+    ) || [
 
+        "Fiducia",
+        "Lealtà",
+        "Presenza",
+        "Reciprocità",
+        "Affidabilità",
+        "Confidenza",
+        "Intesa",
+        "Divertimento",
+        "Affetto",
+        "Supporto",
+        "Sincerità",
+        "Rispetto",
+        "Stimolo",
+        "Altruismo",
+        "Positività"
 
-if (!Array.isArray(baseCategories)) {
-
-    baseCategories =
-        [...defaultBaseCategories];
-
-}
-
+    ];
 
 /* ==========================================
    DATI
@@ -1353,7 +1250,6 @@ let currentFriendId = null;
 let currentPhoto = null;
 
 let deletedBaseCategories = [];
-
 
 /* ==========================================
    NUOVO AMICO
@@ -1387,7 +1283,6 @@ function openAddFriend() {
         "deleteButton"
     ).style.display = "none";
 
-
     renderEditorAvatar(
         null,
         ""
@@ -1404,7 +1299,6 @@ function openAddFriend() {
     openModal("editorModal");
 }
 
-
 /* ==========================================
    MODIFICA
 ========================================== */
@@ -1418,7 +1312,6 @@ function openEditFriend(id) {
 
     if (!friend) return;
 
-
     editingId = id;
 
     currentPhoto =
@@ -1427,64 +1320,52 @@ function openEditFriend(id) {
     deletedBaseCategories =
         friend.deletedBaseCategories || [];
 
-
     document.getElementById(
         "editorTitle"
     ).textContent =
         "Modifica amico";
-
 
     document.getElementById(
         "friendName"
     ).value =
         friend.name;
 
-
     document.getElementById(
         "lastHeard"
     ).value =
         friend.lastHeard || "";
-
 
     document.getElementById(
         "lastSeen"
     ).value =
         friend.lastSeen || "";
 
-
     document.getElementById(
         "deleteButton"
     ).style.display =
         "block";
-
 
     renderEditorAvatar(
         friend.photo,
         friend.name
     );
 
-
     renderBaseCategories(
         friend.categories || []
     );
-
 
     renderCustomCategories(
         friend.customCategories || []
     );
 
-
     renderFriendNotes(
         friend.notes || []
     );
 
-
     updateTotal();
-
 
     openModal("editorModal");
 }
-
 
 /* ==========================================
    FOTO
@@ -1497,16 +1378,13 @@ function handlePhoto(event) {
 
     if (!file) return;
 
-
     const reader =
         new FileReader();
-
 
     reader.onload = function(e) {
 
         currentPhoto =
             e.target.result;
-
 
         renderEditorAvatar(
             currentPhoto,
@@ -1517,10 +1395,8 @@ function handlePhoto(event) {
 
     };
 
-
     reader.readAsDataURL(file);
 }
-
 
 function renderEditorAvatar(photo, name) {
 
@@ -1528,7 +1404,6 @@ function renderEditorAvatar(photo, name) {
         document.getElementById(
             "editorAvatar"
         );
-
 
     if (photo) {
 
@@ -1539,12 +1414,10 @@ function renderEditorAvatar(photo, name) {
 
     }
 
-
     avatar.innerHTML =
         getInitials(name) || "?";
 
 }
-
 
 /* ==========================================
    CATEGORIE BASE
@@ -1559,7 +1432,6 @@ function renderBaseCategories(saved) {
 
     container.innerHTML = "";
 
-
     baseCategories.forEach(
         (name, index) => {
 
@@ -1571,12 +1443,10 @@ function renderBaseCategories(saved) {
                 return;
             }
 
-
             const old =
                 saved.find(
                     c => c.name === name
                 );
-
 
             const score =
                 old ? old.score : 5;
@@ -1591,8 +1461,7 @@ function renderBaseCategories(saved) {
                     ? old.note || ""
                     : "";
 
-
-            createCategory(
+            createSwipeCategory(
                 container,
                 {
                     type: "base",
@@ -1609,12 +1478,30 @@ function renderBaseCategories(saved) {
 
 }
 
-
 /* ==========================================
-   CREAZIONE CATEGORIA
+   CREAZIONE CATEGORIA SWIPE
 ========================================== */
 
-function createCategory(container, data) {
+function createSwipeCategory(container, data) {
+
+    const wrapper =
+        document.createElement(
+            "div"
+        );
+
+    wrapper.className =
+        "category-swipe";
+
+    const deleteBackground =
+        document.createElement(
+            "div"
+        );
+
+    deleteBackground.className =
+        "category-delete-bg";
+
+    deleteBackground.innerHTML =
+        "<span>Elimina</span>";
 
     const category =
         document.createElement(
@@ -1624,21 +1511,10 @@ function createCategory(container, data) {
     category.className =
         "category";
 
-
     category.dataset.categoryName =
         data.name;
 
-
     category.innerHTML = `
-
-        <button
-            class="category-delete"
-            type="button"
-            aria-label="Elimina categoria"
-        >
-            🗑
-        </button>
-
 
         <div class="category-top">
 
@@ -1687,7 +1563,6 @@ function createCategory(container, data) {
 
         </div>
 
-
         <div class="range-container">
 
             <input
@@ -1719,7 +1594,6 @@ function createCategory(container, data) {
 
         </div>
 
-
         <textarea
             ${
                 data.type === "base"
@@ -1736,31 +1610,298 @@ function createCategory(container, data) {
 
     `;
 
+    wrapper.appendChild(
+        deleteBackground
+    );
 
-    const deleteButton =
-        category.querySelector(
-            ".category-delete"
-        );
-
-
-    deleteButton.onclick =
-        event => {
-
-            event.stopPropagation();
-
-            confirmCategoryDeletion(
-                data
-            );
-
-        };
-
-
-    container.appendChild(
+    wrapper.appendChild(
         category
     );
 
+    container.appendChild(
+        wrapper
+    );
+
+    setupSwipeToDelete(
+        wrapper,
+        category,
+        deleteBackground,
+        data
+    );
 }
 
+/* ==========================================
+   SWIPE TO DELETE
+========================================== */
+
+function setupSwipeToDelete(
+    wrapper,
+    category,
+    deleteBackground,
+    data
+) {
+
+    let startX = 0;
+
+    let startY = 0;
+
+    let currentX = 0;
+
+    let dragging = false;
+
+    let horizontalSwipe = false;
+
+    const threshold = 120;
+
+    function start(clientX, clientY) {
+
+        startX = clientX;
+
+        startY = clientY;
+
+        currentX = 0;
+
+        dragging = true;
+
+        horizontalSwipe = false;
+
+        category.classList.add(
+            "swiping"
+        );
+
+    }
+
+    function move(clientX, clientY) {
+
+        if (!dragging)
+            return;
+
+        const dx =
+            clientX - startX;
+
+        const dy =
+            clientY - startY;
+
+        if (
+            !horizontalSwipe &&
+            Math.abs(dy) > Math.abs(dx) &&
+            Math.abs(dy) > 8
+        ) {
+
+            dragging = false;
+
+            category.classList.remove(
+                "swiping"
+            );
+
+            return;
+
+        }
+
+        if (
+            Math.abs(dx) > 8 &&
+            Math.abs(dx) > Math.abs(dy)
+        ) {
+
+            horizontalSwipe = true;
+
+        }
+
+        if (!horizontalSwipe)
+            return;
+
+        currentX =
+            Math.max(
+                0,
+                Math.min(
+                    dx,
+                    190
+                )
+            );
+
+        category.style.transform =
+            `translateX(${currentX}px)`;
+
+        if (
+            currentX >= threshold
+        ) {
+
+            deleteBackground.classList.add(
+                "visible"
+            );
+
+        } else {
+
+            deleteBackground.classList.remove(
+                "visible"
+            );
+
+        }
+
+    }
+
+    function end() {
+
+        if (!dragging)
+            return;
+
+        dragging = false;
+
+        category.classList.remove(
+            "swiping"
+        );
+
+        const shouldDelete =
+            currentX >= threshold;
+
+        if (shouldDelete) {
+
+            category.style.transform =
+                `translateX(100%)`;
+
+            setTimeout(
+                () => {
+
+                    category.style.transform =
+                        "translateX(0)";
+
+                    category.style.transition =
+                        "none";
+
+                    requestAnimationFrame(
+                        () => {
+
+                            category.style.transition =
+                                "";
+
+                            confirmCategoryDeletion(
+                                data
+                            );
+
+                        }
+                    );
+
+                },
+                180
+            );
+
+        } else {
+
+            category.style.transform =
+                "translateX(0)";
+
+            deleteBackground.classList.remove(
+                "visible"
+            );
+
+        }
+
+        currentX = 0;
+
+    }
+
+    category.addEventListener(
+        "touchstart",
+        event => {
+
+            const touch =
+                event.touches[0];
+
+            start(
+                touch.clientX,
+                touch.clientY
+            );
+
+        },
+        {
+            passive: true
+        }
+    );
+
+    category.addEventListener(
+        "touchmove",
+        event => {
+
+            const touch =
+                event.touches[0];
+
+            move(
+                touch.clientX,
+                touch.clientY
+            );
+
+        },
+        {
+            passive: true
+        }
+    );
+
+    category.addEventListener(
+        "touchend",
+        end,
+        {
+            passive: true
+        }
+    );
+
+    category.addEventListener(
+        "touchcancel",
+        end,
+        {
+            passive: true
+        }
+    );
+
+    category.addEventListener(
+        "mousedown",
+        event => {
+
+            start(
+                event.clientX,
+                event.clientY
+            );
+
+            const mouseMove =
+                moveEvent => {
+
+                    move(
+                        moveEvent.clientX,
+                        moveEvent.clientY
+                    );
+
+                };
+
+            const mouseUp =
+                () => {
+
+                    end();
+
+                    document.removeEventListener(
+                        "mousemove",
+                        mouseMove
+                    );
+
+                    document.removeEventListener(
+                        "mouseup",
+                        mouseUp
+                    );
+
+                };
+
+            document.addEventListener(
+                "mousemove",
+                mouseMove
+            );
+
+            document.addEventListener(
+                "mouseup",
+                mouseUp
+            );
+
+        }
+    );
+
+}
 
 /* ==========================================
    CONFERMA ELIMINAZIONE CATEGORIA
@@ -1773,11 +1914,11 @@ function confirmCategoryDeletion(data) {
             `Vuoi davvero eliminare la categoria "${data.name}"?`
         );
 
-
     if (!confirmed) {
-        return;
-    }
 
+        return;
+
+    }
 
     if (data.type === "base") {
 
@@ -1793,10 +1934,8 @@ function confirmCategoryDeletion(data) {
 
         }
 
-
         const current =
             readBaseCategories();
-
 
         renderBaseCategories(
             current
@@ -1807,12 +1946,10 @@ function confirmCategoryDeletion(data) {
         const current =
             readCustomCategories();
 
-
         current.splice(
             data.index,
             1
         );
-
 
         renderCustomCategories(
             current
@@ -1820,10 +1957,8 @@ function confirmCategoryDeletion(data) {
 
     }
 
-
     updateTotal();
 }
-
 
 /* ==========================================
    LETTURA CATEGORIE BASE
@@ -1836,9 +1971,7 @@ function readBaseCategories() {
             "#baseCategories .category"
         );
 
-
     const result = [];
-
 
     cards.forEach(
         card => {
@@ -1846,24 +1979,20 @@ function readBaseCategories() {
             const name =
                 card.dataset.categoryName;
 
-
             const range =
                 card.querySelector(
                     'input[type="range"]'
                 );
-
 
             const checkbox =
                 card.querySelector(
                     'input[type="checkbox"]'
                 );
 
-
             const note =
                 card.querySelector(
                     ".category-note"
                 );
-
 
             result.push({
 
@@ -1883,10 +2012,8 @@ function readBaseCategories() {
         }
     );
 
-
     return result;
 }
-
 
 /* ==========================================
    VOTO BASE
@@ -1899,7 +2026,6 @@ function updateBaseScore(index, value) {
             `base-score-${index}`
         );
 
-
     if (element) {
 
         element.textContent =
@@ -1907,10 +2033,8 @@ function updateBaseScore(index, value) {
 
     }
 
-
     updateTotal();
 }
-
 
 /* ==========================================
    CATEGORIE PERSONALIZZATE
@@ -1925,11 +2049,10 @@ function renderCustomCategories(custom) {
 
     container.innerHTML = "";
 
-
     custom.forEach(
         (category, index) => {
 
-            createCategory(
+            createSwipeCategory(
                 container,
                 {
                     type: "custom",
@@ -1946,14 +2069,12 @@ function renderCustomCategories(custom) {
 
 }
 
-
 function updateCustomScore(index, value) {
 
     const element =
         document.getElementById(
             `custom-score-${index}`
         );
-
 
     if (element) {
 
@@ -1962,10 +2083,8 @@ function updateCustomScore(index, value) {
 
     }
 
-
     updateTotal();
 }
-
 
 /* ==========================================
    LETTURA PERSONALIZZATE
@@ -1978,9 +2097,7 @@ function readCustomCategories() {
             "#customCategories .category"
         );
 
-
     const result = [];
-
 
     cards.forEach(
         card => {
@@ -1988,24 +2105,20 @@ function readCustomCategories() {
             const name =
                 card.dataset.categoryName;
 
-
             const range =
                 card.querySelector(
                     ".custom-range"
                 );
-
 
             const enabled =
                 card.querySelector(
                     ".custom-enabled"
                 );
 
-
             const note =
                 card.querySelector(
                     ".custom-note"
                 );
-
 
             result.push({
 
@@ -2025,10 +2138,210 @@ function readCustomCategories() {
         }
     );
 
-
     return result;
 }
 
+/* ==========================================
+   IMPOSTAZIONI CATEGORIE GLOBALI
+========================================== */
+
+function openGlobalCategorySettings() {
+
+    renderGlobalCategories();
+
+    document.getElementById(
+        "globalCategoryName"
+    ).value = "";
+
+    openModal(
+        "globalCategoryModal"
+    );
+
+}
+
+function renderGlobalCategories() {
+
+    const container =
+        document.getElementById(
+            "globalCategoryList"
+        );
+
+    container.innerHTML = "";
+
+    baseCategories.forEach(
+        name => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.className =
+                "global-category";
+
+            row.innerHTML = `
+
+                <div class="global-category-name">
+                    ${escapeHtml(name)}
+                </div>
+
+                <button
+                    class="global-delete"
+                    onclick="deleteGlobalCategory('${escapeAttribute(name)}')"
+                >
+                    ×
+                </button>
+
+            `;
+
+            container.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+function addGlobalCategory() {
+
+    const input =
+        document.getElementById(
+            "globalCategoryName"
+        );
+
+    const name =
+        input.value.trim();
+
+    if (!name) {
+
+        alert(
+            "Inserisci il nome della categoria."
+        );
+
+        return;
+
+    }
+
+    if (
+        baseCategories.some(
+            category =>
+                category.toLowerCase() ===
+                name.toLowerCase()
+        )
+    ) {
+
+        alert(
+            "Questa categoria esiste già."
+        );
+
+        return;
+
+    }
+
+    baseCategories.push(
+        name
+    );
+
+    localStorage.setItem(
+        "globalFriendCategories",
+        JSON.stringify(
+            baseCategories
+        )
+    );
+
+    friends.forEach(
+        friend => {
+
+            if (!friend.categories)
+                friend.categories = [];
+
+            if (
+                !friend.categories.some(
+                    category =>
+                        category.name === name
+                )
+            ) {
+
+                friend.categories.push({
+
+                    name: name,
+
+                    score: 5,
+
+                    enabled: true,
+
+                    note: ""
+
+                });
+
+            }
+
+        }
+    );
+
+    saveData();
+
+    input.value = "";
+
+    renderGlobalCategories();
+
+    renderRanking();
+
+}
+
+function deleteGlobalCategory(name) {
+
+    if (
+        !confirm(
+            `Vuoi davvero eliminare la categoria "${name}" per tutti gli amici?`
+        )
+    ) {
+
+        return;
+
+    }
+
+    baseCategories =
+        baseCategories.filter(
+            category =>
+                category !== name
+        );
+
+    friends.forEach(
+        friend => {
+
+            friend.categories =
+                (friend.categories || [])
+                .filter(
+                    category =>
+                        category.name !== name
+                );
+
+            friend.deletedBaseCategories =
+                (friend.deletedBaseCategories || [])
+                .filter(
+                    category =>
+                        category !== name
+                );
+
+        }
+    );
+
+    localStorage.setItem(
+        "globalFriendCategories",
+        JSON.stringify(
+            baseCategories
+        )
+    );
+
+    saveData();
+
+    renderGlobalCategories();
+
+    renderRanking();
+
+}
 
 /* ==========================================
    NUOVA CATEGORIA PERSONALE
@@ -2046,7 +2359,6 @@ function openCustomCategoryModal() {
 
 }
 
-
 function addCustomCategory() {
 
     const input =
@@ -2054,10 +2366,8 @@ function addCustomCategory() {
             "customCategoryName"
         );
 
-
     const name =
         input.value.trim();
-
 
     if (!name) {
 
@@ -2068,10 +2378,8 @@ function addCustomCategory() {
         return;
     }
 
-
     const current =
         readCustomCategories();
-
 
     current.push({
 
@@ -2085,248 +2393,16 @@ function addCustomCategory() {
 
     });
 
-
     renderCustomCategories(
         current
     );
-
 
     closeModal(
         "customCategoryModal"
     );
 
-
     updateTotal();
 }
-
-
-/* ==========================================
-   IMPOSTAZIONI CATEGORIE GLOBALI
-========================================== */
-
-function openSettingsModal() {
-
-    renderGlobalCategories();
-
-    document.getElementById(
-        "globalCategoryName"
-    ).value = "";
-
-    openModal(
-        "settingsModal"
-    );
-
-}
-
-
-function renderGlobalCategories() {
-
-    const container =
-        document.getElementById(
-            "globalCategories"
-        );
-
-
-    container.innerHTML = "";
-
-
-    if (!baseCategories.length) {
-
-        container.innerHTML = `
-
-            <div class="settings-description">
-                Nessuna categoria predefinita.
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    baseCategories.forEach(
-        (name, index) => {
-
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-
-            row.className =
-                "global-category-row";
-
-
-            row.innerHTML = `
-
-                <div class="global-category-name">
-                    ${escapeHtml(name)}
-                </div>
-
-                <button
-                    class="global-category-delete"
-                    type="button"
-                    aria-label="Elimina categoria"
-                >
-                    🗑
-                </button>
-
-            `;
-
-
-            row
-                .querySelector(
-                    ".global-category-delete"
-                )
-                .onclick =
-                () =>
-                    removeGlobalCategory(
-                        index
-                    );
-
-
-            container.appendChild(
-                row
-            );
-
-        }
-    );
-
-}
-
-
-function addGlobalCategory() {
-
-    const input =
-        document.getElementById(
-            "globalCategoryName"
-        );
-
-
-    const name =
-        input.value.trim();
-
-
-    if (!name) {
-
-        alert(
-            "Inserisci il nome della categoria."
-        );
-
-        return;
-    }
-
-
-    const alreadyExists =
-        baseCategories.some(
-            category =>
-                category.toLowerCase() ===
-                name.toLowerCase()
-        );
-
-
-    if (alreadyExists) {
-
-        alert(
-            "Questa categoria esiste già."
-        );
-
-        return;
-    }
-
-
-    baseCategories.push(
-        name
-    );
-
-
-    localStorage.setItem(
-        "friendsRankingBaseCategories",
-        JSON.stringify(
-            baseCategories
-        )
-    );
-
-
-    input.value = "";
-
-
-    renderGlobalCategories();
-
-    renderRanking();
-
-}
-
-
-function removeGlobalCategory(index) {
-
-    const name =
-        baseCategories[index];
-
-
-    if (!name)
-        return;
-
-
-    const confirmed =
-        confirm(
-            `Vuoi davvero eliminare "${name}" per tutti gli amici?`
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    baseCategories.splice(
-        index,
-        1
-    );
-
-
-    /*
-       La rimozione globale deve valere
-       realmente per tutti.
-       La categoria viene quindi tolta
-       anche dalle eventuali categorie
-       eliminate singolarmente.
-    */
-
-    friends.forEach(
-        friend => {
-
-            friend.deletedBaseCategories =
-                (
-                    friend.deletedBaseCategories ||
-                    []
-                )
-                .filter(
-                    categoryName =>
-                        categoryName !== name
-                );
-
-        }
-    );
-
-
-    localStorage.setItem(
-        "friendsRankingBaseCategories",
-        JSON.stringify(
-            baseCategories
-        )
-    );
-
-
-    saveData();
-
-    renderGlobalCategories();
-
-    renderRanking();
-
-}
-
 
 /* ==========================================
    NOTE AMICO
@@ -2339,9 +2415,7 @@ function renderFriendNotes(notes) {
             "friendNotes"
         );
 
-
     container.innerHTML = "";
-
 
     notes.forEach(
         note => {
@@ -2355,7 +2429,6 @@ function renderFriendNotes(notes) {
 
 }
 
-
 function createNoteElement(value = "") {
 
     const container =
@@ -2363,16 +2436,13 @@ function createNoteElement(value = "") {
             "friendNotes"
         );
 
-
     const row =
         document.createElement(
             "div"
         );
 
-
     row.className =
         "note-row";
-
 
     row.innerHTML = `
 
@@ -2392,18 +2462,15 @@ function createNoteElement(value = "") {
 
     `;
 
-
     container.appendChild(row);
 
 }
-
 
 function addFriendNote() {
 
     createNoteElement("");
 
 }
-
 
 /* ==========================================
    LETTURA NOTE
@@ -2426,9 +2493,8 @@ function readFriendNotes() {
 
 }
 
-
 /* ==========================================
-   CALCOLO EDITOR
+   CALCOLO
 ========================================== */
 
 function getScoreData() {
@@ -2437,14 +2503,12 @@ function getScoreData() {
 
     let maximum = 0;
 
-
     /* BASE */
 
     const baseCards =
         document.querySelectorAll(
             "#baseCategories .category"
         );
-
 
     baseCards.forEach(
         card => {
@@ -2454,12 +2518,10 @@ function getScoreData() {
                     'input[type="range"]'
                 );
 
-
             const checkbox =
                 card.querySelector(
                     'input[type="checkbox"]'
                 );
-
 
             if (
                 checkbox &&
@@ -2476,12 +2538,10 @@ function getScoreData() {
         }
     );
 
-
     /* PERSONALIZZATE */
 
     const custom =
         readCustomCategories();
-
 
     custom.forEach(
         category => {
@@ -2498,12 +2558,10 @@ function getScoreData() {
         }
     );
 
-
     const percentage =
         maximum > 0
             ? (total / maximum) * 100
             : 0;
-
 
     return {
 
@@ -2517,12 +2575,10 @@ function getScoreData() {
 
 }
 
-
 function updateTotal() {
 
     const data =
         getScoreData();
-
 
     document.getElementById(
         "totalScore"
@@ -2531,122 +2587,12 @@ function updateTotal() {
             data.percentage
         ) + "%";
 
-
     document.getElementById(
         "totalDetail"
     ).textContent =
         `${data.total} / ${data.maximum}`;
 
 }
-
-
-/* ==========================================
-   CALCOLO DI UN AMICO SALVATO
-========================================== */
-
-function getFriendScoreData(friend) {
-
-    let total = 0;
-
-    let maximum = 0;
-
-
-    const savedCategories =
-        friend.categories || [];
-
-
-    const deleted =
-        friend.deletedBaseCategories || [];
-
-
-    /*
-       Categorie globali.
-       Se una categoria è stata aggiunta
-       dopo la creazione dell'amico,
-       parte da 5/10 ed è attiva.
-    */
-
-    baseCategories.forEach(
-        name => {
-
-            if (
-                deleted.includes(name)
-            ) {
-                return;
-            }
-
-
-            const saved =
-                savedCategories.find(
-                    category =>
-                        category.name === name
-                );
-
-
-            const score =
-                saved
-                    ? Number(saved.score)
-                    : 5;
-
-            const enabled =
-                saved
-                    ? saved.enabled
-                    : true;
-
-
-            if (enabled) {
-
-                total += score;
-
-                maximum += 10;
-
-            }
-
-        }
-    );
-
-
-    /*
-       Categorie personali.
-    */
-
-    (
-        friend.customCategories || []
-    )
-    .forEach(
-        category => {
-
-            if (category.enabled) {
-
-                total +=
-                    Number(category.score);
-
-                maximum += 10;
-
-            }
-
-        }
-    );
-
-
-    const percentage =
-        maximum > 0
-            ? (total / maximum) * 100
-            : 0;
-
-
-    return {
-
-        total: total,
-
-        maximum: maximum,
-
-        percentage: percentage
-
-    };
-
-}
-
 
 /* ==========================================
    SALVA AMICO
@@ -2661,7 +2607,6 @@ function saveFriend() {
         .value
         .trim();
 
-
     if (!name) {
 
         alert(
@@ -2672,34 +2617,27 @@ function saveFriend() {
 
     }
 
-
     const categories =
         readBaseCategories();
-
 
     const customCategories =
         readCustomCategories();
 
-
     const notes =
         readFriendNotes();
 
-
     const scoreData =
         getScoreData();
-
 
     const lastHeard =
         document.getElementById(
             "lastHeard"
         ).value;
 
-
     const lastSeen =
         document.getElementById(
             "lastSeen"
         ).value;
-
 
     if (editingId) {
 
@@ -2708,7 +2646,6 @@ function saveFriend() {
                 f =>
                     f.id === editingId
             );
-
 
         if (friend) {
 
@@ -2791,7 +2728,6 @@ function saveFriend() {
 
     }
 
-
     saveData();
 
     closeModal(
@@ -2802,55 +2738,44 @@ function saveFriend() {
 
 }
 
-
 /* ==========================================
-   TEMPO DA DATA
+   CONTATORE CONTATTI
 ========================================== */
 
-function formatElapsedTime(dateValue) {
+function timeSince(date) {
 
-    if (!dateValue) {
-        return "—";
-    }
-
-
-    const date =
-        new Date(dateValue);
-
-
-    if (isNaN(date.getTime())) {
-        return "—";
-    }
-
+    if (!date)
+        return null;
 
     const difference =
-        Math.max(
-            0,
-            Date.now() - date.getTime()
-        );
+        Date.now() -
+        new Date(date).getTime();
 
+    if (
+        !Number.isFinite(
+            difference
+        )
+    ) {
+        return null;
+    }
+
+    if (difference < 0)
+        return "0 giorni 0 ore";
 
     const days =
         Math.floor(
-            difference /
-            (1000 * 60 * 60 * 24)
+            difference / 86400000
         );
-
 
     const hours =
         Math.floor(
-            (
-                difference %
-                (1000 * 60 * 60 * 24)
-            ) /
-            (1000 * 60 * 60)
+            (difference % 86400000) /
+            3600000
         );
 
-
-    return `${days}g ${hours}h`;
+    return `${days} giorni ${hours} ore`;
 
 }
-
 
 /* ==========================================
    CLASSIFICA
@@ -2863,9 +2788,7 @@ function renderRanking() {
             "ranking"
         );
 
-
     container.innerHTML = "";
-
 
     if (!friends.length) {
 
@@ -2894,44 +2817,23 @@ function renderRanking() {
 
     }
 
-
     const sorted =
         [...friends].sort(
-            (a,b) => {
-
-                const scoreA =
-                    getFriendScoreData(a);
-
-                const scoreB =
-                    getFriendScoreData(b);
-
-                return (
-                    scoreB.percentage -
-                    scoreA.percentage
-                );
-
-            }
+            (a,b) =>
+                b.percentage -
+                a.percentage
         );
-
 
     sorted.forEach(
         (friend, index) => {
-
-            const scoreData =
-                getFriendScoreData(
-                    friend
-                );
-
 
             const card =
                 document.createElement(
                     "div"
                 );
 
-
             card.className =
                 "friend-card";
-
 
             card.onclick =
                 () =>
@@ -2939,10 +2841,8 @@ function renderRanking() {
                         friend.id
                     );
 
-
             let positionText =
                 index + 1;
-
 
             if (index === 0)
                 positionText = "🥇";
@@ -2953,18 +2853,15 @@ function renderRanking() {
             if (index === 2)
                 positionText = "🥉";
 
-
-            const elapsedHeard =
-                formatElapsedTime(
+            const heard =
+                timeSince(
                     friend.lastHeard
                 );
 
-
-            const elapsedSeen =
-                formatElapsedTime(
+            const seen =
+                timeSince(
                     friend.lastSeen
                 );
-
 
             card.innerHTML = `
 
@@ -2978,7 +2875,6 @@ function renderRanking() {
                     ${positionText}
                 </div>
 
-
                 <div class="avatar">
 
                     ${
@@ -2989,7 +2885,6 @@ function renderRanking() {
 
                 </div>
 
-
                 <div class="friend-info">
 
                     <div class="friend-name">
@@ -2997,24 +2892,26 @@ function renderRanking() {
                     </div>
 
                     <div class="friend-sub">
-                        ${scoreData.total}/${scoreData.maximum}
-                    </div>
-
-                    <div class="friend-contact-time">
-                        Non sentito: ${elapsedHeard}
-                        ·
-                        Non visto: ${elapsedSeen}
+                        ${friend.total}/${friend.maximum}
+                        <br>
+                        👂 ${
+                            heard ||
+                            "Mai sentito"
+                        }
+                        <br>
+                        👁 ${
+                            seen ||
+                            "Mai visto"
+                        }
                     </div>
 
                 </div>
 
-
                 <div class="score">
-                    ${Math.round(scoreData.percentage)}%
+                    ${Math.round(friend.percentage)}%
                 </div>
 
             `;
-
 
             container.appendChild(
                 card
@@ -3024,7 +2921,6 @@ function renderRanking() {
     );
 
 }
-
 
 /* ==========================================
    DETTAGLIO AMICO
@@ -3038,39 +2934,27 @@ function openDetail(id) {
                 f.id === id
         );
 
-
     if (!friend) return;
-
 
     currentFriendId =
         id;
-
-
-    const scoreData =
-        getFriendScoreData(
-            friend
-        );
-
 
     document.getElementById(
         "detailName"
     ).textContent =
         friend.name;
 
-
     document.getElementById(
         "detailScore"
     ).textContent =
         Math.round(
-            scoreData.percentage
+            friend.percentage
         ) + "%";
-
 
     const avatar =
         document.getElementById(
             "detailAvatar"
         );
-
 
     if (friend.photo) {
 
@@ -3086,7 +2970,6 @@ function openDetail(id) {
 
     }
 
-
     /* CATEGORIE */
 
     const categories =
@@ -3094,110 +2977,25 @@ function openDetail(id) {
             "detailCategories"
         );
 
-
     categories.innerHTML = "";
 
-
-    const deleted =
-        friend.deletedBaseCategories || [];
-
-
-    const savedBase =
-        friend.categories || [];
-
-
-    const visibleCategories = [];
-
-
-    baseCategories.forEach(
-        name => {
-
-            if (
-                deleted.includes(name)
-            ) {
-                return;
-            }
-
-
-            const saved =
-                savedBase.find(
-                    category =>
-                        category.name === name
-                );
-
-
-            visibleCategories.push({
-
-                name: name,
-
-                score:
-                    saved
-                        ? saved.score
-                        : 5,
-
-                enabled:
-                    saved
-                        ? saved.enabled
-                        : true,
-
-                note:
-                    saved
-                        ? saved.note || ""
-                        : "",
-
-                personal: false
-
-            });
-
-        }
-    );
-
-
-    (
-        friend.customCategories || []
-    )
-    .forEach(
-        category => {
-
-            visibleCategories.push({
-
-                name:
-                    category.name,
-
-                score:
-                    category.score,
-
-                enabled:
-                    category.enabled,
-
-                note:
-                    category.note || "",
-
-                personal: true
-
-            });
-
-        }
-    );
-
-
-    visibleCategories
+    [
+        ...(friend.categories || []),
+        ...(friend.customCategories || [])
+    ]
     .forEach(
         category => {
 
             if (!category.enabled)
                 return;
 
-
             const div =
                 document.createElement(
                     "div"
                 );
 
-
             div.className =
                 "detail-category";
-
 
             div.innerHTML = `
 
@@ -3214,7 +3012,12 @@ function openDetail(id) {
                         )}
 
                         ${
-                            category.personal
+                            (
+                                friend.customCategories ||
+                                []
+                            ).includes(
+                                category
+                            )
                             ? `
                                 <span class="custom-badge">
                                     personale
@@ -3225,7 +3028,6 @@ function openDetail(id) {
 
                     </div>
 
-
                     <div
                         class="detail-category-score"
                     >
@@ -3233,7 +3035,6 @@ function openDetail(id) {
                     </div>
 
                 </div>
-
 
                 ${
                     category.note
@@ -3251,14 +3052,12 @@ function openDetail(id) {
 
             `;
 
-
             categories.appendChild(
                 div
             );
 
         }
     );
-
 
     /* NOTE AMICO */
 
@@ -3267,25 +3066,20 @@ function openDetail(id) {
             "detailNotesBox"
         );
 
-
     const notesList =
         document.getElementById(
             "detailNotes"
         );
 
-
     notesList.innerHTML = "";
-
 
     const notes =
         friend.notes || [];
-
 
     if (notes.length) {
 
         notesBox.style.display =
             "block";
-
 
         notes.forEach(
             note => {
@@ -3312,13 +3106,11 @@ function openDetail(id) {
 
     }
 
-
     openModal(
         "detailModal"
     );
 
 }
-
 
 /* ==========================================
    MODIFICA DAL DETTAGLIO
@@ -3329,7 +3121,6 @@ function editCurrentFriend() {
     closeModal(
         "detailModal"
     );
-
 
     setTimeout(
         () => {
@@ -3344,7 +3135,6 @@ function editCurrentFriend() {
 
 }
 
-
 /* ==========================================
    ELIMINA AMICO
 ========================================== */
@@ -3354,17 +3144,14 @@ function deleteFriend() {
     if (!editingId)
         return;
 
-
     const friend =
         friends.find(
             f =>
                 f.id === editingId
         );
 
-
     if (!friend)
         return;
-
 
     if (
         !confirm(
@@ -3376,13 +3163,11 @@ function deleteFriend() {
 
     }
 
-
     friends =
         friends.filter(
             f =>
                 f.id !== editingId
         );
-
 
     saveData();
 
@@ -3393,7 +3178,6 @@ function deleteFriend() {
     renderRanking();
 
 }
-
 
 /* ==========================================
    UTILITY
@@ -3413,7 +3197,6 @@ function getInitials(name) {
 
 }
 
-
 function escapeHtml(text) {
 
     const div =
@@ -3428,7 +3211,6 @@ function escapeHtml(text) {
 
 }
 
-
 function escapeAttribute(text) {
 
     return String(text)
@@ -3438,7 +3220,6 @@ function escapeAttribute(text) {
         .replace(/>/g, "&gt;");
 
 }
-
 
 function saveData() {
 
@@ -3451,7 +3232,6 @@ function saveData() {
 
 }
 
-
 function openModal(id) {
 
     document
@@ -3459,12 +3239,10 @@ function openModal(id) {
         .classList
         .add("active");
 
-
     document.body.style.overflow =
         "hidden";
 
 }
-
 
 function closeModal(id) {
 
@@ -3473,12 +3251,10 @@ function closeModal(id) {
         .classList
         .remove("active");
 
-
     document.body.style.overflow =
         "";
 
 }
-
 
 /* ==========================================
    CHIUSURA MODALE FUORI
@@ -3517,22 +3293,14 @@ document
     }
 );
 
-
 /* ==========================================
    AGGIORNAMENTO CONTATORI
 ========================================== */
 
 setInterval(
-    () => {
-
-        if (friends.length) {
-            renderRanking();
-        }
-
-    },
+    renderRanking,
     60000
 );
-
 
 /* ==========================================
    AVVIO
