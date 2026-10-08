@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <title>Classifica Amici</title>
 
@@ -11,6 +11,14 @@
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
 }
 
 body {
@@ -33,9 +41,11 @@ button {
 
 .app {
     max-width: 600px;
+    width: 100%;
     margin: auto;
     min-height: 100vh;
     padding-bottom: 30px;
+    overflow-x: hidden;
 }
 
 /* ================================
@@ -70,6 +80,8 @@ header p {
 
 .top-actions {
     margin: 8px 0 18px;
+    display: flex;
+    gap: 8px;
 }
 
 .primary-btn {
@@ -82,7 +94,18 @@ header p {
     font-weight: 650;
 }
 
-/* TASTO SALVA - RIPRISTINATO GRANDE E BLU */
+.top-actions .primary-btn {
+    flex: 1;
+}
+
+.settings-btn {
+    width: 52px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 15px;
+    background: white;
+    font-size: 23px;
+}
 
 .save-btn {
     width: 100%;
@@ -123,6 +146,7 @@ header p {
     gap: 12px;
     box-shadow: 0 1px 4px rgba(0,0,0,.06);
     cursor: pointer;
+    min-width: 0;
 }
 
 .position {
@@ -174,9 +198,17 @@ header p {
     font-size: 13px;
 }
 
+.contact-times {
+    color: #8e8e93;
+    font-size: 11px;
+    line-height: 1.45;
+    margin-top: 3px;
+}
+
 .score {
     font-size: 22px;
     font-weight: 800;
+    flex-shrink: 0;
 }
 
 /* ================================
@@ -211,6 +243,7 @@ header p {
     align-items: flex-end;
     justify-content: center;
     z-index: 100;
+    overflow: hidden;
 }
 
 .modal-bg.active {
@@ -222,10 +255,12 @@ header p {
     max-width: 600px;
     max-height: 94vh;
     overflow-y: auto;
+    overflow-x: hidden;
     background: #f2f2f7;
     border-radius: 24px 24px 0 0;
     padding: 18px 16px 35px;
     animation: slideUp .25s ease;
+    overscroll-behavior-x: none;
 }
 
 @keyframes slideUp {
@@ -325,6 +360,20 @@ header p {
 }
 
 /* ================================
+   ULTIMI CONTATTI
+================================ */
+
+.contact-input {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    background: white;
+    padding: 13px;
+    outline: none;
+    margin-bottom: 8px;
+}
+
+/* ================================
    SECTIONS
 ================================ */
 
@@ -366,8 +415,6 @@ header p {
     color: #007aff;
     font-size: 17px;
 }
-
-/* NUOVO TASTO ELIMINA CATEGORIA */
 
 .category-delete {
     width: 32px;
@@ -530,6 +577,25 @@ input[type="range"] {
     color: #007aff;
     border-radius: 12px;
     padding: 12px;
+    font-weight: 650;
+}
+
+/* ================================
+   GLOBAL CATEGORIES
+================================ */
+
+.global-category-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    border-radius: 14px;
+    padding: 13px;
+    margin-bottom: 8px;
+}
+
+.global-category-name {
+    flex: 1;
     font-weight: 650;
 }
 
@@ -727,6 +793,14 @@ input[type="range"] {
         <button class="primary-btn" onclick="openAddFriend()">
             + Nuovo amico
         </button>
+
+        <button
+            class="settings-btn"
+            onclick="openSettings()"
+            title="Impostazioni categorie"
+        >
+            ⚙️
+        </button>
     </div>
 
     <div id="ranking" class="ranking"></div>
@@ -799,6 +873,27 @@ input[type="range"] {
         type="text"
         placeholder="Nome dell'amico"
         maxlength="40"
+    >
+
+
+    <!-- ULTIMI CONTATTI -->
+
+    <div class="section-title">
+        Ultimi contatti
+    </div>
+
+    <input
+        id="lastHeard"
+        class="contact-input"
+        type="datetime-local"
+        title="Ultima volta che l'ho sentito"
+    >
+
+    <input
+        id="lastSeen"
+        class="contact-input"
+        type="datetime-local"
+        title="Ultima volta che l'ho visto"
     >
 
 
@@ -996,6 +1091,57 @@ input[type="range"] {
 
 
 <!-- ==========================================
+     IMPOSTAZIONI CATEGORIE
+========================================== -->
+
+<div id="settingsModal" class="modal-bg">
+
+<div class="modal">
+
+    <div class="modal-handle"></div>
+
+    <div class="modal-header">
+
+        <h2>
+            Categorie
+        </h2>
+
+        <button
+            class="close"
+            onclick="closeModal('settingsModal')"
+        >
+            ×
+        </button>
+
+    </div>
+
+    <div class="section-title">
+        Categorie globali
+    </div>
+
+    <div id="globalCategories"></div>
+
+    <input
+        id="globalCategoryName"
+        class="name-input"
+        type="text"
+        placeholder="Nome nuova categoria"
+        maxlength="40"
+    >
+
+    <button
+        class="primary-btn"
+        onclick="addGlobalCategory()"
+    >
+        ＋ Aggiungi categoria globale
+    </button>
+
+</div>
+
+</div>
+
+
+<!-- ==========================================
      NUOVA CATEGORIA
 ========================================== -->
 
@@ -1048,7 +1194,7 @@ input[type="range"] {
    CATEGORIE BASE
 ========================================== */
 
-const baseCategories = [
+const defaultBaseCategories = [
 
     "Fiducia",
     "Lealtà",
@@ -1068,6 +1214,25 @@ const baseCategories = [
 
 ];
 
+let baseCategories =
+    JSON.parse(
+        localStorage.getItem(
+            "globalFriendCategories"
+        ) || "null"
+    );
+
+if (!Array.isArray(baseCategories)) {
+
+    baseCategories =
+        [...defaultBaseCategories];
+
+    localStorage.setItem(
+        "globalFriendCategories",
+        JSON.stringify(baseCategories)
+    );
+
+}
+
 
 /* ==========================================
    DATI
@@ -1086,7 +1251,6 @@ let currentFriendId = null;
 
 let currentPhoto = null;
 
-/* Categorie base eliminate durante la modifica */
 let deletedBaseCategories = [];
 
 
@@ -1111,9 +1275,16 @@ function openAddFriend() {
     ).value = "";
 
     document.getElementById(
+        "lastHeard"
+    ).value = "";
+
+    document.getElementById(
+        "lastSeen"
+    ).value = "";
+
+    document.getElementById(
         "deleteButton"
     ).style.display = "none";
-
 
     renderEditorAvatar(
         null,
@@ -1145,7 +1316,6 @@ function openEditFriend(id) {
 
     if (!friend) return;
 
-
     editingId = id;
 
     currentPhoto =
@@ -1154,48 +1324,49 @@ function openEditFriend(id) {
     deletedBaseCategories =
         friend.deletedBaseCategories || [];
 
-
     document.getElementById(
         "editorTitle"
     ).textContent =
         "Modifica amico";
-
 
     document.getElementById(
         "friendName"
     ).value =
         friend.name;
 
+    document.getElementById(
+        "lastHeard"
+    ).value =
+        friend.lastHeard || "";
+
+    document.getElementById(
+        "lastSeen"
+    ).value =
+        friend.lastSeen || "";
 
     document.getElementById(
         "deleteButton"
     ).style.display =
         "block";
 
-
     renderEditorAvatar(
         friend.photo,
         friend.name
     );
 
-
     renderBaseCategories(
         friend.categories || []
     );
-
 
     renderCustomCategories(
         friend.customCategories || []
     );
 
-
     renderFriendNotes(
         friend.notes || []
     );
 
-
     updateTotal();
-
 
     openModal("editorModal");
 }
@@ -1212,16 +1383,13 @@ function handlePhoto(event) {
 
     if (!file) return;
 
-
     const reader =
         new FileReader();
-
 
     reader.onload = function(e) {
 
         currentPhoto =
             e.target.result;
-
 
         renderEditorAvatar(
             currentPhoto,
@@ -1231,7 +1399,6 @@ function handlePhoto(event) {
         );
 
     };
-
 
     reader.readAsDataURL(file);
 }
@@ -1244,7 +1411,6 @@ function renderEditorAvatar(photo, name) {
             "editorAvatar"
         );
 
-
     if (photo) {
 
         avatar.innerHTML =
@@ -1253,7 +1419,6 @@ function renderEditorAvatar(photo, name) {
         return;
 
     }
-
 
     avatar.innerHTML =
         getInitials(name) || "?";
@@ -1274,7 +1439,6 @@ function renderBaseCategories(saved) {
 
     container.innerHTML = "";
 
-
     baseCategories.forEach(
         (name, index) => {
 
@@ -1286,12 +1450,10 @@ function renderBaseCategories(saved) {
                 return;
             }
 
-
             const old =
                 saved.find(
                     c => c.name === name
                 );
-
 
             const score =
                 old ? old.score : 5;
@@ -1306,19 +1468,16 @@ function renderBaseCategories(saved) {
                     ? old.note || ""
                     : "";
 
-
             const div =
                 document.createElement(
                     "div"
                 );
-
 
             div.className =
                 "category";
 
             div.dataset.categoryName =
                 name;
-
 
             div.innerHTML = `
 
@@ -1357,7 +1516,6 @@ function renderBaseCategories(saved) {
 
                 </div>
 
-
                 <div class="range-container">
 
                     <input
@@ -1376,7 +1534,6 @@ function renderBaseCategories(saved) {
 
                 </div>
 
-
                 <textarea
                     id="base-note-${index}"
                     class="category-note"
@@ -1384,7 +1541,6 @@ function renderBaseCategories(saved) {
                 >${escapeHtml(note)}</textarea>
 
             `;
-
 
             container.appendChild(div);
 
@@ -1402,12 +1558,11 @@ function deleteBaseCategory(name) {
 
     if (
         !confirm(
-            `Vuoi davvero eliminare la categoria "${name}"?`
+            `Vuoi davvero eliminare la categoria "${name}" da questo amico?`
         )
     ) {
         return;
     }
-
 
     if (
         !deletedBaseCategories.includes(
@@ -1421,15 +1576,12 @@ function deleteBaseCategory(name) {
 
     }
 
-
     const saved =
         readBaseCategories();
-
 
     renderBaseCategories(
         saved
     );
-
 
     updateTotal();
 }
@@ -1446,9 +1598,7 @@ function readBaseCategories() {
             "#baseCategories .category"
         );
 
-
     const result = [];
-
 
     cards.forEach(
         card => {
@@ -1456,24 +1606,20 @@ function readBaseCategories() {
             const name =
                 card.dataset.categoryName;
 
-
             const range =
                 card.querySelector(
                     'input[type="range"]'
                 );
-
 
             const checkbox =
                 card.querySelector(
                     'input[type="checkbox"]'
                 );
 
-
             const note =
                 card.querySelector(
                     ".category-note"
                 );
-
 
             result.push({
 
@@ -1493,7 +1639,6 @@ function readBaseCategories() {
         }
     );
 
-
     return result;
 }
 
@@ -1509,14 +1654,12 @@ function updateBaseScore(index, value) {
             `base-score-${index}`
         );
 
-
     if (element) {
 
         element.textContent =
             value;
 
     }
-
 
     updateTotal();
 }
@@ -1535,7 +1678,6 @@ function renderCustomCategories(custom) {
 
     container.innerHTML = "";
 
-
     custom.forEach(
         (category, index) => {
 
@@ -1544,10 +1686,8 @@ function renderCustomCategories(custom) {
                     "div"
                 );
 
-
             div.className =
                 "category";
-
 
             div.innerHTML = `
 
@@ -1593,7 +1733,6 @@ function renderCustomCategories(custom) {
 
                 </div>
 
-
                 <div class="range-container">
 
                     <input
@@ -1612,14 +1751,12 @@ function renderCustomCategories(custom) {
 
                 </div>
 
-
                 <textarea
                     class="category-note custom-note"
                     placeholder="Nota su questa categoria..."
                 >${escapeHtml(category.note || "")}</textarea>
 
             `;
-
 
             container.appendChild(div);
 
@@ -1650,9 +1787,7 @@ function readCustomCategories() {
             "#customCategories .category"
         );
 
-
     const result = [];
-
 
     cards.forEach(
         card => {
@@ -1665,24 +1800,20 @@ function readCustomCategories() {
                 .textContent
                 .trim();
 
-
             const range =
                 card.querySelector(
                     ".custom-range"
                 );
-
 
             const enabled =
                 card.querySelector(
                     ".custom-enabled"
                 );
 
-
             const note =
                 card.querySelector(
                     ".custom-note"
                 );
-
 
             result.push({
 
@@ -1702,13 +1833,12 @@ function readCustomCategories() {
         }
     );
 
-
     return result;
 }
 
 
 /* ==========================================
-   NUOVA CATEGORIA
+   NUOVA CATEGORIA PERSONALE
 ========================================== */
 
 function openCustomCategoryModal() {
@@ -1731,10 +1861,8 @@ function addCustomCategory() {
             "customCategoryName"
         );
 
-
     const name =
         input.value.trim();
-
 
     if (!name) {
 
@@ -1745,10 +1873,8 @@ function addCustomCategory() {
         return;
     }
 
-
     const current =
         readCustomCategories();
-
 
     current.push({
 
@@ -1762,16 +1888,13 @@ function addCustomCategory() {
 
     });
 
-
     renderCustomCategories(
         current
     );
 
-
     closeModal(
         "customCategoryModal"
     );
-
 
     updateTotal();
 }
@@ -1782,14 +1905,11 @@ function removeCustomCategory(index) {
     const current =
         readCustomCategories();
 
-
     const category =
         current[index];
 
-
     if (!category)
         return;
-
 
     if (
         !confirm(
@@ -1799,19 +1919,205 @@ function removeCustomCategory(index) {
         return;
     }
 
-
     current.splice(
         index,
         1
     );
 
-
     renderCustomCategories(
         current
     );
 
-
     updateTotal();
+}
+
+
+/* ==========================================
+   IMPOSTAZIONI CATEGORIE GLOBALI
+========================================== */
+
+function openSettings() {
+
+    renderGlobalCategories();
+
+    openModal(
+        "settingsModal"
+    );
+
+}
+
+
+function renderGlobalCategories() {
+
+    const container =
+        document.getElementById(
+            "globalCategories"
+        );
+
+    container.innerHTML = "";
+
+    baseCategories.forEach(
+        name => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.className =
+                "global-category-row";
+
+            row.innerHTML = `
+
+                <div class="global-category-name">
+                    ${escapeHtml(name)}
+                </div>
+
+                <button
+                    class="category-delete"
+                    onclick="deleteGlobalCategory('${escapeAttribute(name)}')"
+                    title="Elimina categoria globale"
+                >
+                    🗑
+                </button>
+
+            `;
+
+            container.appendChild(row);
+
+        }
+    );
+
+}
+
+
+function addGlobalCategory() {
+
+    const input =
+        document.getElementById(
+            "globalCategoryName"
+        );
+
+    const name =
+        input.value.trim();
+
+    if (!name) {
+
+        alert(
+            "Inserisci il nome della categoria."
+        );
+
+        return;
+    }
+
+    if (
+        baseCategories.some(
+            category =>
+                category.toLowerCase() ===
+                name.toLowerCase()
+        )
+    ) {
+
+        alert(
+            "Questa categoria esiste già."
+        );
+
+        return;
+    }
+
+    baseCategories.push(name);
+
+    localStorage.setItem(
+        "globalFriendCategories",
+        JSON.stringify(baseCategories)
+    );
+
+    friends.forEach(
+        friend => {
+
+            if (!friend.categories)
+                friend.categories = [];
+
+            if (
+                !friend.categories.some(
+                    category =>
+                        category.name === name
+                )
+            ) {
+
+                friend.categories.push({
+
+                    name: name,
+
+                    score: 5,
+
+                    enabled: true,
+
+                    note: ""
+
+                });
+
+            }
+
+        }
+    );
+
+    saveData();
+
+    input.value = "";
+
+    renderGlobalCategories();
+
+}
+
+
+function deleteGlobalCategory(name) {
+
+    if (
+        !confirm(
+            `Vuoi davvero eliminare la categoria "${name}" per tutti gli amici?`
+        )
+    ) {
+        return;
+    }
+
+    baseCategories =
+        baseCategories.filter(
+            category =>
+                category !== name
+        );
+
+    friends.forEach(
+        friend => {
+
+            friend.categories =
+                (friend.categories || [])
+                .filter(
+                    category =>
+                        category.name !== name
+                );
+
+            friend.deletedBaseCategories =
+                (friend.deletedBaseCategories || [])
+                .filter(
+                    category =>
+                        category !== name
+                );
+
+        }
+    );
+
+    localStorage.setItem(
+        "globalFriendCategories",
+        JSON.stringify(baseCategories)
+    );
+
+    saveData();
+
+    renderGlobalCategories();
+
+    renderRanking();
+
 }
 
 
@@ -1826,9 +2132,7 @@ function renderFriendNotes(notes) {
             "friendNotes"
         );
 
-
     container.innerHTML = "";
-
 
     notes.forEach(
         note => {
@@ -1850,16 +2154,13 @@ function createNoteElement(value = "") {
             "friendNotes"
         );
 
-
     const row =
         document.createElement(
             "div"
         );
 
-
     row.className =
         "note-row";
-
 
     row.innerHTML = `
 
@@ -1878,7 +2179,6 @@ function createNoteElement(value = "") {
         </button>
 
     `;
-
 
     container.appendChild(row);
 
@@ -1924,14 +2224,10 @@ function getScoreData() {
 
     let maximum = 0;
 
-
-    /* BASE */
-
     const baseCards =
         document.querySelectorAll(
             "#baseCategories .category"
         );
-
 
     baseCards.forEach(
         card => {
@@ -1941,12 +2237,10 @@ function getScoreData() {
                     'input[type="range"]'
                 );
 
-
             const checkbox =
                 card.querySelector(
                     'input[type="checkbox"]'
                 );
-
 
             if (
                 checkbox &&
@@ -1963,12 +2257,8 @@ function getScoreData() {
         }
     );
 
-
-    /* PERSONALIZZATE */
-
     const custom =
         readCustomCategories();
-
 
     custom.forEach(
         category => {
@@ -1985,12 +2275,10 @@ function getScoreData() {
         }
     );
 
-
     const percentage =
         maximum > 0
             ? (total / maximum) * 100
             : 0;
-
 
     return {
 
@@ -2010,14 +2298,12 @@ function updateTotal() {
     const data =
         getScoreData();
 
-
     document.getElementById(
         "totalScore"
     ).textContent =
         Math.round(
             data.percentage
         ) + "%";
-
 
     document.getElementById(
         "totalDetail"
@@ -2040,7 +2326,6 @@ function saveFriend() {
         .value
         .trim();
 
-
     if (!name) {
 
         alert(
@@ -2051,22 +2336,27 @@ function saveFriend() {
 
     }
 
-
     const categories =
         readBaseCategories();
-
 
     const customCategories =
         readCustomCategories();
 
-
     const notes =
         readFriendNotes();
-
 
     const scoreData =
         getScoreData();
 
+    const lastHeard =
+        document.getElementById(
+            "lastHeard"
+        ).value;
+
+    const lastSeen =
+        document.getElementById(
+            "lastSeen"
+        ).value;
 
     if (editingId) {
 
@@ -2075,7 +2365,6 @@ function saveFriend() {
                 f =>
                     f.id === editingId
             );
-
 
         if (friend) {
 
@@ -2105,6 +2394,12 @@ function saveFriend() {
 
             friend.deletedBaseCategories =
                 deletedBaseCategories;
+
+            friend.lastHeard =
+                lastHeard;
+
+            friend.lastSeen =
+                lastSeen;
 
         }
 
@@ -2140,12 +2435,17 @@ function saveFriend() {
                 scoreData.percentage,
 
             deletedBaseCategories:
-                deletedBaseCategories
+                deletedBaseCategories,
+
+            lastHeard:
+                lastHeard,
+
+            lastSeen:
+                lastSeen
 
         });
 
     }
-
 
     saveData();
 
@@ -2169,9 +2469,7 @@ function renderRanking() {
             "ranking"
         );
 
-
     container.innerHTML = "";
-
 
     if (!friends.length) {
 
@@ -2200,14 +2498,12 @@ function renderRanking() {
 
     }
 
-
     const sorted =
         [...friends].sort(
             (a,b) =>
                 b.percentage -
                 a.percentage
         );
-
 
     sorted.forEach(
         (friend, index) => {
@@ -2217,10 +2513,8 @@ function renderRanking() {
                     "div"
                 );
 
-
             card.className =
                 "friend-card";
-
 
             card.onclick =
                 () =>
@@ -2228,10 +2522,8 @@ function renderRanking() {
                         friend.id
                     );
 
-
             let positionText =
                 index + 1;
-
 
             if (index === 0)
                 positionText = "🥇";
@@ -2241,7 +2533,6 @@ function renderRanking() {
 
             if (index === 2)
                 positionText = "🥉";
-
 
             card.innerHTML = `
 
@@ -2255,7 +2546,6 @@ function renderRanking() {
                     ${positionText}
                 </div>
 
-
                 <div class="avatar">
 
                     ${
@@ -2265,7 +2555,6 @@ function renderRanking() {
                     }
 
                 </div>
-
 
                 <div class="friend-info">
 
@@ -2277,8 +2566,25 @@ function renderRanking() {
                         ${friend.total}/${friend.maximum}
                     </div>
 
-                </div>
+                    <div class="contact-times">
 
+                        👂 ${
+                            formatElapsed(
+                                friend.lastHeard
+                            )
+                        }
+
+                        <br>
+
+                        👁 ${
+                            formatElapsed(
+                                friend.lastSeen
+                            )
+                        }
+
+                    </div>
+
+                </div>
 
                 <div class="score">
                     ${Math.round(friend.percentage)}%
@@ -2286,13 +2592,53 @@ function renderRanking() {
 
             `;
 
-
             container.appendChild(
                 card
             );
 
         }
     );
+
+}
+
+
+/* ==========================================
+   CONTATORE TEMPO
+========================================== */
+
+function formatElapsed(value) {
+
+    if (!value) {
+        return "mai";
+    }
+
+    const date =
+        new Date(value);
+
+    if (isNaN(date.getTime())) {
+        return "mai";
+    }
+
+    const elapsed =
+        Math.max(
+            0,
+            Date.now() - date.getTime()
+        );
+
+    const hours =
+        Math.floor(
+            elapsed / 3600000
+        );
+
+    const days =
+        Math.floor(
+            hours / 24
+        );
+
+    const remainingHours =
+        hours % 24;
+
+    return `${days}g ${remainingHours}h`;
 
 }
 
@@ -2309,19 +2655,15 @@ function openDetail(id) {
                 f.id === id
         );
 
-
     if (!friend) return;
-
 
     currentFriendId =
         id;
-
 
     document.getElementById(
         "detailName"
     ).textContent =
         friend.name;
-
 
     document.getElementById(
         "detailScore"
@@ -2330,12 +2672,10 @@ function openDetail(id) {
             friend.percentage
         ) + "%";
 
-
     const avatar =
         document.getElementById(
             "detailAvatar"
         );
-
 
     if (friend.photo) {
 
@@ -2351,17 +2691,12 @@ function openDetail(id) {
 
     }
 
-
-    /* CATEGORIE */
-
     const categories =
         document.getElementById(
             "detailCategories"
         );
 
-
     categories.innerHTML = "";
-
 
     [
         ...(friend.categories || []),
@@ -2373,16 +2708,13 @@ function openDetail(id) {
             if (!category.enabled)
                 return;
 
-
             const div =
                 document.createElement(
                     "div"
                 );
 
-
             div.className =
                 "detail-category";
-
 
             div.innerHTML = `
 
@@ -2415,7 +2747,6 @@ function openDetail(id) {
 
                     </div>
 
-
                     <div
                         class="detail-category-score"
                     >
@@ -2423,7 +2754,6 @@ function openDetail(id) {
                     </div>
 
                 </div>
-
 
                 ${
                     category.note
@@ -2441,7 +2771,6 @@ function openDetail(id) {
 
             `;
 
-
             categories.appendChild(
                 div
             );
@@ -2450,32 +2779,25 @@ function openDetail(id) {
     );
 
 
-    /* NOTE AMICO */
-
     const notesBox =
         document.getElementById(
             "detailNotesBox"
         );
-
 
     const notesList =
         document.getElementById(
             "detailNotes"
         );
 
-
     notesList.innerHTML = "";
-
 
     const notes =
         friend.notes || [];
-
 
     if (notes.length) {
 
         notesBox.style.display =
             "block";
-
 
         notes.forEach(
             note => {
@@ -2502,7 +2824,6 @@ function openDetail(id) {
 
     }
 
-
     openModal(
         "detailModal"
     );
@@ -2519,7 +2840,6 @@ function editCurrentFriend() {
     closeModal(
         "detailModal"
     );
-
 
     setTimeout(
         () => {
@@ -2544,17 +2864,14 @@ function deleteFriend() {
     if (!editingId)
         return;
 
-
     const friend =
         friends.find(
             f =>
                 f.id === editingId
         );
 
-
     if (!friend)
         return;
-
 
     if (
         !confirm(
@@ -2566,13 +2883,11 @@ function deleteFriend() {
 
     }
 
-
     friends =
         friends.filter(
             f =>
                 f.id !== editingId
         );
-
 
     saveData();
 
@@ -2649,7 +2964,6 @@ function openModal(id) {
         .classList
         .add("active");
 
-
     document.body.style.overflow =
         "hidden";
 
@@ -2662,7 +2976,6 @@ function closeModal(id) {
         .getElementById(id)
         .classList
         .remove("active");
-
 
     document.body.style.overflow =
         "";
@@ -2713,6 +3026,11 @@ document
 ========================================== */
 
 renderRanking();
+
+setInterval(
+    renderRanking,
+    60000
+);
 
 </script>
 
