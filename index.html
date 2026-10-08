@@ -2,11 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <title>Classifica Amici</title>
 
@@ -17,21 +13,12 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-html,
 body {
     margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
-    overscroll-behavior-x: none;
-}
-
-body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
                  "SF Pro Text", Arial, sans-serif;
     background: #f2f2f7;
     color: #1c1c1e;
-    touch-action: pan-y;
 }
 
 button,
@@ -43,10 +30,6 @@ textarea {
 button {
     cursor: pointer;
 }
-
-/* ================================
-   APP
-================================ */
 
 .app {
     max-width: 600px;
@@ -62,17 +45,13 @@ button {
 header {
     padding: 55px 20px 18px;
     background: #f2f2f7;
-    position: relative;
-}
-
-.header-top {
     display: flex;
-    align-items: flex-start;
     justify-content: space-between;
+    align-items: flex-start;
     gap: 15px;
 }
 
-.header-title {
+.header-text {
     flex: 1;
 }
 
@@ -95,12 +74,12 @@ header p {
     border: none;
     border-radius: 50%;
     background: white;
-    font-size: 22px;
+    font-size: 21px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 1px 4px rgba(0,0,0,.06);
     flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
 }
 
 .content {
@@ -212,11 +191,10 @@ header p {
 
 .friend-sub {
     color: #8e8e93;
-    font-size: 12px;
-    line-height: 1.35;
+    font-size: 13px;
 }
 
-.friend-contact-times {
+.friend-contact-time {
     color: #8e8e93;
     font-size: 11px;
     line-height: 1.4;
@@ -226,7 +204,6 @@ header p {
 .score {
     font-size: 22px;
     font-weight: 800;
-    flex-shrink: 0;
 }
 
 /* ================================
@@ -276,7 +253,6 @@ header p {
     border-radius: 24px 24px 0 0;
     padding: 18px 16px 35px;
     animation: slideUp .25s ease;
-    -webkit-overflow-scrolling: touch;
 }
 
 @keyframes slideUp {
@@ -389,57 +365,16 @@ header p {
 }
 
 /* ================================
-   CATEGORY SWIPE
+   CATEGORIA
 ================================ */
-
-.category-swipe {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    border-radius: 16px;
-    margin-bottom: 8px;
-    background: #ff3b30;
-    touch-action: pan-y;
-}
-
-.category-delete-bg {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-left: 22px;
-    color: white;
-    font-size: 15px;
-    font-weight: 700;
-    background: #ff3b30;
-    pointer-events: none;
-}
-
-.category-delete-bg span {
-    opacity: 0;
-    transition: opacity .1s;
-}
-
-.category-delete-bg.visible span {
-    opacity: 1;
-}
 
 .category {
     position: relative;
-    z-index: 2;
     background: white;
     border-radius: 16px;
     padding: 14px;
-    margin: 0;
+    margin-bottom: 8px;
     width: 100%;
-    transform: translateX(0);
-    transition: transform .2s ease;
-    will-change: transform;
-}
-
-.category.swiping {
-    transition: none;
 }
 
 .category-top {
@@ -459,6 +394,27 @@ header p {
     font-weight: 800;
     color: #007aff;
     font-size: 17px;
+}
+
+/* ================================
+   DELETE CATEGORY
+================================ */
+
+.category-delete {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 31px;
+    height: 31px;
+    border: none;
+    border-radius: 9px;
+    background: #ff3b30;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
 }
 
 /* ================================
@@ -573,6 +529,38 @@ input[type="range"] {
 }
 
 /* ================================
+   CONTATTI
+================================ */
+
+.contact-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.contact-field {
+    flex: 1;
+    min-width: 0;
+}
+
+.contact-label {
+    display: block;
+    color: #8e8e93;
+    font-size: 12px;
+    margin: 0 5px 6px;
+}
+
+.contact-input {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    background: white;
+    padding: 13px 10px;
+    outline: none;
+    font-size: 14px;
+}
+
+/* ================================
    FRIEND NOTES
 ================================ */
 
@@ -611,65 +599,6 @@ input[type="range"] {
 }
 
 /* ================================
-   CONTACT DATES
-================================ */
-
-.contact-box {
-    background: white;
-    border-radius: 16px;
-    padding: 15px;
-    margin-top: 18px;
-}
-
-.contact-box h3 {
-    margin: 0 0 12px;
-    font-size: 17px;
-}
-
-.contact-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 0;
-}
-
-.contact-row + .contact-row {
-    border-top: 1px solid #e5e5ea;
-}
-
-.contact-icon {
-    width: 32px;
-    font-size: 20px;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.contact-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.contact-label {
-    font-size: 13px;
-    color: #8e8e93;
-    margin-bottom: 3px;
-}
-
-.contact-elapsed {
-    font-size: 15px;
-    font-weight: 650;
-}
-
-.contact-date-input {
-    border: none;
-    background: #f2f2f7;
-    border-radius: 10px;
-    padding: 8px;
-    font-size: 13px;
-    max-width: 165px;
-}
-
-/* ================================
    TOTAL
 ================================ */
 
@@ -698,6 +627,69 @@ input[type="range"] {
 .total-score {
     font-size: 32px;
     font-weight: 850;
+}
+
+/* ================================
+   SETTINGS
+================================ */
+
+.settings-description {
+    color: #8e8e93;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: -5px 5px 15px;
+}
+
+.global-category-row {
+    background: white;
+    border-radius: 14px;
+    padding: 12px 12px 12px 15px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.global-category-name {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.global-category-delete {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 9px;
+    background: #ff3b30;
+    color: white;
+    font-size: 17px;
+}
+
+.settings-add {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.settings-add input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    border-radius: 14px;
+    background: white;
+    padding: 13px;
+    outline: none;
+}
+
+.settings-add button {
+    border: none;
+    border-radius: 14px;
+    background: #007aff;
+    color: white;
+    padding: 0 17px;
+    font-weight: 650;
 }
 
 /* ================================
@@ -816,65 +808,6 @@ input[type="range"] {
 }
 
 /* ================================
-   SETTINGS
-================================ */
-
-.settings-category-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 12px;
-}
-
-.settings-category {
-    background: white;
-    border-radius: 14px;
-    padding: 13px 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.settings-category-name {
-    flex: 1;
-    font-weight: 600;
-}
-
-.settings-category-delete {
-    width: 36px;
-    height: 36px;
-    border: none;
-    border-radius: 10px;
-    background: #f2f2f7;
-    color: #ff3b30;
-    font-size: 18px;
-}
-
-.settings-add-row {
-    display: flex;
-    gap: 8px;
-}
-
-.settings-add-input {
-    flex: 1;
-    border: none;
-    background: white;
-    border-radius: 13px;
-    padding: 13px;
-    outline: none;
-    min-width: 0;
-}
-
-.settings-add-button {
-    border: none;
-    border-radius: 13px;
-    padding: 0 17px;
-    background: #007aff;
-    color: white;
-    font-weight: 650;
-}
-
-/* ================================
    DELETE FRIEND
 ================================ */
 
@@ -913,47 +846,30 @@ input[type="range"] {
 
 <header>
 
-    <div class="header-top">
-
-        <div class="header-title">
-
-            <h1>Amici</h1>
-
-            <p>
-                La tua classifica personale
-            </p>
-
-        </div>
-
-        <button
-            class="settings-btn"
-            onclick="openSettings()"
-            aria-label="Impostazioni"
-        >
-            ⚙️
-        </button>
-
+    <div class="header-text">
+        <h1>Amici</h1>
+        <p>La tua classifica personale</p>
     </div>
+
+    <button
+        class="settings-btn"
+        onclick="openSettingsModal()"
+        aria-label="Impostazioni"
+    >
+        ⚙️
+    </button>
 
 </header>
 
 <div class="content">
 
     <div class="top-actions">
-
-        <button
-            class="primary-btn"
-            onclick="openAddFriend()"
-        >
+        <button class="primary-btn" onclick="openAddFriend()">
             + Nuovo amico
         </button>
-
     </div>
 
-    <div
-        id="ranking"
-        class="ranking"
-    ></div>
+    <div id="ranking" class="ranking"></div>
 
 </div>
 
@@ -964,10 +880,7 @@ input[type="range"] {
      MODIFICA / CREAZIONE AMICO
 ========================================== -->
 
-<div
-    id="editorModal"
-    class="modal-bg"
->
+<div id="editorModal" class="modal-bg">
 
 <div class="modal">
 
@@ -1027,6 +940,51 @@ input[type="range"] {
         placeholder="Nome dell'amico"
         maxlength="40"
     >
+
+
+    <!-- CONTATTI -->
+
+    <div class="section-title">
+        Ultimi contatti
+    </div>
+
+    <div class="contact-row">
+
+        <div class="contact-field">
+
+            <label
+                class="contact-label"
+                for="lastHeard"
+            >
+                Ultima volta sentito
+            </label>
+
+            <input
+                id="lastHeard"
+                class="contact-input"
+                type="datetime-local"
+            >
+
+        </div>
+
+        <div class="contact-field">
+
+            <label
+                class="contact-label"
+                for="lastSeen"
+            >
+                Ultima volta visto
+            </label>
+
+            <input
+                id="lastSeen"
+                class="contact-input"
+                type="datetime-local"
+            >
+
+        </div>
+
+    </div>
 
 
     <!-- CATEGORIE -->
@@ -1125,10 +1083,7 @@ input[type="range"] {
      DETTAGLIO AMICO
 ========================================== -->
 
-<div
-    id="detailModal"
-    class="modal-bg"
->
+<div id="detailModal" class="modal-bg">
 
 <div class="modal">
 
@@ -1187,84 +1142,9 @@ input[type="range"] {
     </div>
 
 
-    <!-- ULTIMI CONTATTI -->
-
-    <div class="contact-box">
-
-        <h3>
-            Ultimi contatti
-        </h3>
-
-        <div class="contact-row">
-
-            <div class="contact-icon">
-                👁️
-            </div>
-
-            <div class="contact-info">
-
-                <div class="contact-label">
-                    Ultima volta visto
-                </div>
-
-                <div
-                    id="detailSeenElapsed"
-                    class="contact-elapsed"
-                >
-                    Mai
-                </div>
-
-            </div>
-
-            <input
-                id="detailSeenInput"
-                class="contact-date-input"
-                type="datetime-local"
-                onchange="saveContactDate('seen', this.value)"
-            >
-
-        </div>
-
-
-        <div class="contact-row">
-
-            <div class="contact-icon">
-                📞
-            </div>
-
-            <div class="contact-info">
-
-                <div class="contact-label">
-                    Ultima volta sentito
-                </div>
-
-                <div
-                    id="detailHeardElapsed"
-                    class="contact-elapsed"
-                >
-                    Mai
-                </div>
-
-            </div>
-
-            <input
-                id="detailHeardInput"
-                class="contact-date-input"
-                type="datetime-local"
-                onchange="saveContactDate('heard', this.value)"
-            >
-
-        </div>
-
-    </div>
-
-
     <!-- CATEGORIE -->
 
-    <div
-        id="detailCategories"
-        style="margin-top:18px;"
-    ></div>
+    <div id="detailCategories"></div>
 
 
     <!-- NOTE -->
@@ -1301,76 +1181,10 @@ input[type="range"] {
 
 
 <!-- ==========================================
-     IMPOSTAZIONI
-========================================== -->
-
-<div
-    id="settingsModal"
-    class="modal-bg"
->
-
-<div class="modal">
-
-    <div class="modal-handle"></div>
-
-    <div class="modal-header">
-
-        <h2>
-            Impostazioni
-        </h2>
-
-        <button
-            class="close"
-            onclick="closeModal('settingsModal')"
-        >
-            ×
-        </button>
-
-    </div>
-
-
-    <div class="section-title">
-        Categorie predefinite
-    </div>
-
-    <div
-        id="settingsCategories"
-        class="settings-category-list"
-    ></div>
-
-
-    <div class="settings-add-row">
-
-        <input
-            id="settingsCategoryInput"
-            class="settings-add-input"
-            type="text"
-            placeholder="Nuova categoria"
-            maxlength="40"
-        >
-
-        <button
-            class="settings-add-button"
-            onclick="addGlobalCategory()"
-        >
-            Aggiungi
-        </button>
-
-    </div>
-
-</div>
-
-</div>
-
-
-<!-- ==========================================
      NUOVA CATEGORIA PERSONALE
 ========================================== -->
 
-<div
-    id="customCategoryModal"
-    class="modal-bg"
->
+<div id="customCategoryModal" class="modal-bg">
 
 <div class="modal">
 
@@ -1413,10 +1227,71 @@ input[type="range"] {
 </div>
 
 
+<!-- ==========================================
+     IMPOSTAZIONI CATEGORIE GLOBALI
+========================================== -->
+
+<div id="settingsModal" class="modal-bg">
+
+<div class="modal">
+
+    <div class="modal-handle"></div>
+
+    <div class="modal-header">
+
+        <h2>
+            Impostazioni
+        </h2>
+
+        <button
+            class="close"
+            onclick="closeModal('settingsModal')"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="section-title">
+        Categorie predefinite
+    </div>
+
+    <div class="settings-description">
+        Queste categorie vengono utilizzate per tutti gli amici.
+        Puoi aggiungerle o eliminarle quando vuoi.
+    </div>
+
+
+    <div id="globalCategories"></div>
+
+
+    <div class="settings-add">
+
+        <input
+            id="globalCategoryName"
+            type="text"
+            placeholder="Nuova categoria"
+            maxlength="40"
+        >
+
+        <button
+            onclick="addGlobalCategory()"
+        >
+            Aggiungi
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
 <script>
 
 /* ==========================================
-   CATEGORIE PREDEFINITE
+   CATEGORIE BASE PREDEFINITE
 ========================================== */
 
 const defaultBaseCategories = [
@@ -1440,11 +1315,9 @@ const defaultBaseCategories = [
 ];
 
 
-/*
-   Le categorie globali vengono salvate separatamente.
-   Se non esistono ancora, vengono utilizzate
-   quelle predefinite originali.
-*/
+/* ==========================================
+   CATEGORIE GLOBALI
+========================================== */
 
 let baseCategories =
     JSON.parse(
@@ -1454,19 +1327,10 @@ let baseCategories =
     );
 
 
-if (
-    !Array.isArray(baseCategories)
-) {
+if (!Array.isArray(baseCategories)) {
 
     baseCategories =
         [...defaultBaseCategories];
-
-    localStorage.setItem(
-        "friendsRankingBaseCategories",
-        JSON.stringify(
-            baseCategories
-        )
-    );
 
 }
 
@@ -1492,73 +1356,6 @@ let deletedBaseCategories = [];
 
 
 /* ==========================================
-   BLOCCO ZOOM
-========================================== */
-
-document.addEventListener(
-    "gesturestart",
-    function(event) {
-
-        event.preventDefault();
-
-    },
-    {
-        passive: false
-    }
-);
-
-
-document.addEventListener(
-    "gesturechange",
-    function(event) {
-
-        event.preventDefault();
-
-    },
-    {
-        passive: false
-    }
-);
-
-
-document.addEventListener(
-    "gestureend",
-    function(event) {
-
-        event.preventDefault();
-
-    },
-    {
-        passive: false
-    }
-);
-
-
-/*
-   Blocca il pinch zoom a due dita.
-   Mantiene invece lo scroll normale.
-*/
-
-document.addEventListener(
-    "touchmove",
-    function(event) {
-
-        if (
-            event.touches.length > 1
-        ) {
-
-            event.preventDefault();
-
-        }
-
-    },
-    {
-        passive: false
-    }
-);
-
-
-/* ==========================================
    NUOVO AMICO
 ========================================== */
 
@@ -1572,17 +1369,23 @@ function openAddFriend() {
 
     document.getElementById(
         "editorTitle"
-    ).textContent =
-        "Nuovo amico";
+    ).textContent = "Nuovo amico";
 
     document.getElementById(
         "friendName"
     ).value = "";
 
     document.getElementById(
+        "lastHeard"
+    ).value = "";
+
+    document.getElementById(
+        "lastSeen"
+    ).value = "";
+
+    document.getElementById(
         "deleteButton"
-    ).style.display =
-        "none";
+    ).style.display = "none";
 
 
     renderEditorAvatar(
@@ -1598,10 +1401,7 @@ function openAddFriend() {
 
     updateTotal();
 
-    openModal(
-        "editorModal"
-    );
-
+    openModal("editorModal");
 }
 
 
@@ -1613,12 +1413,10 @@ function openEditFriend(id) {
 
     const friend =
         friends.find(
-            f =>
-                f.id === id
+            f => f.id === id
         );
 
-    if (!friend)
-        return;
+    if (!friend) return;
 
 
     editingId = id;
@@ -1640,6 +1438,18 @@ function openEditFriend(id) {
         "friendName"
     ).value =
         friend.name;
+
+
+    document.getElementById(
+        "lastHeard"
+    ).value =
+        friend.lastHeard || "";
+
+
+    document.getElementById(
+        "lastSeen"
+    ).value =
+        friend.lastSeen || "";
 
 
     document.getElementById(
@@ -1672,10 +1482,7 @@ function openEditFriend(id) {
     updateTotal();
 
 
-    openModal(
-        "editorModal"
-    );
-
+    openModal("editorModal");
 }
 
 
@@ -1688,40 +1495,34 @@ function handlePhoto(event) {
     const file =
         event.target.files[0];
 
-    if (!file)
-        return;
+    if (!file) return;
 
 
     const reader =
         new FileReader();
 
 
-    reader.onload =
-        function(e) {
+    reader.onload = function(e) {
 
-            currentPhoto =
-                e.target.result;
+        currentPhoto =
+            e.target.result;
 
 
-            renderEditorAvatar(
-                currentPhoto,
-                document.getElementById(
-                    "friendName"
-                ).value
-            );
+        renderEditorAvatar(
+            currentPhoto,
+            document.getElementById(
+                "friendName"
+            ).value
+        );
 
-        };
+    };
 
 
     reader.readAsDataURL(file);
-
 }
 
 
-function renderEditorAvatar(
-    photo,
-    name
-) {
+function renderEditorAvatar(photo, name) {
 
     const avatar =
         document.getElementById(
@@ -1767,23 +1568,18 @@ function renderBaseCategories(saved) {
                     name
                 )
             ) {
-
                 return;
-
             }
 
 
             const old =
                 saved.find(
-                    c =>
-                        c.name === name
+                    c => c.name === name
                 );
 
 
             const score =
-                old
-                    ? old.score
-                    : 5;
+                old ? old.score : 5;
 
             const enabled =
                 old
@@ -1796,7 +1592,7 @@ function renderBaseCategories(saved) {
                     : "";
 
 
-            createSwipeCategory(
+            createCategory(
                 container,
                 {
                     type: "base",
@@ -1815,35 +1611,10 @@ function renderBaseCategories(saved) {
 
 
 /* ==========================================
-   CREAZIONE CATEGORIA SWIPE
+   CREAZIONE CATEGORIA
 ========================================== */
 
-function createSwipeCategory(
-    container,
-    data
-) {
-
-    const wrapper =
-        document.createElement(
-            "div"
-        );
-
-    wrapper.className =
-        "category-swipe";
-
-
-    const deleteBackground =
-        document.createElement(
-            "div"
-        );
-
-    deleteBackground.className =
-        "category-delete-bg";
-
-
-    deleteBackground.innerHTML =
-        "<span>Elimina</span>";
-
+function createCategory(container, data) {
 
     const category =
         document.createElement(
@@ -1860,10 +1631,18 @@ function createSwipeCategory(
 
     category.innerHTML = `
 
+        <button
+            class="category-delete"
+            type="button"
+            aria-label="Elimina categoria"
+        >
+            🗑
+        </button>
+
+
         <div class="category-top">
 
             <div class="category-name">
-
                 ${escapeHtml(data.name)}
 
                 ${
@@ -1958,346 +1737,26 @@ function createSwipeCategory(
     `;
 
 
-    wrapper.appendChild(
-        deleteBackground
-    );
+    const deleteButton =
+        category.querySelector(
+            ".category-delete"
+        );
 
-    wrapper.appendChild(
-        category
-    );
+
+    deleteButton.onclick =
+        event => {
+
+            event.stopPropagation();
+
+            confirmCategoryDeletion(
+                data
+            );
+
+        };
+
 
     container.appendChild(
-        wrapper
-    );
-
-
-    setupSwipeToDelete(
-        wrapper,
-        category,
-        deleteBackground,
-        data
-    );
-
-}
-
-
-/* ==========================================
-   SWIPE TO DELETE
-========================================== */
-
-function setupSwipeToDelete(
-    wrapper,
-    category,
-    deleteBackground,
-    data
-) {
-
-    let startX = 0;
-
-    let startY = 0;
-
-    let currentX = 0;
-
-    let dragging = false;
-
-    let horizontalSwipe = false;
-
-    const threshold = 120;
-
-
-    function start(
-        clientX,
-        clientY
-    ) {
-
-        startX =
-            clientX;
-
-        startY =
-            clientY;
-
-        currentX =
-            0;
-
-        dragging =
-            true;
-
-        horizontalSwipe =
-            false;
-
-        category.classList.add(
-            "swiping"
-        );
-
-    }
-
-
-    function move(
-        clientX,
-        clientY
-    ) {
-
-        if (!dragging)
-            return;
-
-
-        const dx =
-            clientX - startX;
-
-        const dy =
-            clientY - startY;
-
-
-        if (
-            !horizontalSwipe &&
-            Math.abs(dy) >
-            Math.abs(dx) &&
-            Math.abs(dy) > 8
-        ) {
-
-            dragging = false;
-
-            category.classList.remove(
-                "swiping"
-            );
-
-            return;
-
-        }
-
-
-        if (
-            Math.abs(dx) > 8 &&
-            Math.abs(dx) >
-            Math.abs(dy)
-        ) {
-
-            horizontalSwipe =
-                true;
-
-        }
-
-
-        if (!horizontalSwipe)
-            return;
-
-
-        currentX =
-            Math.max(
-                0,
-                Math.min(
-                    dx,
-                    190
-                )
-            );
-
-
-        category.style.transform =
-            `translateX(${currentX}px)`;
-
-
-        if (
-            currentX >= threshold
-        ) {
-
-            deleteBackground.classList.add(
-                "visible"
-            );
-
-        } else {
-
-            deleteBackground.classList.remove(
-                "visible"
-            );
-
-        }
-
-    }
-
-
-    function end() {
-
-        if (!dragging)
-            return;
-
-
-        dragging = false;
-
-        category.classList.remove(
-            "swiping"
-        );
-
-
-        const shouldDelete =
-            currentX >= threshold;
-
-
-        if (shouldDelete) {
-
-            category.style.transform =
-                "translateX(100%)";
-
-
-            setTimeout(
-                () => {
-
-                    category.style.transform =
-                        "translateX(0)";
-
-                    category.style.transition =
-                        "none";
-
-
-                    requestAnimationFrame(
-                        () => {
-
-                            category.style.transition =
-                                "";
-
-                            confirmCategoryDeletion(
-                                data
-                            );
-
-                        }
-                    );
-
-                },
-                180
-            );
-
-        } else {
-
-            category.style.transform =
-                "translateX(0)";
-
-            deleteBackground.classList.remove(
-                "visible"
-            );
-
-        }
-
-
-        currentX =
-            0;
-
-    }
-
-
-    category.addEventListener(
-        "touchstart",
-        event => {
-
-            const touch =
-                event.touches[0];
-
-
-            start(
-                touch.clientX,
-                touch.clientY
-            );
-
-        },
-        {
-            passive: true
-        }
-    );
-
-
-    category.addEventListener(
-        "touchmove",
-        event => {
-
-            const touch =
-                event.touches[0];
-
-
-            move(
-                touch.clientX,
-                touch.clientY
-            );
-
-        },
-        {
-            passive: true
-        }
-    );
-
-
-    category.addEventListener(
-        "touchend",
-        end,
-        {
-            passive: true
-        }
-    );
-
-
-    category.addEventListener(
-        "touchcancel",
-        end,
-        {
-            passive: true
-        }
-    );
-
-
-    /*
-       Supporto mouse per PC
-    */
-
-    category.addEventListener(
-        "mousedown",
-        event => {
-
-            start(
-                event.clientX,
-                event.clientY
-            );
-
-
-            const mouseMove =
-                moveEvent => {
-
-                    move(
-                        moveEvent.clientX,
-                        moveEvent.clientY
-                    );
-
-                };
-
-
-            const mouseUp =
-                () => {
-
-                    end();
-
-
-                    document.removeEventListener(
-                        "mousemove",
-                        mouseMove
-                    );
-
-
-                    document.removeEventListener(
-                        "mouseup",
-                        mouseUp
-                    );
-
-                };
-
-
-            document.addEventListener(
-                "mousemove",
-                mouseMove
-            );
-
-
-            document.addEventListener(
-                "mouseup",
-                mouseUp
-            );
-
-        }
+        category
     );
 
 }
@@ -2307,9 +1766,7 @@ function setupSwipeToDelete(
    CONFERMA ELIMINAZIONE CATEGORIA
 ========================================== */
 
-function confirmCategoryDeletion(
-    data
-) {
+function confirmCategoryDeletion(data) {
 
     const confirmed =
         confirm(
@@ -2318,15 +1775,11 @@ function confirmCategoryDeletion(
 
 
     if (!confirmed) {
-
         return;
-
     }
 
 
-    if (
-        data.type === "base"
-    ) {
+    if (data.type === "base") {
 
         if (
             !deletedBaseCategories.includes(
@@ -2369,7 +1822,6 @@ function confirmCategoryDeletion(
 
 
     updateTotal();
-
 }
 
 
@@ -2415,13 +1867,10 @@ function readBaseCategories() {
 
             result.push({
 
-                name:
-                    name,
+                name: name,
 
                 score:
-                    Number(
-                        range.value
-                    ),
+                    Number(range.value),
 
                 enabled:
                     checkbox.checked,
@@ -2436,7 +1885,6 @@ function readBaseCategories() {
 
 
     return result;
-
 }
 
 
@@ -2444,10 +1892,7 @@ function readBaseCategories() {
    VOTO BASE
 ========================================== */
 
-function updateBaseScore(
-    index,
-    value
-) {
+function updateBaseScore(index, value) {
 
     const element =
         document.getElementById(
@@ -2464,7 +1909,6 @@ function updateBaseScore(
 
 
     updateTotal();
-
 }
 
 
@@ -2472,24 +1916,20 @@ function updateBaseScore(
    CATEGORIE PERSONALIZZATE
 ========================================== */
 
-function renderCustomCategories(
-    custom
-) {
+function renderCustomCategories(custom) {
 
     const container =
         document.getElementById(
             "customCategories"
         );
 
-
-    container.innerHTML =
-        "";
+    container.innerHTML = "";
 
 
     custom.forEach(
         (category, index) => {
 
-            createSwipeCategory(
+            createCategory(
                 container,
                 {
                     type: "custom",
@@ -2507,10 +1947,7 @@ function renderCustomCategories(
 }
 
 
-function updateCustomScore(
-    index,
-    value
-) {
+function updateCustomScore(index, value) {
 
     const element =
         document.getElementById(
@@ -2527,7 +1964,6 @@ function updateCustomScore(
 
 
     updateTotal();
-
 }
 
 
@@ -2573,13 +2009,10 @@ function readCustomCategories() {
 
             result.push({
 
-                name:
-                    name,
+                name: name,
 
                 score:
-                    Number(
-                        range.value
-                    ),
+                    Number(range.value),
 
                 enabled:
                     enabled.checked,
@@ -2594,7 +2027,6 @@ function readCustomCategories() {
 
 
     return result;
-
 }
 
 
@@ -2606,9 +2038,7 @@ function openCustomCategoryModal() {
 
     document.getElementById(
         "customCategoryName"
-    ).value =
-        "";
-
+    ).value = "";
 
     openModal(
         "customCategoryModal"
@@ -2636,7 +2066,6 @@ function addCustomCategory() {
         );
 
         return;
-
     }
 
 
@@ -2644,36 +2073,15 @@ function addCustomCategory() {
         readCustomCategories();
 
 
-    if (
-        current.some(
-            category =>
-                category.name.toLowerCase() ===
-                name.toLowerCase()
-        )
-    ) {
-
-        alert(
-            "Questa categoria esiste già per questo amico."
-        );
-
-        return;
-
-    }
-
-
     current.push({
 
-        name:
-            name,
+        name: name,
 
-        score:
-            5,
+        score: 5,
 
-        enabled:
-            true,
+        enabled: true,
 
-        note:
-            ""
+        note: ""
 
     });
 
@@ -2689,7 +2097,6 @@ function addCustomCategory() {
 
 
     updateTotal();
-
 }
 
 
@@ -2697,14 +2104,13 @@ function addCustomCategory() {
    IMPOSTAZIONI CATEGORIE GLOBALI
 ========================================== */
 
-function openSettings() {
+function openSettingsModal() {
 
-    renderSettingsCategories();
+    renderGlobalCategories();
 
     document.getElementById(
-        "settingsCategoryInput"
-    ).value =
-        "";
+        "globalCategoryName"
+    ).value = "";
 
     openModal(
         "settingsModal"
@@ -2713,31 +2119,22 @@ function openSettings() {
 }
 
 
-function renderSettingsCategories() {
+function renderGlobalCategories() {
 
     const container =
         document.getElementById(
-            "settingsCategories"
+            "globalCategories"
         );
 
 
-    container.innerHTML =
-        "";
+    container.innerHTML = "";
 
 
     if (!baseCategories.length) {
 
         container.innerHTML = `
 
-            <div
-                style="
-                    background:white;
-                    border-radius:14px;
-                    padding:15px;
-                    color:#8e8e93;
-                    text-align:center;
-                "
-            >
+            <div class="settings-description">
                 Nessuna categoria predefinita.
             </div>
 
@@ -2758,24 +2155,35 @@ function renderSettingsCategories() {
 
 
             row.className =
-                "settings-category";
+                "global-category-row";
 
 
             row.innerHTML = `
 
-                <div class="settings-category-name">
+                <div class="global-category-name">
                     ${escapeHtml(name)}
                 </div>
 
                 <button
-                    class="settings-category-delete"
-                    onclick="removeGlobalCategory(${index})"
+                    class="global-category-delete"
+                    type="button"
                     aria-label="Elimina categoria"
                 >
-                    ×
+                    🗑
                 </button>
 
             `;
+
+
+            row
+                .querySelector(
+                    ".global-category-delete"
+                )
+                .onclick =
+                () =>
+                    removeGlobalCategory(
+                        index
+                    );
 
 
             container.appendChild(
@@ -2792,7 +2200,7 @@ function addGlobalCategory() {
 
     const input =
         document.getElementById(
-            "settingsCategoryInput"
+            "globalCategoryName"
         );
 
 
@@ -2807,11 +2215,10 @@ function addGlobalCategory() {
         );
 
         return;
-
     }
 
 
-    const exists =
+    const alreadyExists =
         baseCategories.some(
             category =>
                 category.toLowerCase() ===
@@ -2819,14 +2226,13 @@ function addGlobalCategory() {
         );
 
 
-    if (exists) {
+    if (alreadyExists) {
 
         alert(
             "Questa categoria esiste già."
         );
 
         return;
-
     }
 
 
@@ -2843,49 +2249,17 @@ function addGlobalCategory() {
     );
 
 
-    /*
-       La nuova categoria viene resa disponibile
-       per tutti gli amici.
-    */
-
-    friends.forEach(
-        friend => {
-
-            if (
-                !friend.deletedBaseCategories
-            ) {
-
-                friend.deletedBaseCategories =
-                    [];
-
-            }
-
-            friend.deletedBaseCategories =
-                friend.deletedBaseCategories.filter(
-                    category =>
-                        category !== name
-                );
-
-        }
-    );
+    input.value = "";
 
 
-    saveData();
-
-    input.value =
-        "";
-
-
-    renderSettingsCategories();
+    renderGlobalCategories();
 
     renderRanking();
 
 }
 
 
-function removeGlobalCategory(
-    index
-) {
+function removeGlobalCategory(index) {
 
     const name =
         baseCategories[index];
@@ -2897,18 +2271,14 @@ function removeGlobalCategory(
 
     const confirmed =
         confirm(
-            `Vuoi eliminare "${name}" dalle categorie predefinite per tutti gli amici?`
+            `Vuoi davvero eliminare "${name}" per tutti gli amici?`
         );
 
 
-    if (!confirmed)
+    if (!confirmed) {
         return;
+    }
 
-
-    /*
-       La categoria viene eliminata
-       definitivamente per tutti.
-    */
 
     baseCategories.splice(
         index,
@@ -2916,22 +2286,25 @@ function removeGlobalCategory(
     );
 
 
+    /*
+       La rimozione globale deve valere
+       realmente per tutti.
+       La categoria viene quindi tolta
+       anche dalle eventuali categorie
+       eliminate singolarmente.
+    */
+
     friends.forEach(
         friend => {
 
-            friend.categories =
-                (friend.categories || [])
-                .filter(
-                    category =>
-                        category.name !== name
-                );
-
-
             friend.deletedBaseCategories =
-                (friend.deletedBaseCategories || [])
+                (
+                    friend.deletedBaseCategories ||
+                    []
+                )
                 .filter(
-                    category =>
-                        category !== name
+                    categoryName =>
+                        categoryName !== name
                 );
 
         }
@@ -2948,7 +2321,7 @@ function removeGlobalCategory(
 
     saveData();
 
-    renderSettingsCategories();
+    renderGlobalCategories();
 
     renderRanking();
 
@@ -2959,9 +2332,7 @@ function removeGlobalCategory(
    NOTE AMICO
 ========================================== */
 
-function renderFriendNotes(
-    notes
-) {
+function renderFriendNotes(notes) {
 
     const container =
         document.getElementById(
@@ -2969,8 +2340,7 @@ function renderFriendNotes(
         );
 
 
-    container.innerHTML =
-        "";
+    container.innerHTML = "";
 
 
     notes.forEach(
@@ -2986,9 +2356,7 @@ function renderFriendNotes(
 }
 
 
-function createNoteElement(
-    value = ""
-) {
+function createNoteElement(value = "") {
 
     const container =
         document.getElementById(
@@ -3025,9 +2393,7 @@ function createNoteElement(
     `;
 
 
-    container.appendChild(
-        row
-    );
+    container.appendChild(row);
 
 }
 
@@ -3055,24 +2421,21 @@ function readFriendNotes() {
             input.value.trim()
     )
     .filter(
-        value =>
-            value !== ""
+        value => value !== ""
     );
 
 }
 
 
 /* ==========================================
-   CALCOLO
+   CALCOLO EDITOR
 ========================================== */
 
 function getScoreData() {
 
-    let total =
-        0;
+    let total = 0;
 
-    let maximum =
-        0;
+    let maximum = 0;
 
 
     /* BASE */
@@ -3104,12 +2467,9 @@ function getScoreData() {
             ) {
 
                 total +=
-                    Number(
-                        range.value
-                    );
+                    Number(range.value);
 
-                maximum +=
-                    10;
+                maximum += 10;
 
             }
 
@@ -3126,15 +2486,12 @@ function getScoreData() {
     custom.forEach(
         category => {
 
-            if (
-                category.enabled
-            ) {
+            if (category.enabled) {
 
                 total +=
                     category.score;
 
-                maximum +=
-                    10;
+                maximum += 10;
 
             }
 
@@ -3144,23 +2501,17 @@ function getScoreData() {
 
     const percentage =
         maximum > 0
-            ? (
-                total /
-                maximum
-              ) * 100
+            ? (total / maximum) * 100
             : 0;
 
 
     return {
 
-        total:
-            total,
+        total: total,
 
-        maximum:
-            maximum,
+        maximum: maximum,
 
-        percentage:
-            percentage
+        percentage: percentage
 
     };
 
@@ -3185,6 +2536,114 @@ function updateTotal() {
         "totalDetail"
     ).textContent =
         `${data.total} / ${data.maximum}`;
+
+}
+
+
+/* ==========================================
+   CALCOLO DI UN AMICO SALVATO
+========================================== */
+
+function getFriendScoreData(friend) {
+
+    let total = 0;
+
+    let maximum = 0;
+
+
+    const savedCategories =
+        friend.categories || [];
+
+
+    const deleted =
+        friend.deletedBaseCategories || [];
+
+
+    /*
+       Categorie globali.
+       Se una categoria è stata aggiunta
+       dopo la creazione dell'amico,
+       parte da 5/10 ed è attiva.
+    */
+
+    baseCategories.forEach(
+        name => {
+
+            if (
+                deleted.includes(name)
+            ) {
+                return;
+            }
+
+
+            const saved =
+                savedCategories.find(
+                    category =>
+                        category.name === name
+                );
+
+
+            const score =
+                saved
+                    ? Number(saved.score)
+                    : 5;
+
+            const enabled =
+                saved
+                    ? saved.enabled
+                    : true;
+
+
+            if (enabled) {
+
+                total += score;
+
+                maximum += 10;
+
+            }
+
+        }
+    );
+
+
+    /*
+       Categorie personali.
+    */
+
+    (
+        friend.customCategories || []
+    )
+    .forEach(
+        category => {
+
+            if (category.enabled) {
+
+                total +=
+                    Number(category.score);
+
+                maximum += 10;
+
+            }
+
+        }
+    );
+
+
+    const percentage =
+        maximum > 0
+            ? (total / maximum) * 100
+            : 0;
+
+
+    return {
+
+        total: total,
+
+        maximum: maximum,
+
+        percentage: percentage
+
+    };
 
 }
 
@@ -3230,13 +2689,24 @@ function saveFriend() {
         getScoreData();
 
 
+    const lastHeard =
+        document.getElementById(
+            "lastHeard"
+        ).value;
+
+
+    const lastSeen =
+        document.getElementById(
+            "lastSeen"
+        ).value;
+
+
     if (editingId) {
 
         const friend =
             friends.find(
                 f =>
-                    f.id ===
-                    editingId
+                    f.id === editingId
             );
 
 
@@ -3256,6 +2726,12 @@ function saveFriend() {
 
             friend.notes =
                 notes;
+
+            friend.lastHeard =
+                lastHeard;
+
+            friend.lastSeen =
+                lastSeen;
 
             friend.total =
                 scoreData.total;
@@ -3293,6 +2769,12 @@ function saveFriend() {
             notes:
                 notes,
 
+            lastHeard:
+                lastHeard,
+
+            lastSeen:
+                lastSeen,
+
             total:
                 scoreData.total,
 
@@ -3303,13 +2785,7 @@ function saveFriend() {
                 scoreData.percentage,
 
             deletedBaseCategories:
-                deletedBaseCategories,
-
-            lastSeen:
-                null,
-
-            lastHeard:
-                null
+                deletedBaseCategories
 
         });
 
@@ -3328,6 +2804,55 @@ function saveFriend() {
 
 
 /* ==========================================
+   TEMPO DA DATA
+========================================== */
+
+function formatElapsedTime(dateValue) {
+
+    if (!dateValue) {
+        return "—";
+    }
+
+
+    const date =
+        new Date(dateValue);
+
+
+    if (isNaN(date.getTime())) {
+        return "—";
+    }
+
+
+    const difference =
+        Math.max(
+            0,
+            Date.now() - date.getTime()
+        );
+
+
+    const days =
+        Math.floor(
+            difference /
+            (1000 * 60 * 60 * 24)
+        );
+
+
+    const hours =
+        Math.floor(
+            (
+                difference %
+                (1000 * 60 * 60 * 24)
+            ) /
+            (1000 * 60 * 60)
+        );
+
+
+    return `${days}g ${hours}h`;
+
+}
+
+
+/* ==========================================
    CLASSIFICA
 ========================================== */
 
@@ -3339,8 +2864,7 @@ function renderRanking() {
         );
 
 
-    container.innerHTML =
-        "";
+    container.innerHTML = "";
 
 
     if (!friends.length) {
@@ -3373,14 +2897,31 @@ function renderRanking() {
 
     const sorted =
         [...friends].sort(
-            (a,b) =>
-                b.percentage -
-                a.percentage
+            (a,b) => {
+
+                const scoreA =
+                    getFriendScoreData(a);
+
+                const scoreB =
+                    getFriendScoreData(b);
+
+                return (
+                    scoreB.percentage -
+                    scoreA.percentage
+                );
+
+            }
         );
 
 
     sorted.forEach(
         (friend, index) => {
+
+            const scoreData =
+                getFriendScoreData(
+                    friend
+                );
+
 
             const card =
                 document.createElement(
@@ -3404,18 +2945,25 @@ function renderRanking() {
 
 
             if (index === 0)
-                positionText =
-                    "🥇";
-
+                positionText = "🥇";
 
             if (index === 1)
-                positionText =
-                    "🥈";
-
+                positionText = "🥈";
 
             if (index === 2)
-                positionText =
-                    "🥉";
+                positionText = "🥉";
+
+
+            const elapsedHeard =
+                formatElapsedTime(
+                    friend.lastHeard
+                );
+
+
+            const elapsedSeen =
+                formatElapsedTime(
+                    friend.lastSeen
+                );
 
 
             card.innerHTML = `
@@ -3449,21 +2997,20 @@ function renderRanking() {
                     </div>
 
                     <div class="friend-sub">
-                        ${friend.total}/${friend.maximum}
+                        ${scoreData.total}/${scoreData.maximum}
                     </div>
 
-                    <div
-                        class="friend-contact-times"
-                        data-contact-friend="${friend.id}"
-                    >
-                        ${buildContactSummary(friend)}
+                    <div class="friend-contact-time">
+                        Non sentito: ${elapsedHeard}
+                        ·
+                        Non visto: ${elapsedSeen}
                     </div>
 
                 </div>
 
 
                 <div class="score">
-                    ${Math.round(friend.percentage)}%
+                    ${Math.round(scoreData.percentage)}%
                 </div>
 
             `;
@@ -3492,12 +3039,17 @@ function openDetail(id) {
         );
 
 
-    if (!friend)
-        return;
+    if (!friend) return;
 
 
     currentFriendId =
         id;
+
+
+    const scoreData =
+        getFriendScoreData(
+            friend
+        );
 
 
     document.getElementById(
@@ -3510,7 +3062,7 @@ function openDetail(id) {
         "detailScore"
     ).textContent =
         Math.round(
-            friend.percentage
+            scoreData.percentage
         ) + "%";
 
 
@@ -3535,31 +3087,6 @@ function openDetail(id) {
     }
 
 
-    /*
-       ULTIMI CONTATTI
-    */
-
-    document.getElementById(
-        "detailSeenInput"
-    ).value =
-        toDateTimeLocal(
-            friend.lastSeen
-        );
-
-
-    document.getElementById(
-        "detailHeardInput"
-    ).value =
-        toDateTimeLocal(
-            friend.lastHeard
-        );
-
-
-    updateDetailContactCounters(
-        friend
-    );
-
-
     /* CATEGORIE */
 
     const categories =
@@ -3568,20 +3095,97 @@ function openDetail(id) {
         );
 
 
-    categories.innerHTML =
-        "";
+    categories.innerHTML = "";
 
 
-    [
-        ...(friend.categories || []),
-        ...(friend.customCategories || [])
-    ]
+    const deleted =
+        friend.deletedBaseCategories || [];
+
+
+    const savedBase =
+        friend.categories || [];
+
+
+    const visibleCategories = [];
+
+
+    baseCategories.forEach(
+        name => {
+
+            if (
+                deleted.includes(name)
+            ) {
+                return;
+            }
+
+
+            const saved =
+                savedBase.find(
+                    category =>
+                        category.name === name
+                );
+
+
+            visibleCategories.push({
+
+                name: name,
+
+                score:
+                    saved
+                        ? saved.score
+                        : 5,
+
+                enabled:
+                    saved
+                        ? saved.enabled
+                        : true,
+
+                note:
+                    saved
+                        ? saved.note || ""
+                        : "",
+
+                personal: false
+
+            });
+
+        }
+    );
+
+
+    (
+        friend.customCategories || []
+    )
     .forEach(
         category => {
 
-            if (
-                !category.enabled
-            )
+            visibleCategories.push({
+
+                name:
+                    category.name,
+
+                score:
+                    category.score,
+
+                enabled:
+                    category.enabled,
+
+                note:
+                    category.note || "",
+
+                personal: true
+
+            });
+
+        }
+    );
+
+
+    visibleCategories
+    .forEach(
+        category => {
+
+            if (!category.enabled)
                 return;
 
 
@@ -3610,12 +3214,7 @@ function openDetail(id) {
                         )}
 
                         ${
-                            (
-                                friend.customCategories ||
-                                []
-                            ).includes(
-                                category
-                            )
+                            category.personal
                             ? `
                                 <span class="custom-badge">
                                     personale
@@ -3675,8 +3274,7 @@ function openDetail(id) {
         );
 
 
-    notesList.innerHTML =
-        "";
+    notesList.innerHTML = "";
 
 
     const notes =
@@ -3697,10 +3295,8 @@ function openDetail(id) {
                         "li"
                     );
 
-
                 li.textContent =
                     note;
-
 
                 notesList.appendChild(
                     li
@@ -3719,355 +3315,6 @@ function openDetail(id) {
 
     openModal(
         "detailModal"
-    );
-
-}
-
-
-/* ==========================================
-   SALVATAGGIO ULTIMO CONTATTO
-========================================== */
-
-function saveContactDate(
-    type,
-    value
-) {
-
-    if (!currentFriendId)
-        return;
-
-
-    const friend =
-        friends.find(
-            f =>
-                f.id ===
-                currentFriendId
-        );
-
-
-    if (!friend)
-        return;
-
-
-    const timestamp =
-        value
-            ? new Date(value).getTime()
-            : null;
-
-
-    if (
-        timestamp &&
-        timestamp > Date.now()
-    ) {
-
-        alert(
-            "La data non può essere nel futuro."
-        );
-
-
-        const input =
-            document.getElementById(
-                type === "seen"
-                    ? "detailSeenInput"
-                    : "detailHeardInput"
-            );
-
-
-        input.value =
-            toDateTimeLocal(
-                friend[
-                    type === "seen"
-                        ? "lastSeen"
-                        : "lastHeard"
-                ]
-            );
-
-
-        return;
-
-    }
-
-
-    if (
-        type === "seen"
-    ) {
-
-        friend.lastSeen =
-            timestamp;
-
-    } else {
-
-        friend.lastHeard =
-            timestamp;
-
-    }
-
-
-    saveData();
-
-    updateDetailContactCounters(
-        friend
-    );
-
-    updateRankingContactCounter(
-        friend
-    );
-
-}
-
-
-/* ==========================================
-   CONTATORI CONTATTO
-========================================== */
-
-function buildContactSummary(
-    friend
-) {
-
-    const seen =
-        formatElapsed(
-            friend.lastSeen
-        );
-
-
-    const heard =
-        formatElapsed(
-            friend.lastHeard
-        );
-
-
-    return `
-        👁 ${seen}
-        &nbsp;·&nbsp;
-        📞 ${heard}
-    `;
-
-}
-
-
-function formatElapsed(
-    timestamp
-) {
-
-    if (
-        !timestamp
-    ) {
-
-        return "Mai";
-
-    }
-
-
-    let difference =
-        Date.now() -
-        Number(timestamp);
-
-
-    if (
-        difference < 0
-    ) {
-
-        difference =
-            0;
-
-    }
-
-
-    const totalHours =
-        Math.floor(
-            difference /
-            (1000 * 60 * 60)
-        );
-
-
-    const days =
-        Math.floor(
-            totalHours /
-            24
-        );
-
-
-    const hours =
-        totalHours %
-        24;
-
-
-    if (
-        days === 0 &&
-        hours === 0
-    ) {
-
-        return "meno di 1 ora";
-
-    }
-
-
-    if (
-        days === 0
-    ) {
-
-        return `${hours} ${hours === 1 ? "ora" : "ore"}`;
-
-    }
-
-
-    if (
-        hours === 0
-    ) {
-
-        return `${days} ${days === 1 ? "giorno" : "giorni"}`;
-
-    }
-
-
-    return `${days} ${days === 1 ? "giorno" : "giorni"} ${hours} ${hours === 1 ? "ora" : "ore"}`;
-
-}
-
-
-function updateDetailContactCounters(
-    friend
-) {
-
-    const seen =
-        document.getElementById(
-            "detailSeenElapsed"
-        );
-
-
-    const heard =
-        document.getElementById(
-            "detailHeardElapsed"
-        );
-
-
-    if (seen) {
-
-        seen.textContent =
-            formatElapsed(
-                friend.lastSeen
-            );
-
-    }
-
-
-    if (heard) {
-
-        heard.textContent =
-            formatElapsed(
-                friend.lastHeard
-            );
-
-    }
-
-}
-
-
-function updateRankingContactCounter(
-    friend
-) {
-
-    const element =
-        document.querySelector(
-            `[data-contact-friend="${friend.id}"]`
-        );
-
-
-    if (!element)
-        return;
-
-
-    element.innerHTML =
-        buildContactSummary(
-            friend
-        );
-
-}
-
-
-function updateAllContactCounters() {
-
-    friends.forEach(
-        friend => {
-
-            updateRankingContactCounter(
-                friend
-            );
-
-        }
-    );
-
-
-    if (
-        currentFriendId
-    ) {
-
-        const friend =
-            friends.find(
-                f =>
-                    f.id ===
-                    currentFriendId
-            );
-
-
-        if (friend) {
-
-            updateDetailContactCounters(
-                friend
-            );
-
-        }
-
-    }
-
-}
-
-
-/* ==========================================
-   DATE INPUT
-========================================== */
-
-function toDateTimeLocal(
-    timestamp
-) {
-
-    if (!timestamp)
-        return "";
-
-
-    const date =
-        new Date(
-            Number(timestamp)
-        );
-
-
-    const pad =
-        value =>
-            String(value)
-            .padStart(
-                2,
-                "0"
-            );
-
-
-    return (
-        date.getFullYear() +
-        "-" +
-        pad(
-            date.getMonth() + 1
-        ) +
-        "-" +
-        pad(
-            date.getDate()
-        ) +
-        "T" +
-        pad(
-            date.getHours()
-        ) +
-        ":" +
-        pad(
-            date.getMinutes()
-        )
     );
 
 }
@@ -4152,9 +3399,7 @@ function deleteFriend() {
    UTILITY
 ========================================== */
 
-function getInitials(
-    name
-) {
+function getInitials(name) {
 
     return name
         .split(" ")
@@ -4169,46 +3414,28 @@ function getInitials(
 }
 
 
-function escapeHtml(
-    text
-) {
+function escapeHtml(text) {
 
     const div =
         document.createElement(
             "div"
         );
 
-
     div.textContent =
         text;
-
 
     return div.innerHTML;
 
 }
 
 
-function escapeAttribute(
-    text
-) {
+function escapeAttribute(text) {
 
     return String(text)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        );
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
 
 }
 
@@ -4225,9 +3452,7 @@ function saveData() {
 }
 
 
-function openModal(
-    id
-) {
+function openModal(id) {
 
     document
         .getElementById(id)
@@ -4241,9 +3466,7 @@ function openModal(
 }
 
 
-function closeModal(
-    id
-) {
+function closeModal(id) {
 
     document
         .getElementById(id)
@@ -4296,23 +3519,26 @@ document
 
 
 /* ==========================================
+   AGGIORNAMENTO CONTATORI
+========================================== */
+
+setInterval(
+    () => {
+
+        if (friends.length) {
+            renderRanking();
+        }
+
+    },
+    60000
+);
+
+
+/* ==========================================
    AVVIO
 ========================================== */
 
 renderRanking();
-
-
-/*
-   Aggiorna i contatori ogni minuto.
-   Anche se mostriamo solo giorni e ore,
-   questo permette al valore di cambiare
-   senza dover chiudere e riaprire l'app.
-*/
-
-setInterval(
-    updateAllContactCounters,
-    60000
-);
 
 </script>
 
