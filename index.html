@@ -374,6 +374,41 @@ header p {
 }
 
 /* ================================
+   CONTATTI DETTAGLIO
+================================ */
+
+.detail-contact {
+    position: relative;
+    width: 100%;
+    border: none;
+    border-radius: 16px;
+    background: white;
+    padding: 14px;
+    margin-bottom: 8px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.detail-contact-title {
+    font-size: 13px;
+    color: #8e8e93;
+    margin-bottom: 3px;
+}
+
+.detail-contact-value {
+    font-size: 16px;
+    font-weight: 650;
+}
+
+.detail-contact-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ================================
    SECTIONS
 ================================ */
 
@@ -886,14 +921,14 @@ input[type="range"] {
         id="lastHeard"
         class="contact-input"
         type="datetime-local"
-        title="Ultima volta che l'ho sentito"
+        title="📱 Ultima volta che l'ho sentito"
     >
 
     <input
         id="lastSeen"
         class="contact-input"
         type="datetime-local"
-        title="Ultima volta che l'ho visto"
+        title="🫂 Ultima volta che l'ho visto"
     >
 
 
@@ -1049,6 +1084,57 @@ input[type="range"] {
             punteggio complessivo
         </div>
 
+    </div>
+
+
+    <!-- CONTATTI DIRETTI -->
+
+    <div
+        id="detailHeard"
+        class="detail-contact"
+        onclick="openContactPicker('heard')"
+    >
+        <div class="detail-contact-title">
+            📱 Ultima volta che l'ho sentito
+        </div>
+
+        <div
+            id="detailHeardValue"
+            class="detail-contact-value"
+        >
+            mai
+        </div>
+
+        <input
+            id="detailHeardInput"
+            class="detail-contact-input"
+            type="datetime-local"
+            onchange="saveDetailContact('heard', this.value)"
+        >
+    </div>
+
+    <div
+        id="detailSeen"
+        class="detail-contact"
+        onclick="openContactPicker('seen')"
+    >
+        <div class="detail-contact-title">
+            🫂 Ultima volta che l'ho visto
+        </div>
+
+        <div
+            id="detailSeenValue"
+            class="detail-contact-value"
+        >
+            mai
+        </div>
+
+        <input
+            id="detailSeenInput"
+            class="detail-contact-input"
+            type="datetime-local"
+            onchange="saveDetailContact('seen', this.value)"
+        >
     </div>
 
 
@@ -1976,7 +2062,7 @@ function renderGlobalCategories() {
                 <button
                     class="category-delete"
                     onclick="deleteGlobalCategory('${escapeAttribute(name)}')"
-                    title="Elimina categoria globale"
+                    title="Elimina categoria"
                 >
                     🗑
                 </button>
@@ -2117,6 +2203,7 @@ function deleteGlobalCategory(name) {
     renderGlobalCategories();
 
     renderRanking();
+
 
 }
 
@@ -2568,7 +2655,7 @@ function renderRanking() {
 
                     <div class="contact-times">
 
-                        👂 ${
+                        📱 ${
                             formatElapsed(
                                 friend.lastHeard
                             )
@@ -2576,7 +2663,7 @@ function renderRanking() {
 
                         <br>
 
-                        👁 ${
+                        🫂 ${
                             formatElapsed(
                                 friend.lastSeen
                             )
@@ -2690,6 +2777,30 @@ function openDetail(id) {
             ) || "?";
 
     }
+
+    document.getElementById(
+        "detailHeardValue"
+    ).textContent =
+        formatElapsed(
+            friend.lastHeard
+        );
+
+    document.getElementById(
+        "detailSeenValue"
+    ).textContent =
+        formatElapsed(
+            friend.lastSeen
+        );
+
+    document.getElementById(
+        "detailHeardInput"
+    ).value =
+        friend.lastHeard || "";
+
+    document.getElementById(
+        "detailSeenInput"
+    ).value =
+        friend.lastSeen || "";
 
     const categories =
         document.getElementById(
@@ -2827,6 +2938,65 @@ function openDetail(id) {
     openModal(
         "detailModal"
     );
+
+}
+
+
+/* ==========================================
+   MODIFICA CONTATTO DAL DETTAGLIO
+========================================== */
+
+function openContactPicker(type) {
+
+    const input =
+        document.getElementById(
+            type === "heard"
+                ? "detailHeardInput"
+                : "detailSeenInput"
+        );
+
+    if (!input) return;
+
+    input.click();
+
+}
+
+
+function saveDetailContact(type, value) {
+
+    const friend =
+        friends.find(
+            f =>
+                f.id === currentFriendId
+        );
+
+    if (!friend) return;
+
+    if (type === "heard") {
+
+        friend.lastHeard =
+            value;
+
+        document.getElementById(
+            "detailHeardValue"
+        ).textContent =
+            formatElapsed(value);
+
+    } else {
+
+        friend.lastSeen =
+            value;
+
+        document.getElementById(
+            "detailSeenValue"
+        ).textContent =
+            formatElapsed(value);
+
+    }
+
+    saveData();
+
+    renderRanking();
 
 }
 
