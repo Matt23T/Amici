@@ -373,6 +373,13 @@ header p {
     margin-bottom: 8px;
 }
 
+.contact-label {
+    font-size: 13px;
+    color: #8e8e93;
+    font-weight: 650;
+    margin: 0 5px 5px;
+}
+
 /* ================================
    CONTATTI DETTAGLIO
 ================================ */
@@ -401,11 +408,13 @@ header p {
 }
 
 .detail-contact-input {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-    pointer-events: none;
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin-top: 5px;
+    outline: none;
+    font-size: 15px;
 }
 
 /* ================================
@@ -917,18 +926,24 @@ input[type="range"] {
         Ultimi contatti
     </div>
 
+    <div class="contact-label">
+        📱 Ultima volta che l'ho sentito
+    </div>
+
     <input
         id="lastHeard"
         class="contact-input"
         type="datetime-local"
-        title="📱 Ultima volta che l'ho sentito"
     >
+
+    <div class="contact-label">
+        🫂 Ultima volta che l'ho visto
+    </div>
 
     <input
         id="lastSeen"
         class="contact-input"
         type="datetime-local"
-        title="🫂 Ultima volta che l'ho visto"
     >
 
 
@@ -1092,7 +1107,6 @@ input[type="range"] {
     <div
         id="detailHeard"
         class="detail-contact"
-        onclick="openContactPicker('heard')"
     >
         <div class="detail-contact-title">
             📱 Ultima volta che l'ho sentito
@@ -1116,7 +1130,6 @@ input[type="range"] {
     <div
         id="detailSeen"
         class="detail-contact"
-        onclick="openContactPicker('seen')"
     >
         <div class="detail-contact-title">
             🫂 Ultima volta che l'ho visto
@@ -2945,22 +2958,6 @@ function openDetail(id) {
 /* ==========================================
    MODIFICA CONTATTO DAL DETTAGLIO
 ========================================== */
-
-function openContactPicker(type) {
-
-    const input =
-        document.getElementById(
-            type === "heard"
-                ? "detailHeardInput"
-                : "detailSeenInput"
-        );
-
-    if (!input) return;
-
-    input.click();
-
-}
-
 
 function saveDetailContact(type, value) {
 
